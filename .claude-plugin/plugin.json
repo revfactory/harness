@@ -1,7 +1,7 @@
 {
   "name": "harness",
   "description": "Agent Team & Skill Architect — Meta-skill that designs agent teams, defines specialized agents, and generates skills for your domain/project. 도메인/프로젝트에 맞는 하네스를 구성하고, 전문 에이전트를 정의하며, 에이전트가 사용할 스킬을 생성하는 메타 스킬.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "robin",
     "url": "https://github.com/revfactory"
