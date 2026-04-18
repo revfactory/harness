@@ -1,6 +1,6 @@
 {
   "name": "harness",
-  "description": "Agent Team & Skill Architect — Meta-skill that designs agent teams, defines specialized agents, and generates skills for your domain/project. 도메인/프로젝트에 맞는 하네스를 구성하고, 전문 에이전트를 정의하며, 에이전트가 사용할 스킬을 생성하는 메타 스킬.",
+  "description": "The team-architecture factory for Claude Code — a meta-skill that turns a domain description into an agent team and the skills they use, with six pre-defined team-architecture patterns (Pipeline, Fan-out/Fan-in, Expert Pool, Producer-Reviewer, Supervisor, Hierarchical Delegation). Claude Code용 팀 아키텍처 팩토리: 도메인 한 문장을 에이전트 팀과 스킬 세트로 변환하는 메타 스킬.",
   "version": "1.2.0",
   "author": {
     "name": "robin",
@@ -11,9 +11,21 @@
   "license": "Apache-2.0",
   "keywords": [
     "harness",
+    "harness-factory",
+    "team-architecture-factory",
     "agent-team",
     "skill-architect",
     "meta-skill",
-    "orchestration"
+    "orchestration",
+    "claude-code",
+    "claude-code-plugin",
+    "agent-scaffolding",
+    "multi-agent",
+    "pipeline",
+    "fan-out-fan-in",
+    "expert-pool",
+    "producer-reviewer",
+    "supervisor",
+    "hierarchical-delegation"
   ]
 }

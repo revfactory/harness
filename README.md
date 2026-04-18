@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-1.0.1-brightgreen.svg" alt="Version">
+  <img src="https://img.shields.io/badge/Version-1.2.0-brightgreen.svg" alt="Version">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
   <img src="https://img.shields.io/badge/Claude_Code-Plugin-purple.svg" alt="Claude Code Plugin">
   <img src="https://img.shields.io/badge/Patterns-6_Architectures-orange.svg" alt="6 Architecture Patterns">
@@ -11,17 +11,34 @@
   <a href="https://github.com/revfactory/harness/stargazers"><img src="https://img.shields.io/github/stars/revfactory/harness?style=social" alt="GitHub Stars"></a>
 </p>
 
-# Harness
+<p align="center">
+  <a href="#category--where-harness-sits"><img src="https://img.shields.io/badge/Layer-L3%20Meta--Factory-orange" alt="Layer"></a>
+  <a href="#category--where-harness-sits"><img src="https://img.shields.io/badge/Sub--layer-Team--Architecture%20Factory-teal" alt="Sub-layer"></a>
+  <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20KO%20%7C%20JA-lightgrey" alt="i18n"></a>
+</p>
 
-**Agent Team & Skill Architect** — A Claude Code Plugin
+# Harness — The Team-Architecture Factory for Claude Code
 
 **English** | [한국어](README_KO.md) | [日本語](README_JA.md)
 
-A meta-skill that designs domain-specific agent teams, defines specialized agents, and generates the skills they use.
+> **Harness is a team-architecture factory for Claude Code.** Say **"build a harness for this project"** (English) or **"하네스 구성해줘"** (한국어) or **"ハーネスを構成して"** (日本語), and the plugin turns your domain description into an agent team and the skills they use — picked from six pre-defined team-architecture patterns.
 
 ## Overview
 
 Harness leverages Claude Code's agent team system to decompose complex tasks into coordinated teams of specialized agents. Say "build a harness for this project" and it automatically generates agent definitions (`.claude/agents/`) and skills (`.claude/skills/`) tailored to your domain.
+
+## Category — Where Harness Sits
+
+Harness lives at the **L3 Meta-Factory** layer of the Claude Code ecosystem — the layer that generates other harnesses rather than being one. Inside L3, we pick a specific sub-layer: **Team-Architecture Factory**.
+
+| Layer | What it does | Neighbors we coexist with |
+|-------|--------------|---------------------------|
+| **L3 — Meta-Factory / Team-Architecture Factory** (us) | Domain sentence → agent team + skills, via 6 pre-defined team patterns | — |
+| L3 — Meta-Factory / Runtime-Configuration Factory | Deterministic, repeatable runtime configurations | [coleam00/Archon](https://github.com/coleam00/Archon) |
+| L3 — Meta-Factory / Codex Runtime Port | Same concept, Codex runtime | [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
+| L2 — Cross-Harness Workflow | Standardize skills/rules/hooks across multiple harnesses | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) |
+
+> Archon generates deterministic runtime configurations. Harness generates team architectures (pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation) plus the skills agents use. Different sub-layers of the same L3. Pick Archon for runtime determinism, Harness for team architecture, or combine them.
 
 ## Star History
 
@@ -40,6 +57,21 @@ Harness leverages Claude Code's agent team system to decompose complex tasks int
 - **Skill Generation** — Auto-generates skills with Progressive Disclosure for efficient context management
 - **Orchestration** — Inter-agent data passing, error handling, and team coordination protocols
 - **Validation** — Trigger verification, dry-run testing, and with-skill vs without-skill comparison tests
+
+## Harness Evolution Mechanism
+
+The harness evolution mechanism feeds deltas (what worked / what didn't) back into the factory, so the next generation is measurably better. When a generated harness is used in a real project, the `/harness:evolve` skill captures the delta between the initial architecture and the shipped one, and feeds it back into the factory so the next generation for a similar domain starts closer to the shipped state.
+
+```
+Initial harness ──▶ Real project use ──▶ Shipped harness
+                                              │
+                                              ▼ (delta capture via /harness:evolve)
+                                        ┌───────────────┐
+                                        │  Factory      │◀── better next-gen draft
+                                        └───────────────┘
+```
+
+We call this the **Harness Evolution Mechanism** (KR: 하네스 진화 메커니즘; JA: ハーネス進化メカニズム).
 
 ## Workflow
 
@@ -208,6 +240,18 @@ the target market, write ad copy, design visual concepts, and set up
 A/B test plans with iterative quality review.
 ```
 
+## Coexistence — Harness and Neighbors
+
+Harness is not alone in the Claude Code / agent-framework ecosystem. The following repos live in adjacent layers; each is described in a parallel "X is …, Harness is …" form so you can pick the one that fits your need or combine several.
+
+| Repo | Their position | Relationship to Harness |
+|------|----------------|-------------------------|
+| [coleam00/Archon](https://github.com/coleam00/Archon) | "harness builder" — deterministic, repeatable runtime configurations | **Same L3, neighbor sub-layer.** Archon is a Runtime-Configuration Factory, Harness is a Team-Architecture Factory. Pick Archon for runtime determinism, Harness for team architecture, or combine them. |
+| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | Codex port of the same concept | **Same L3, different runtime.** Use Harness on Claude Code, meta-harness on Codex. |
+| [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) | "Agent harness performance & workflow layer" (sits on top of existing harnesses) | **Different layer.** ECC is a standardization layer across harnesses; Harness is a factory that generates harnesses. Serial combination possible. |
+| [wshobson/agents](https://github.com/wshobson/agents) | Subagent / skill catalog (182 agents, 149 skills) | **Factory ↔ parts supply.** wshobson is a catalog to shop from; Harness designs the team. Absorb wshobson entries as parts inside a Harness-generated team. |
+| [LangGraph](https://langchain-ai.github.io/langgraph/) | State-graph orchestration, LLM-agnostic | **Different track.** LangGraph is for long-running, state-recoverable orchestration; Harness is for fast Claude-Code-native team design. |
+
 ## Built with Harness
 
 ### Harness 100
@@ -226,11 +270,46 @@ A/B test plans with iterative quality review.
 
 Key finding: effectiveness scales with task complexity — the harder the task, the greater the improvement (+23.8 Basic, +29.6 Advanced, +36.2 Expert).
 
+**Exact phrasing to use everywhere:** +60% avg quality (49.5 → 79.3), 15/15 win-rate, −32% variance (n=15, author-measured A/B, third-party replications pending).
+
 > Full paper: *Hwang, M. (2026). Harness: Structured Pre-Configuration for Enhancing LLM Code Agent Output Quality.*
 
 ## Requirements
 
 - [Agent Teams enabled](https://code.claude.com/docs/en/agent-teams): `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+
+## FAQ
+
+<details>
+<summary><b>Q1. Isn't "+60%" oversold?</b></summary>
+
+**A.** The +60% figure comes from an **author-measured A/B (n=15, 15 tasks, measured on the sister repo `claude-code-harness`)**. Every citation in this repo pairs the number with the disclosure "n=15, author-measured, third-party replications pending" in the same sentence. For adoption decisions, we recommend running a 2–4 week internal pilot and measuring your own numbers.
+
+**Evidence:**
+- Author A/B: [revfactory/claude-code-harness](https://github.com/revfactory/claude-code-harness)
+- Paper: *Hwang, M. (2026). Harness: Structured Pre-Configuration for Enhancing LLM Code Agent Output Quality*
+</details>
+
+<details>
+<summary><b>Q2. Why "harness factory" and not "harness builder"? Isn't this competing with Archon?</b></summary>
+
+**A.** Archon generates deterministic runtime configurations — it's a **Runtime-Configuration Factory**. Harness generates agent team architectures (team structure, message protocols, review gates) — it's a **Team-Architecture Factory**. They are **neighbor sub-layers of the same L3 Meta-Factory** and serve different needs. Pick Archon for runtime determinism, Harness for team-architecture patterns, or combine them (design architecture with Harness → deploy runtime with Archon).
+
+**Evidence:**
+- Archon self-definition: [clawfit docs/reference-levels.md](https://github.com/hongsw/clawfit/blob/main/docs/reference-levels.md)
+- Sub-layer declaration: see the **Category — Where Harness Sits** section above
+- Archon repo: [github.com/coleam00/Archon](https://github.com/coleam00/Archon)
+</details>
+
+<details>
+<summary><b>Q3. Isn't "Claude Code only" too narrow? What about Gemini/Codex?</b></summary>
+
+**A.** Currently the official runtime is Claude Code only. A Codex port of the same concept — [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) — is already public, so Codex teams can start there. Harness chose "Claude-Code-native, deep" over "multi-runtime, shallow"; cross-runtime collaboration with sibling repos (meta-harness, harness-init, OpenRig) is on the roadmap.
+
+**Evidence:**
+- Codex port: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
+- Cross-runtime scaffolder: [github.com/Gizele1/harness-init](https://github.com/Gizele1/harness-init)
+</details>
 
 ## License
 
