@@ -2,6 +2,17 @@
 
 이 프로젝트는 [Semantic Versioning](https://semver.org/)을 따릅니다.
 
+## [Unreleased]
+
+### Fixed
+
+- **Phase 번호 일관성** — `SKILL.md` Phase 5-5와 산출물 체크리스트가 "오케스트레이터 Phase 1에 컨텍스트 확인"으로 기술했지만, `orchestrator-template.md` 템플릿 A/B는 `Phase 0: 컨텍스트 확인`, `Phase 1: 준비`로 구성되어 있어 문서 내부 모순이 존재. SKILL.md 측을 "Phase 0"으로 통일하고 "워크플로우 시작부"라는 의미 기반 설명을 덧붙여 번호 의존에 따른 재발을 완화
+- **Incremental QA 원칙의 템플릿 반영** — `SKILL.md` Phase 3은 "QA는 각 모듈 완성 직후 점진적으로 실행"을 강제하지만, `orchestrator-template.md` 템플릿 A/B는 Phase 4를 "전체 완성 후 통합 검증"으로만 기술하여 템플릿을 복사한 사용자가 자연스럽게 폭포수 QA로 회귀할 위험. "QA 에이전트 포함 시 공통 규칙 (Incremental QA)" 섹션을 신설하여 템플릿 A/B/C 모두에 "각 산출 Phase 끝에 검증 훅 삽입" 규칙을 공통 적용
+
+### Added
+
+- **Phase 6-7: 사용자 핸드오프** — 구축 직후 사용자가 하네스 호출법을 모르는 공백을 제거. 트리거 예문 2~3개 제시, 단순 질문 vs 하네스 호출 구분, 재실행·수정 키워드 공유, 산출물 위치 안내를 포함하는 보고 규칙을 Phase 6 말미에 추가
+
 ## [1.2.1] - 2026-04-18
 
 ### Fixed
