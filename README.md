@@ -94,9 +94,17 @@ Phase 6: Validation & Testing
 ### Via Marketplace
 
 #### Add the marketplace
+
+**A. Upstream (just the `harness` skill)**
 ```shell
 /plugin marketplace add revfactory/harness
 ```
+
+**B. Fork — includes the Korean Persona Injection branch (recommended until PR lands)**
+```shell
+/plugin marketplace add hongsw/harness@feat/korean-persona-injection
+```
+This branch adds `korean-persona-search` / `korean-voice-adapter` / `korean-persona-harness` (3 skills), Codex CLI compatibility, and verification artifacts on top of the existing `harness`. After PR #9 merges into upstream, switch back to A. Details: [Korean Persona Injection](#korean-persona-injection-fork-branch--pr-pending) section below.
 
 #### Install the plugin
 ```shell

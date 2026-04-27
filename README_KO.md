@@ -83,9 +83,17 @@ Phase 6: 검증 및 테스트
 ### 마켓플레이스 등록 후 설치
 
 #### 마켓플레이스 추가
+
+**A. 공식 (`harness` 스킬만 필요)**
 ```shell
 /plugin marketplace add revfactory/harness
 ```
+
+**B. 포크 — 한국어 페르소나 분기까지 함께 (PR 머지 전, 권장)**
+```shell
+/plugin marketplace add hongsw/harness@feat/korean-persona-injection
+```
+이 분기는 기존 `harness`에 더해 `korean-persona-search` / `korean-voice-adapter` / `korean-persona-harness` 3종 + Codex CLI 호환 + 검증 산출물을 포함한다. PR #9 머지 후엔 A로 자동 통합된다. 자세한 내용: [한국어 페르소나 분기](#한국어-페르소나-분기-korean-persona-injection--fork-only-pr-예정) 섹션.
 
 #### 플러그인 설치
 ```shell
