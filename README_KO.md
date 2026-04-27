@@ -256,6 +256,74 @@ Harness는 Claude Code / 에이전트 프레임워크 생태계에서 혼자가 
 
 > 논문 전문: *Hwang, M. (2026). Harness: Structured Pre-Configuration for Enhancing LLM Code Agent Output Quality.*
 
+## 한국어 페르소나 분기 (Korean Persona Injection) — Fork-only, PR 예정
+
+`hongsw/harness:feat/korean-persona-injection` 포크에서 진행 중인 보강. 임의 도메인의 에이전트 팀에 **NVIDIA Nemotron-Personas-Korea**(100만 행, CC BY 4.0) 합성 페르소나를 런타임 동적 매핑하여, 한국 업무 매너·존댓말·산업 어휘가 살아있는 에이전트 정의를 생성한다. 기존 `harness` 스킬은 변경 없이 description으로 트리거 분기.
+
+### 추가 스킬 (3개, 비침습)
+
+- **`korean-persona-search`** — Parquet predicate pushdown 다축 필터 + 다양성 샘플링
+- **`korean-voice-adapter`** — 합쇼/해요 매트릭스, 한국 직장 문화, 13개 산업 어휘 사전
+- **`korean-persona-harness`** — 메타 오케스트레이터 (서브 에이전트 5인 파이프라인: 시나리오 분석가 → 퍼소나 큐레이터 → 화법 어댑터 → 에이전트 빌더 → 다양성 QA)
+
+### 검증: 같은 작업·같은 분량, 다른 팀 프롬프트
+
+같은 LLM에 두 가지 다른 팀 프롬프트(Run A: 일반 5인 / Run B: 한국 페르소나 5인)로 동일 과제 — "팡팡배달 신규 배달 앱 팀 주간 스탠드업 회의록" — 산출.
+
+| 평가 축 | Run A (`harness`) | Run B (`korean-persona-harness`) |
+|--------|------------------|---------------------------------|
+| 분량 | 102줄 | 103줄 (≈ 동등) |
+| 도메인 정확성 | 높음 | 높음 (≈ 동등) |
+| **음성 식별성** | 낮음 — 5명 거의 같은 톤 | **매우 높음** — 이름 가리고도 식별 가능 |
+| **한국 직장 매너** | 미미 | 풍부 (단정 회피·멘토링·컨펌·정리톤) |
+| **개인 사정 노출** | 0건 | 2건 (가족 일정, 데이터 권한 호소) |
+| **상호 응답·격려·답례** | 0회 | 4회 |
+| **부탁/컨펌 톤** | 5회 | 11회 |
+
+### Run B에만 등장한 결정적 순간
+
+> **이준호(백엔드, 두 아이 아빠)**: "다음 주에는 제가 **아이 일정**이 좀 있어서 로테이션 한 번 사전에 정리해 두면 어떨까 싶습니다."
+
+> **정상진(팀장)→최도현(MZ 마케터)**: "수치 튀었을 때 원인 가설 빠르게 세우는 자세, **계속 그렇게 가시면 됩니다**."
+> **최도현**: "**아, 감사합니다 팀장님!**"
+
+> **정상진(팀장)**: "재시도 정책이 너무 공격적으로 동작해서 장애 일부 증폭된 정황이 있습니다. **단정은 RCA 최종본에서 짓겠습니다.**"
+
+> **최도현(24세, SaaS 출신)**: "그게 좀… 메타 쪽 CPA가 튀어서 그런 것 같고… **유의수준은 아직 좀 약해요**."
+
+같은 LLM·같은 작업·같은 분량인데 **페르소나 깊이 하나 차이**가 산출물의 인간미·문화적 진정성·캐릭터 식별성에 큰 차이를 만든다.
+
+### 가치 매트릭스 — 어디서 쓸 만한가
+
+| 작업 유형 | 가치 |
+|----------|------|
+| 가상 사용자 인터뷰 시뮬레이션 | **매우 높음** |
+| 한국 사용자용 마케팅 콘텐츠 | **매우 높음** |
+| 회의록·협업 시뮬레이션 (본 검증) | 높음 |
+| RFC·기술 문서 | 보통 |
+| 인프라·아키텍처 설계 | 낮음 (기본 `harness`가 적합) |
+
+### 양 런타임 호환 — Claude Code + Codex CLI
+
+스킬 파일 포맷이 동일하여 Claude Code와 Codex CLI 양쪽 동일 작동.
+
+```bash
+# 한 줄 (양쪽 동시)
+./scripts/install-korean-persona.sh --target both
+
+# Codex skill-installer로 GitHub 직접
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+    --repo hongsw/harness --ref main \
+    --path skills/korean-persona-search \
+    --path skills/korean-voice-adapter \
+    --path skills/korean-persona-harness
+
+# 의존성: pip install huggingface_hub pyarrow
+# 캐시: 양 런타임이 ~/.cache/korean-persona-search/ 공유
+```
+
+설치 가이드 전문: `docs/install-korean-persona.md`. 보강 개요: `docs/korean-persona-injection.md`. 검증 산출물: `_workspace/comparison_test/01_team_output_comparison.md`.
+
 ## 요구사항
 
 - [에이전트 팀 기능 활성화](https://code.claude.com/docs/en/agent-teams): `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`

@@ -274,6 +274,14 @@ Key finding: effectiveness scales with task complexity — the harder the task, 
 
 > Full paper: *Hwang, M. (2026). Harness: Structured Pre-Configuration for Enhancing LLM Code Agent Output Quality.*
 
+## Korean Persona Injection (fork branch — PR pending)
+
+The fork [`hongsw/harness:feat/korean-persona-injection`](https://github.com/hongsw/harness/tree/feat/korean-persona-injection) adds 3 non-invasive skills that inject **NVIDIA Nemotron-Personas-Korea** (1M rows, CC BY 4.0) into harness-generated agents at runtime — yielding agent definitions whose voice, workplace manner, generational vocabulary and cultural cues actually read as Korean.
+
+A blind comparison of the same 5-person standup-meeting task (102 vs 103 lines, same LLM, same workload) showed the persona-injected team produced richer voice differentiation (5 distinguishable speakers vs 5 indistinct), 4 inter-personal exchanges vs 0 (mentoring, gratitude, family-aware on-call negotiation), and Korean-specific manners (단정 회피, 컨펌 톤, 우회 표현) that the generic team did not produce. See [`_workspace/comparison_test/01_team_output_comparison.md`](_workspace/comparison_test/01_team_output_comparison.md).
+
+Compatible with **both Claude Code and Codex CLI** (same SKILL.md format). Install via `./scripts/install-korean-persona.sh --target both` or Codex's `skill-installer`. Details in `docs/korean-persona-injection.md` and `docs/install-korean-persona.md`. Korean README has the full breakdown.
+
 ## Requirements
 
 - [Agent Teams enabled](https://code.claude.com/docs/en/agent-teams): `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
