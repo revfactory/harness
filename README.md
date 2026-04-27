@@ -280,7 +280,43 @@ The fork [`hongsw/harness:feat/korean-persona-injection`](https://github.com/hon
 
 A blind comparison of the same 5-person standup-meeting task (102 vs 103 lines, same LLM, same workload) showed the persona-injected team produced richer voice differentiation (5 distinguishable speakers vs 5 indistinct), 4 inter-personal exchanges vs 0 (mentoring, gratitude, family-aware on-call negotiation), and Korean-specific manners (단정 회피, 컨펌 톤, 우회 표현) that the generic team did not produce. See [`_workspace/comparison_test/01_team_output_comparison.md`](_workspace/comparison_test/01_team_output_comparison.md).
 
-Compatible with **both Claude Code and Codex CLI** (same SKILL.md format). Install via `./scripts/install-korean-persona.sh --target both` or Codex's `skill-installer`. Details in `docs/korean-persona-injection.md` and `docs/install-korean-persona.md`. Korean README has the full breakdown.
+### Install (until upstream merges, install from the fork)
+
+```bash
+# Clone the fork branch and run the one-liner installer
+git clone -b feat/korean-persona-injection https://github.com/hongsw/harness.git
+cd harness
+./scripts/install-korean-persona.sh --target both     # Claude Code + Codex CLI
+
+# OR install directly via Codex's skill-installer
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+    --repo hongsw/harness --ref feat/korean-persona-injection \
+    --path skills/korean-persona-search \
+    --path skills/korean-voice-adapter \
+    --path skills/korean-persona-harness
+
+# OR add the fork as a Claude Code plugin marketplace
+# /plugin marketplace add hongsw/harness@feat/korean-persona-injection
+# /plugin install harness
+
+# Dataset cache (~few GB, shared between both runtimes; first run only)
+pip install huggingface_hub pyarrow
+python3 $SKILL_DIR/korean-persona-search/scripts/download.py
+```
+
+### Choose your run mode — generic English agents vs. Korean persona agents
+
+Once installed, **both harnesses coexist**. Pick by intent (or invoke explicitly when ambiguous):
+
+| Task | Skill | Trigger phrase |
+|------|-------|----------------|
+| Generic / English / language-neutral team | **`harness`** (existing) | "build a harness for this project" |
+| Korean users / Korean-market scenarios / persona simulation | **`korean-persona-harness`** (new) | "한국어 페르소나로 팀 만들어줘" / "build a Korean persona team" |
+| Mixed (English skeleton + a few Korean personas) | **`harness`** for structure → call **`korean-persona-search`** for select roles | invoke skills sequentially |
+
+The two skills are auto-routed by description keywords — Korean-persona terms (한국어 페르소나, 한국 시나리오, Nemotron Korea) trigger the new skill; everything else falls back to the original `harness`. State the language explicitly when in doubt.
+
+Compatible with **both Claude Code and Codex CLI** (same SKILL.md format). Details in `docs/korean-persona-injection.md` and `docs/install-korean-persona.md`. The Korean README ([README_KO.md](README_KO.md)) has the full breakdown including the comparison table and verbatim Korean dialogue examples.
 
 ## Requirements
 

@@ -303,24 +303,71 @@ Harness는 Claude Code / 에이전트 프레임워크 생태계에서 혼자가 
 | RFC·기술 문서 | 보통 |
 | 인프라·아키텍처 설계 | 낮음 (기본 `harness`가 적합) |
 
-### 양 런타임 호환 — Claude Code + Codex CLI
+### 설치 — 포크 `hongsw/harness`에서 (PR 머지 전까지)
 
-스킬 파일 포맷이 동일하여 Claude Code와 Codex CLI 양쪽 동일 작동.
+상위 리포(`revfactory/harness`)에는 이 분기가 아직 머지되지 않았으므로, 머지 전에는 **포크에서 직접 설치**한다. 머지 후에는 `hongsw/harness` → `revfactory/harness`로 출처를 바꾸면 된다.
+
+#### 1. 클론 + 한 줄 설치 (권장)
 
 ```bash
-# 한 줄 (양쪽 동시)
-./scripts/install-korean-persona.sh --target both
+git clone -b feat/korean-persona-injection https://github.com/hongsw/harness.git
+cd harness
 
-# Codex skill-installer로 GitHub 직접
+./scripts/install-korean-persona.sh --target both           # Claude Code + Codex 동시
+# 또는
+./scripts/install-korean-persona.sh --target codex          # Codex만 (~/.codex/skills/)
+./scripts/install-korean-persona.sh --target claude-code    # Claude Code만 (./.claude/skills/)
+```
+
+#### 2. Codex skill-installer로 GitHub 직접
+
+```bash
 python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
-    --repo hongsw/harness --ref main \
+    --repo hongsw/harness --ref feat/korean-persona-injection \
     --path skills/korean-persona-search \
     --path skills/korean-voice-adapter \
     --path skills/korean-persona-harness
-
-# 의존성: pip install huggingface_hub pyarrow
-# 캐시: 양 런타임이 ~/.cache/korean-persona-search/ 공유
+# 설치 후 Codex 재시작 — "Restart Codex to pick up new skills."
 ```
+
+#### 3. Claude Code 플러그인 마켓플레이스 (포크 직접)
+
+```
+/plugin marketplace add hongsw/harness@feat/korean-persona-injection
+/plugin install harness
+```
+
+#### 4. 데이터셋 캐시 (최초 1회, 양 런타임 공유)
+
+```bash
+pip install huggingface_hub pyarrow
+python3 $SKILL_DIR/korean-persona-search/scripts/download.py            # 전체 (수 GB)
+python3 $SKILL_DIR/korean-persona-search/scripts/download.py --shards 1 # 빠른 테스트
+# 캐시: ~/.cache/korean-persona-search/ (KOREAN_PERSONA_CACHE_DIR로 변경)
+```
+
+### 실행 모드 선택 — 영어/일반 에이전트 vs 한국 페르소나 에이전트
+
+설치 후 **두 종류의 하네스가 공존**한다. 작업 성격에 따라 골라 쓴다 (자동 트리거가 헷갈리면 명시적으로 지정).
+
+| 작업 성격 | 어떤 스킬을? | 트리거 예시 |
+|----------|------------|------------|
+| 일반 도메인 (인프라·아키텍처·DB·언어 무관) | **`harness`** (기존) | "하네스 구성해줘", "build a harness for this project" |
+| 한국어/한국 시장/한국 사용자 페르소나 필요 | **`korean-persona-harness`** (신규) | "한국어 페르소나로 팀 만들어줘", "한국 X 시나리오 에이전트 생성" |
+| 영어 페르소나 명시적으로 원함 | **`harness`** + 프롬프트에 "in English" | "build me an English-speaking 5-person team for ..." |
+| 둘 다 — 영어 베이스 + 한국 페르소나 일부 | **`harness`로 골격 → `korean-persona-search` 단독 호출**로 일부 역할만 한국 페르소나 주입 | 두 스킬을 순차 호출 |
+
+**자동 트리거 분기**: 두 스킬의 description은 키워드로 분리되어 있다 — `한국어`/`한국 페르소나`/`한국 시나리오`/`Nemotron Korea`가 있으면 `korean-persona-harness`, 그 외 일반 어휘면 `harness`. 모호한 요청에서는 사용자가 명시적으로 지정하라.
+
+**명시적 호출 예**:
+- 한국어 전용 에이전트가 필요할 때:
+  > "**한국어 페르소나** 5인으로 푸드테크 스타트업 팀 만들어줘"
+- 영어 일반 에이전트가 필요할 때:
+  > "Build a **generic** 5-person team harness for a fintech startup. English personas, no Korean cultural context."
+- 한국 페르소나만 검색하고 직접 사용:
+  > "korean-persona-search로 30대 서울 IT 개발자 3명 뽑아서 보여줘"
+
+**런타임 양쪽에서 동일하게 동작** — Claude Code/Codex 어디서 실행하든 같은 트리거 분기.
 
 설치 가이드 전문: `docs/install-korean-persona.md`. 보강 개요: `docs/korean-persona-injection.md`. 검증 산출물: `_workspace/comparison_test/01_team_output_comparison.md`.
 
