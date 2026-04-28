@@ -2,6 +2,23 @@
 
 이 프로젝트는 [Semantic Versioning](https://semver.org/)을 따릅니다.
 
+## [Unreleased]
+
+### Added
+
+- **Korean Persona Injection** (3개 신규 스킬, 비침습) — `harness`의 한국어·한국 문화 분기. 임의 도메인 에이전트 팀에 NVIDIA Nemotron-Personas-Korea(100만 행, CC BY 4.0) 데이터셋을 동적 매핑하여 한국 업무 매너·존댓말·산업 어휘가 살아있는 페르소나 주입.
+  - `skills/korean-persona-search/` — Parquet predicate pushdown 필터 + 다양성 샘플링. 스크립트 `download.py` (HF 캐시 다운로드), `search.py` (다축 필터·정규화 카드 출력). 26개 필드 스키마, 13개 산업 매핑 cookbook 동봉.
+  - `skills/korean-voice-adapter/` — 합쇼체/해요체 매트릭스, 한국 직장 문화(보고 라인·회의 매너·세대·지역 보정), 13개 산업 어휘 사전.
+  - `skills/korean-persona-harness/` — 메타 오케스트레이터 (서브 에이전트 5인 파이프라인). `references/agents/`에 시나리오 분석가, 퍼소나 큐레이터, 화법 어댑터, 에이전트 빌더, 다양성 QA 프롬프트 템플릿.
+- **`docs/korean-persona-injection.md`** — 통합 사용 가이드.
+- 의존성: `huggingface_hub`, `pyarrow` (lazy import + 누락 시 명확한 설치 안내).
+
+### Notes
+
+- 기존 `harness` 스킬은 변경 없음. 두 스킬은 description으로 자동 트리거 분기.
+- 데이터 라이선스 CC BY 4.0 — 생성된 모든 에이전트 정의 하단에 uuid + attribution 자동 삽입.
+- **Codex CLI 런타임 호환** — SKILL.md 포맷이 Claude Code와 Codex 양쪽에 동일하게 적용. 설치 스크립트 `scripts/install-korean-persona.sh` 추가 (`--target codex|claude-code|both`). Codex `skill-installer`로 GitHub 직접 설치 경로 지원. 설치 가이드 `docs/install-korean-persona.md` 신설.
+
 ## [1.2.1] - 2026-04-18
 
 ### Fixed

@@ -1,0 +1,38 @@
+[
+  {
+    "uuid": "u1",
+    "demographics": {
+      "sex": "남자",
+      "age": 32,
+      "marital_status": "배우자있음",
+      "military_status": "병역필",
+      "education_level": "대학교 졸업",
+      "bachelors_field": "공학",
+      "occupation": "응용 소프트웨어 개발자",
+      "province": "서울",
+      "district": "서울-강남구",
+      "family_type": "부부+미혼자녀",
+      "housing_type": "아파트"
+    },
+    "personas": {
+      "summary": "30대 서울 IT 개발자, 가정 지향",
+      "professional": "백엔드 개발 7년차, 결제 시스템 담당. 안정성·장애 대응에 집중하며 SI 출신이라 문서화·보고 라인을 중시."
+    },
+    "context": {
+      "cultural_background": "수도권 중산층, IT 1세대 후배 멘티들과의 관계 중요",
+      "skills_and_expertise": [
+        "Java",
+        "Spring",
+        "MySQL",
+        "Kafka",
+        "결제 PG 연동"
+      ],
+      "hobbies_and_interests": [
+        "등산",
+        "영화"
+      ],
+      "career_goals_and_ambitions": "테크리드 승진, 결제 도메인 전문성 강화"
+    },
+    "_attribution": "NVIDIA Nemotron-Personas-Korea (CC BY 4.0)"
+  }
+]

@@ -83,9 +83,27 @@ Phase 6: 검증 및 테스트
 ### 마켓플레이스 등록 후 설치
 
 #### 마켓플레이스 추가
+
+**A. 공식 (`harness` 스킬만 필요)**
 ```shell
 /plugin marketplace add revfactory/harness
 ```
+
+**B. 포크 — 한국어 페르소나 분기까지 함께 (PR #9 머지 전, 권장)**
+```shell
+/plugin marketplace add hongsw/harness
+```
+포크의 `main`이 `feat/korean-persona-injection`과 동기화되어 있어 브랜치 ref 없이 설치된다. 기존 `harness`에 더해 `korean-persona-search` / `korean-voice-adapter` / `korean-persona-harness` 3종 + Codex CLI 호환 + 검증 산출물 포함. PR #9 머지 후엔 A(`revfactory/harness`)로 통합된다. 자세한 내용: [한국어 페르소나 분기](#한국어-페르소나-분기-korean-persona-injection--fork-only-pr-예정) 섹션.
+
+> ⚠️ **이미 `revfactory/harness`를 설치한 사용자는 먼저 제거 후 포크 설치 필요**
+> 두 마켓플레이스의 이름(`harness-marketplace`)과 플러그인 이름(`harness`)이 동일하여 그대로 추가하면 충돌하거나 한쪽이 가려진다. 아래 4단계로 깔끔히 전환:
+> ```shell
+> /plugin uninstall harness@harness         # 1. 기존 플러그인 제거
+> /plugin marketplace remove harness-marketplace   # 2. 기존 마켓플레이스 제거
+> /plugin marketplace add hongsw/harness    # 3. 포크 마켓플레이스 추가
+> /plugin install harness@harness           # 4. 플러그인 재설치 (포크에서)
+> ```
+> PR #9 머지 후 업스트림으로 돌아가려면: 위 1·2단계 후 `add revfactory/harness`로 다시 설치. 데이터셋 캐시(`~/.cache/korean-persona-search/`)는 보존되므로 재다운로드 불필요.
 
 #### 플러그인 설치
 ```shell
@@ -255,6 +273,121 @@ Harness는 Claude Code / 에이전트 프레임워크 생태계에서 혼자가 
 **어디에서나 이 문장을 그대로 사용하세요:** 평균 품질 +60% (49.5 → 79.3), 15/15 승률, 출력 분산 −32% (n=15, 저자 자체 측정 A/B, 제3자 재현 실험 진행 중).
 
 > 논문 전문: *Hwang, M. (2026). Harness: Structured Pre-Configuration for Enhancing LLM Code Agent Output Quality.*
+
+## 한국어 페르소나 분기 (Korean Persona Injection) — Fork-only, PR 예정
+
+`hongsw/harness:feat/korean-persona-injection` 포크에서 진행 중인 보강. 임의 도메인의 에이전트 팀에 **NVIDIA Nemotron-Personas-Korea**(100만 행, CC BY 4.0) 합성 페르소나를 런타임 동적 매핑하여, 한국 업무 매너·존댓말·산업 어휘가 살아있는 에이전트 정의를 생성한다. 기존 `harness` 스킬은 변경 없이 description으로 트리거 분기.
+
+### 추가 스킬 (3개, 비침습)
+
+- **`korean-persona-search`** — Parquet predicate pushdown 다축 필터 + 다양성 샘플링
+- **`korean-voice-adapter`** — 합쇼/해요 매트릭스, 한국 직장 문화, 13개 산업 어휘 사전
+- **`korean-persona-harness`** — 메타 오케스트레이터 (서브 에이전트 5인 파이프라인: 시나리오 분석가 → 퍼소나 큐레이터 → 화법 어댑터 → 에이전트 빌더 → 다양성 QA)
+
+### 검증: 같은 작업·같은 분량, 다른 팀 프롬프트
+
+같은 LLM에 두 가지 다른 팀 프롬프트(Run A: 일반 5인 / Run B: 한국 페르소나 5인)로 동일 과제 — "팡팡배달 신규 배달 앱 팀 주간 스탠드업 회의록" — 산출.
+
+| 평가 축 | Run A (`harness`) | Run B (`korean-persona-harness`) |
+|--------|------------------|---------------------------------|
+| 분량 | 102줄 | 103줄 (≈ 동등) |
+| 도메인 정확성 | 높음 | 높음 (≈ 동등) |
+| **음성 식별성** | 낮음 — 5명 거의 같은 톤 | **매우 높음** — 이름 가리고도 식별 가능 |
+| **한국 직장 매너** | 미미 | 풍부 (단정 회피·멘토링·컨펌·정리톤) |
+| **개인 사정 노출** | 0건 | 2건 (가족 일정, 데이터 권한 호소) |
+| **상호 응답·격려·답례** | 0회 | 4회 |
+| **부탁/컨펌 톤** | 5회 | 11회 |
+
+### Run B에만 등장한 결정적 순간
+
+> **이준호(백엔드, 두 아이 아빠)**: "다음 주에는 제가 **아이 일정**이 좀 있어서 로테이션 한 번 사전에 정리해 두면 어떨까 싶습니다."
+
+> **정상진(팀장)→최도현(MZ 마케터)**: "수치 튀었을 때 원인 가설 빠르게 세우는 자세, **계속 그렇게 가시면 됩니다**."
+> **최도현**: "**아, 감사합니다 팀장님!**"
+
+> **정상진(팀장)**: "재시도 정책이 너무 공격적으로 동작해서 장애 일부 증폭된 정황이 있습니다. **단정은 RCA 최종본에서 짓겠습니다.**"
+
+> **최도현(24세, SaaS 출신)**: "그게 좀… 메타 쪽 CPA가 튀어서 그런 것 같고… **유의수준은 아직 좀 약해요**."
+
+같은 LLM·같은 작업·같은 분량인데 **페르소나 깊이 하나 차이**가 산출물의 인간미·문화적 진정성·캐릭터 식별성에 큰 차이를 만든다.
+
+### 가치 매트릭스 — 어디서 쓸 만한가
+
+| 작업 유형 | 가치 |
+|----------|------|
+| 가상 사용자 인터뷰 시뮬레이션 | **매우 높음** |
+| 한국 사용자용 마케팅 콘텐츠 | **매우 높음** |
+| 회의록·협업 시뮬레이션 (본 검증) | 높음 |
+| RFC·기술 문서 | 보통 |
+| 인프라·아키텍처 설계 | 낮음 (기본 `harness`가 적합) |
+
+### 설치 — 포크 `hongsw/harness`에서 (PR 머지 전까지)
+
+상위 리포(`revfactory/harness`)에는 이 분기가 아직 머지되지 않았으므로, 머지 전에는 **포크에서 직접 설치**한다. 머지 후에는 `hongsw/harness` → `revfactory/harness`로 출처를 바꾸면 된다.
+
+#### 1. 클론 + 한 줄 설치 (권장)
+
+```bash
+git clone -b feat/korean-persona-injection https://github.com/hongsw/harness.git
+cd harness
+
+./scripts/install-korean-persona.sh --target both           # Claude Code + Codex 동시
+# 또는
+./scripts/install-korean-persona.sh --target codex          # Codex만 (~/.codex/skills/)
+./scripts/install-korean-persona.sh --target claude-code    # Claude Code만 (./.claude/skills/)
+```
+
+#### 2. Codex skill-installer로 GitHub 직접
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+    --repo hongsw/harness \
+    --path skills/korean-persona-search \
+    --path skills/korean-voice-adapter \
+    --path skills/korean-persona-harness
+# 설치 후 Codex 재시작 — "Restart Codex to pick up new skills."
+```
+
+#### 3. Claude Code 플러그인 마켓플레이스 (포크 직접)
+
+```
+/plugin marketplace add hongsw/harness
+/plugin install harness
+```
+
+#### 4. 데이터셋 캐시 (최초 1회, 양 런타임 공유)
+
+```bash
+pip install huggingface_hub pyarrow
+python3 $SKILL_DIR/korean-persona-search/scripts/download.py            # 전체 (수 GB)
+python3 $SKILL_DIR/korean-persona-search/scripts/download.py --shards 1 # 빠른 테스트
+# 캐시: ~/.cache/korean-persona-search/ (KOREAN_PERSONA_CACHE_DIR로 변경)
+```
+
+### 실행 모드 선택 — 영어/일반 에이전트 vs 한국 페르소나 에이전트
+
+설치 후 **두 종류의 하네스가 공존**한다. 작업 성격에 따라 골라 쓴다 (자동 트리거가 헷갈리면 명시적으로 지정).
+
+| 작업 성격 | 어떤 스킬을? | 트리거 예시 |
+|----------|------------|------------|
+| 일반 도메인 (인프라·아키텍처·DB·언어 무관) | **`harness`** (기존) | "하네스 구성해줘", "build a harness for this project" |
+| 한국어/한국 시장/한국 사용자 페르소나 필요 | **`korean-persona-harness`** (신규) | "한국어 페르소나로 팀 만들어줘", "한국 X 시나리오 에이전트 생성" |
+| 영어 페르소나 명시적으로 원함 | **`harness`** + 프롬프트에 "in English" | "build me an English-speaking 5-person team for ..." |
+| 둘 다 — 영어 베이스 + 한국 페르소나 일부 | **`harness`로 골격 → `korean-persona-search` 단독 호출**로 일부 역할만 한국 페르소나 주입 | 두 스킬을 순차 호출 |
+
+**자동 트리거 분기**: 두 스킬의 description은 키워드로 분리되어 있다 — `한국어`/`한국 페르소나`/`한국 시나리오`/`Nemotron Korea`가 있으면 `korean-persona-harness`, 그 외 일반 어휘면 `harness`. 모호한 요청에서는 사용자가 명시적으로 지정하라.
+
+**명시적 호출 예**:
+- 한국어 전용 에이전트가 필요할 때:
+  > "**한국어 페르소나** 5인으로 푸드테크 스타트업 팀 만들어줘"
+- 영어 일반 에이전트가 필요할 때:
+  > "Build a **generic** 5-person team harness for a fintech startup. English personas, no Korean cultural context."
+- 한국 페르소나만 검색하고 직접 사용:
+  > "korean-persona-search로 30대 서울 IT 개발자 3명 뽑아서 보여줘"
+
+**런타임 양쪽에서 동일하게 동작** — Claude Code/Codex 어디서 실행하든 같은 트리거 분기.
+
+설치 가이드 전문: `docs/install-korean-persona.md`. 보강 개요: `docs/korean-persona-injection.md`. 검증 산출물: `_workspace/comparison_test/01_team_output_comparison.md`.
 
 ## 요구사항
 
