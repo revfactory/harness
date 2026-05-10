@@ -1,17 +1,17 @@
 {
-  "name": "harness",
-  "description": "The team-architecture factory for Claude Code — a meta-skill that turns a domain description into an agent team and the skills they use, with six pre-defined team-architecture patterns (Pipeline, Fan-out/Fan-in, Expert Pool, Producer-Reviewer, Supervisor, Hierarchical Delegation). Claude Code용 팀 아키텍처 팩토리: 도메인 한 문장을 에이전트 팀과 스킬 세트로 변환하는 메타 스킬.",
-  "version": "1.2.0",
+  "name": "context-harness",
+  "description": "Context-Aware Team-Architecture Factory for Claude Code — an evolution of Harness that adds automated project context initialization (context/, outputs/, BRIEF.md, HANDOFF.md, ROADMAP.md, CLAUDE.md), session management, and workspace isolation. Claude Code용 컨텍스트 기반 팀 아키텍처 팩토리: 도메인 한 문장을 에이전트 팀 + 스킬 세트 + 프로젝트 컨텍스트 + 세션 관리로 변환하는 메타 스킬.",
+  "version": "2.0.0",
   "author": {
-    "name": "robin",
-    "url": "https://github.com/revfactory"
+    "name": "AMOSA-DEV",
+    "url": "https://github.com/AMOSA-DEV"
   },
-  "homepage": "https://github.com/revfactory/harness",
-  "repository": "https://github.com/revfactory/harness",
+  "homepage": "https://github.com/AMOSA-DEV/harness",
+  "repository": "https://github.com/AMOSA-DEV/harness",
   "license": "Apache-2.0",
   "keywords": [
     "harness",
-    "harness-factory",
+    "context-harness",
     "team-architecture-factory",
     "agent-team",
     "skill-architect",
@@ -19,7 +19,9 @@
     "orchestration",
     "claude-code",
     "claude-code-plugin",
-    "agent-scaffolding",
+    "context-system",
+    "session-management",
+    "workspace-isolation",
     "multi-agent",
     "pipeline",
     "fan-out-fan-in",

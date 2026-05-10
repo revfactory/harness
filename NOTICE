@@ -1,0 +1,16 @@
+Context-Harness
+Copyright 2026 Bird
+
+This project is a derivative work based on the reference harness project
+by robin (https://github.com/robin/harness), licensed under the Apache License 2.0.
+
+The original work provided the architectural patterns, team structure concepts,
+and skill orchestration principles that were extended and evolved in this project.
+
+This project modifies and extends the original work with:
+- Automated project context initialization (context/, outputs/, BRIEF.md, etc.)
+- Session management system (ROADMAP, BRIEF, HANDOFF)
+- Workspace constitution (CLAUDE.md) with context reference rules
+- Team architecture templates for 6 architectural patterns
+
+For the original work, see: reference/harness/
