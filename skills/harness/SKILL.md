@@ -40,6 +40,9 @@ description: "하네스를 구성합니다. 전문 에이전트를 정의하며,
 3. Phase 0 감사 결과를 기반으로 기존 에이전트/스킬과의 충돌/중복 분석
 4. 프로젝트 코드베이스 탐색 — 기술 스택, 데이터 모델, 주요 모듈 파악
 5. **사용자 숙련도 감지** — 대화의 맥락 단서(사용 용어, 질문 수준)로 기술 수준을 파악하고, 이후 커뮤니케이션 톤을 조절한다. 코딩 경험이 적은 사용자에게는 "assertion", "JSON schema" 같은 용어를 설명 없이 쓰지 않는다.
+6. **선택적 권장 패턴 적용 여부 판단** — 도메인 특성에 따라 다음을 검토한다 (default는 적용 안 함):
+   - 코드 탐색 비중이 큰 도메인이면 `references/search-efficiency.md`의 **Grep 4-Step** 가이드를 에이전트 정의에 인용
+   - 단발성·짧은 작업에는 군더더기가 되므로 강제하지 않는다
 
 ### Phase 2: 팀 아키텍처 설계
 
@@ -441,3 +444,4 @@ Phase마다 다른 모드를 섞어 구성한다. 자주 쓰이는 조합:
 - **스킬 작성 가이드**: `references/skill-writing-guide.md` — 작성 패턴, 예시, 데이터 스키마 표준
 - **스킬 테스트 가이드**: `references/skill-testing-guide.md` — 테스트/평가/반복 개선 방법론
 - **QA 에이전트 가이드**: `references/qa-agent-guide.md` — 빌드 하네스에 QA 에이전트를 포함할 때 참조. 통합 정합성 검증 방법론, 경계면 버그 패턴, QA 에이전트 정의 템플릿 포함. 실제 프로젝트에서 발견된 7개 버그 사례 기반.
+- **검색 효율화 (선택)**: `references/search-efficiency.md` — Grep/Read 토큰 폭발을 방지하는 4-Step 탐색 프로토콜(count → files_with_matches → Read range → Explore 위임)과 에이전트 정의 주입 템플릿.
