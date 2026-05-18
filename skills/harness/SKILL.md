@@ -441,3 +441,4 @@ Phase마다 다른 모드를 섞어 구성한다. 자주 쓰이는 조합:
 - **스킬 작성 가이드**: `references/skill-writing-guide.md` — 작성 패턴, 예시, 데이터 스키마 표준
 - **스킬 테스트 가이드**: `references/skill-testing-guide.md` — 테스트/평가/반복 개선 방법론
 - **QA 에이전트 가이드**: `references/qa-agent-guide.md` — 빌드 하네스에 QA 에이전트를 포함할 때 참조. 통합 정합성 검증 방법론, 경계면 버그 패턴, QA 에이전트 정의 템플릿 포함. 실제 프로젝트에서 발견된 7개 버그 사례 기반.
+- **Hook 통합 (선택)**: `references/hook-integration.md` — 사용자가 자동 컨텍스트 주입을 원할 때만 안내. SessionStart/PreCompact/Stop hook + settings.json 패치 예시. 사용자 명시 승인 없이 적용 금지.
