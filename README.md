@@ -14,12 +14,12 @@
 <p align="center">
   <a href="#category--where-harness-sits"><img src="https://img.shields.io/badge/Layer-L3%20Meta--Factory-orange" alt="Layer"></a>
   <a href="#category--where-harness-sits"><img src="https://img.shields.io/badge/Sub--layer-Team--Architecture%20Factory-teal" alt="Sub-layer"></a>
-  <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20KO%20%7C%20JA-lightgrey" alt="i18n"></a>
+  <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20JA-lightgrey" alt="i18n"></a>
 </p>
 
 # Harness — The Team-Architecture Factory for Claude Code
 
-**English** | [한국어](README_KO.md) | [日本語](README_JA.md)
+**English** | [日本語](README_JA.md)
 
 > **Harness is a team-architecture factory for Claude Code.** Say **"build a harness for this project"** (English) or **"하네스 구성해줘"** (한국어) or **"ハーネスを構成して"** (日本語), and the plugin turns your domain description into an agent team and the skills they use — picked from six pre-defined team-architecture patterns.
 

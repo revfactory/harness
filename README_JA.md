@@ -14,12 +14,12 @@
 <p align="center">
   <a href="#カテゴリー--harness-はどこに位置するか"><img src="https://img.shields.io/badge/Layer-L3%20Meta--Factory-orange" alt="Layer"></a>
   <a href="#カテゴリー--harness-はどこに位置するか"><img src="https://img.shields.io/badge/Sub--layer-Team--Architecture%20Factory-teal" alt="Sub-layer"></a>
-  <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20KO%20%7C%20JA-lightgrey" alt="i18n"></a>
+  <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20JA-lightgrey" alt="i18n"></a>
 </p>
 
 # Harness — Claude Code のためのチームアーキテクチャファクトリー
 
-[English](README.md) | [한국어](README_KO.md) | **日本語**
+[English](README.md) | **日本語**
 
 > **Harness は Claude Code 向けのチームアーキテクチャファクトリーです。** **「ハーネスを構成して」** (日本語) ·  **"build a harness for this project"** (English) · **"하네스 구성해줘"** (한국어) と伝えるだけで、プラグインがドメイン記述をエージェントチームとそのチームが使うスキルへと変換します — あらかじめ定義された 6 種類のチームアーキテクチャパターンから 1 つを選んで。
 
