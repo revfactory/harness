@@ -1,0 +1,23 @@
+{
+  "logging": {
+    "log_file": "harness_rot.log",
+    "log_level": "INFO",
+    "log_max_bytes": 0,
+    "log_backup_count": 0
+  },
+  "agents_config": "harness/config/agents.json",
+  "agents": {
+    "agents": [
+      {"name": "orchestrator", "module": "harness.agents.example_agents", "callable": "orchestrator", "params": {}},
+      {"name": "repo_inspector", "module": "harness.agents.repo_agents", "callable": "repo_inspector", "params": {}},
+      {"name": "dependency_checker", "module": "harness.agents.repo_agents", "callable": "dependency_checker", "params": {}},
+      {"name": "changelog_auditor", "module": "harness.agents.repo_agents", "callable": "changelog_auditor", "params": {}},
+      {"name": "docs_checker", "module": "harness.agents.repo_agents", "callable": "docs_checker", "params": {}},
+      {"name": "release_planner", "module": "harness.agents.repo_agents", "callable": "release_planner", "params": {}},
+      {"name": "local_tester", "module": "harness.agents.repo_agents", "callable": "local_tester", "params": {}},
+      {"name": "strategist", "module": "harness.agents.example_agents", "callable": "strategist", "params": {}},
+      {"name": "content", "module": "harness.agents.example_agents", "callable": "content_generator", "params": {}},
+      {"name": "qa", "module": "harness.agents.example_agents", "callable": "qa", "params": {}}
+    ]
+  }
+}
