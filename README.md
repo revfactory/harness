@@ -115,6 +115,14 @@ harness/
 └── README.md
 ```
 
+## Architecture Docs
+
+For contributors reviewing the system boundary rather than running the 5-minute
+quickstart:
+
+- [`docs/system-design.md`](docs/system-design.md) — current Harness architecture maps: distribution, trigger, generated project harness, Claude Code runtime boundary, data flow, model policy, and extension points.
+- [`docs/hermes-skill-translation-plan.md`](docs/hermes-skill-translation-plan.md) — adapter plan for translating Harness concepts into Hermes skills, profiles, delegation patterns, and validation contracts.
+
 ## Usage
 
 Trigger in Claude Code with prompts like:

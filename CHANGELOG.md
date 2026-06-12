@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 ### Added
+- `docs/system-design.md` — Harness architecture maps for current Claude Code runtime boundaries, data flow, agent topology, model policy, and extension points
+- `docs/hermes-skill-translation-plan.md` — adapter plan for translating Harness concepts into Hermes skills, profiles, delegation patterns, and validation contracts
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
