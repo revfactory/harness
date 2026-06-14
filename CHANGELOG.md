@@ -4,7 +4,12 @@
 
 ## [Unreleased]
 
+### Fixed
+- Phase 5-5 / 체크리스트: "Phase 1" → "Phase 0" 컨텍스트 확인 (orchestrator-template과 일치)
+- orchestrator-template: Incremental QA 공통 규칙 추가
+
 ### Added
+- Phase 6-7 사용자 핸드오프 (트리거 예문·skill name·산출물 경로)
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
