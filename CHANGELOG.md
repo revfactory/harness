@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 ### Added
+- Phase 1 출력 locale 결정 단계 — 생성물(agents/skills/orchestrator/CLAUDE.md)이 사용자 언어를 따르도록 명시 (closes #28)
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
