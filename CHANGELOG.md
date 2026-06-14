@@ -5,6 +5,9 @@
 ## [Unreleased]
 
 ### Added
+- `references/team-examples.md` 예시 6: 다중 소스 뉴스 인텔리전스 팀 (Fan-out/Fan-in + Agent Reach 도구 레이어)
+- README Use Cases: Multi-source News Intelligence 프롬프트
+- README Coexistence: Agent Reach (tool supply layer)
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"

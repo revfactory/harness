@@ -311,6 +311,62 @@ test ────SendMessage──→ security      ("인증 모듈 테스트 �
 
 ---
 
+## 예시 6: 다중 소스 뉴스 인텔리전스 팀 (에이전트 팀 + 생성-검증)
+
+### 팀 아키텍처: 팬아웃/팬인 + Producer-Reviewer
+### 실행 모드: 하이브리드 (병렬 수집=서브 → 교차 검증=팀 → 보고서=서브)
+
+> RSS·SNS·웹 등 **플랫폼별 수집**은 독립적이므로 Phase 2에서 서브 에이전트로 병렬 실행. 상충 주장 조율은 Phase 3에서 팀 토론. 최종 보고서는 Phase 4에서 단일 writer가 작성.
+
+**외부 도구 레이어:** [Agent Reach](https://github.com/Panniantong/Agent-Reach) 같은 CLI 라우터를 스킬에 번들링하면 Twitter/Reddit/YouTube/RSS/小红书 등 멀티 플랫폼 접근을 표준화할 수 있다. Harness는 팀 설계, Agent Reach는 도구 공급(wshobson/agents 카탈로그와 동일한 "parts supply" 관계).
+
+### 에이전트 구성
+
+| 팀원/에이전트 | 타입 | 역할 | 스킬 | 출력 |
+|--------------|------|------|------|------|
+| rss-collector | general-purpose | RSS/Atom 피드 수집·정규화 | collect-rss | `_workspace/02_rss-collector_feeds.json` |
+| social-collector | general-purpose | Twitter/Reddit 등 SNS 감성·키워드 | collect-social | `_workspace/02_social-collector_signals.json` |
+| web-collector | general-purpose | 웹 기사·공식 페이지 크롤 | collect-web | `_workspace/02_web-collector_articles.json` |
+| cross-validator | general-purpose | 출처 교차 검증·상충 표시 | validate-claims | `_workspace/03_cross-validator_matrix.md` |
+| report-writer | general-purpose | JSON + 마크다운 브리핑 | write-briefing | `_workspace/04_report-writer_briefing.md` + `.json` |
+
+### 워크플로우
+
+```
+Phase 0: 컨텍스트 확인 (_workspace/ 존재 여부)
+Phase 1: 준비 — 주제·시간 범위·소스 목록 → `_workspace/00_input/brief.md`
+Phase 2 (서브, 병렬): rss-collector + social-collector + web-collector
+         → 각 JSON을 `_workspace/02_*`에 저장
+Phase 3 (팀): TeamCreate(validation-team)
+         → cross-validator가 3개 JSON Read, SendMessage로 불확실 항목 토론
+         → `_workspace/03_cross-validator_matrix.md` (claim | sources | confidence)
+Phase 4 (서브): report-writer가 matrix + raw JSON 통합 → 최종 브리핑
+Phase 5: 정리 — `_workspace/` 보존, 사용자에게 트리거 예문 안내
+```
+
+### 데이터 스키마 (JSON 수집물 공통 필드)
+
+```json
+{
+  "source": "rss|twitter|reddit|web",
+  "url": "https://...",
+  "title": "...",
+  "published_at": "ISO-8601",
+  "summary": "...",
+  "raw_excerpt": "..."
+}
+```
+
+### 팀 통신 패턴
+
+```
+social-collector ──SendMessage──→ cross-validator  (바이럴 이슈 공유)
+web-collector ────SendMessage──→ cross-validator  (공식 발표 URL)
+rss-collector ────SendMessage──→ cross-validator  (피드 타임스탬프 정렬)
+```
+
+---
+
 ## 산출물 패턴 요약
 
 ### 에이전트 정의 파일
