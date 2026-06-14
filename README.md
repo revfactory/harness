@@ -295,6 +295,7 @@ Key finding: effectiveness scales with task complexity — the harder the task, 
 **Evidence:**
 - Codex port: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
 - Cross-runtime scaffolder: [github.com/Gizele1/harness-init](https://github.com/Gizele1/harness-init)
+- **Cursor users:** see [`docs/cursor-port.md`](docs/cursor-port.md) for path mapping and subagent/file-handoff patterns
 </details>
 
 ## License
