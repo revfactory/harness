@@ -90,7 +90,17 @@ description: "하네스를 구성합니다. 전문 에이전트를 정의하며,
 
 빌트인 타입(`general-purpose`, `Explore`, `Plan`)을 사용하더라도 에이전트 정의 파일은 생성한다. 빌트인 타입은 Agent 도구의 `subagent_type` 파라미터로 지정하고, 에이전트 정의 파일에는 역할·원칙·프로토콜을 담는다.
 
-**모델 설정:** 모든 에이전트는 `model: "opus"`를 사용한다. Agent 도구 호출 시 반드시 `model: "opus"` 파라미터를 명시한다. 하네스의 품질은 에이전트의 추론 능력에 직결되며, opus가 최고 품질을 보장한다.
+**모델 설정:** 에이전트 역할에 맞는 model tier를 사용한다. Agent 도구 호출 시 `model` 파라미터를 **반드시 명시**한다.
+
+| Tier | model | 적합한 역할 |
+|------|-------|------------|
+| **Reasoning** | `opus` | 설계·아키텍처·코드 생성·복잡한 분석·교차 검증·창작 |
+| **Mechanical** | `sonnet` | 로그 파싱·포맷 변환·정적 파일 검사·배포 스크립트 실행·단순 수집 |
+
+- 기본값은 **Reasoning(opus)**. QA·writer·architect·validator는 opus 유지.
+- IO 위주 collector·formatter·deploy-runner는 sonnet으로 비용/지연을 줄인다.
+- 각 에이전트 `.md` frontmatter 또는 본문에 `model: opus|sonnet`을 명시한다.
+- 오케스트레이터 TeamCreate/Agent 호출의 model은 에이전트 정의와 일치해야 한다.
 
 **팀 재구성:** 에이전트 팀은 세션당 한 팀만 활성화할 수 있지만, Phase 간에 팀을 해체하고 새 팀을 구성할 수 있다. 파이프라인 패턴처럼 Phase별로 다른 전문가 조합이 필요하면, 이전 팀의 산출물을 파일로 저장한 뒤 팀을 정리하고 새 팀을 생성한다.
 
@@ -434,7 +444,7 @@ Phase마다 다른 모드를 섞어 구성한다. 자주 쓰이는 조합:
 - [ ] `프로젝트/.claude/skills/` — 스킬 파일들 (SKILL.md + references/)
 - [ ] 오케스트레이터 스킬 1개 (데이터 흐름 + 에러 핸들링 + 테스트 시나리오 포함)
 - [ ] 실행 모드 명시 (에이전트 팀 / 서브 에이전트 / 하이브리드 중 선택, 하이브리드면 Phase별 모드 기재)
-- [ ] 모든 Agent 호출에 `model: "opus"` 파라미터 명시
+- [ ] 각 Agent/TeamCreate 호출의 **model이 역할 tier와 일치** (reasoning→opus, mechanical→sonnet)
 - [ ] 신규 에이전트 생성 전 기존 에이전트 중복 검토 완료 (Phase 3-0)
 - [ ] 신규 스킬 생성 전 기존 스킬 중복 검토 완료 (Phase 4-0)
 - [ ] `.claude/commands/` — 아무것도 생성하지 않음

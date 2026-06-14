@@ -5,7 +5,13 @@
 ## [Unreleased]
 
 ### Added
+- 모델 tier 가이드 (reasoning→opus, mechanical→sonnet) — closes #29
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
+
+### Changed
+- SKILL.md / agent-design-patterns / orchestrator-template: "always opus" → task-tier model selection
+- 산출물 체크리스트: model tier 일치 검증
+- Phase 선택 매트릭스에 3-0/4-0 명시
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
 
