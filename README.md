@@ -226,6 +226,15 @@ the target market, write ad copy, design visual concepts, and set up
 A/B test plans with iterative quality review.
 ```
 
+**Multi-source News Intelligence**
+```
+Build a harness for multi-source news intelligence. I need parallel collectors
+for RSS feeds, social sentiment (Twitter/Reddit), and web pages, then a
+cross-validator that reconciles conflicting claims and a report writer that
+outputs a structured JSON + markdown briefing. Use Agent Reach or similar
+CLI tools for platform access where available.
+```
+
 ## Coexistence — Harness and Neighbors
 
 Harness is not alone in the Claude Code / agent-framework ecosystem. The following repos live in adjacent layers; each is described in a parallel "X is …, Harness is …" form so you can pick the one that fits your need or combine several.
@@ -236,6 +245,7 @@ Harness is not alone in the Claude Code / agent-framework ecosystem. The followi
 | [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | Codex port of the same concept | **Same L3, different runtime.** Use Harness on Claude Code, meta-harness on Codex. |
 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) | "Agent harness performance & workflow layer" (sits on top of existing harnesses) | **Different layer.** ECC is a standardization layer across harnesses; Harness is a factory that generates harnesses. Serial combination possible. |
 | [wshobson/agents](https://github.com/wshobson/agents) | Subagent / skill catalog (182 agents, 149 skills) | **Factory ↔ parts supply.** wshobson is a catalog to shop from; Harness designs the team. Absorb wshobson entries as parts inside a Harness-generated team. |
+| [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) | Internet access installer/router (Twitter, Reddit, YouTube, RSS, XHS, etc.) | **Factory ↔ tool supply.** Agent Reach routes agents to upstream CLIs; Harness designs the team that uses them. Ideal for research/news harnesses. |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | State-graph orchestration, LLM-agnostic | **Different track.** LangGraph is for long-running, state-recoverable orchestration; Harness is for fast Claude-Code-native team design. |
 
 ## Built with Harness
