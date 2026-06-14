@@ -1,0 +1,34 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate harness skill
+        run: python scripts/validate_skills.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Markdown lint (scoped)
+        run: |
+          npx --yes markdownlint-cli@0.43.0 \
+            'README*.md' \
+            'docs/**/*.md' \
+            'skills/**/*.md' \
+            'CONTRIBUTING.md' \
+            'CHANGELOG.md' \
+            '.github/**/*.md' \
+            --ignore node_modules
