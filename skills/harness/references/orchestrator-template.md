@@ -59,8 +59,8 @@ description: "{도메인} 에이전트 팀을 조율하는 오케스트레이터
    TeamCreate(
      team_name: "{domain}-team",
      members: [
-       { name: "{teammate-1}", agent_type: "{type}", model: "opus", prompt: "{역할 설명 및 작업 지시}" },
-       { name: "{teammate-2}", agent_type: "{type}", model: "opus", prompt: "{역할 설명 및 작업 지시}" },
+       { name: "{teammate-1}", agent_type: "{type}", model: "{opus|sonnet}", prompt: "{역할 설명 및 작업 지시}" },
+       { name: "{teammate-2}", agent_type: "{type}", model: "{opus|sonnet}", prompt: "{역할 설명 및 작업 지시}" },
        ...
      ]
    )
@@ -196,8 +196,8 @@ description: "{도메인} 에이전트를 조율하는 오케스트레이터. {�
 
 | 에이전트 | 입력 | 출력 | model | run_in_background |
 |---------|------|------|-------|-------------------|
-| {agent-1} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
-| {agent-2} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
+| {agent-1} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus or sonnet | true |
+| {agent-2} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus or sonnet | true |
 
 ### Phase 3: 통합
 1. 각 에이전트의 반환값 수집
