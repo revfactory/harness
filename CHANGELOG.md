@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 ### Added
+- `scripts/validate_skills.py` — SKILL frontmatter + reference link validation
+- `.github/workflows/lint.yml` — CI: validate_skills + scoped markdownlint
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
