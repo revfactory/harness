@@ -8,11 +8,15 @@
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
+- **Phase 7-6: 증거 주도 자율 진화 루프 (옵트인)** — 결정적 검증기를 갖춘 하네스가 실행 트레이스에서 실패를 채굴하고, 바운디드·표면 결박 편집을 제안하며, held-in/held-out 비퇴행 게이트(`Δ_in ≥ 0 AND Δ_ho ≥ 0 AND max > 0`)로만 채택하는 자율 진화 모드. 자격 게이트(결정적 신호 + 분할 가능 과제 집합)를 통과한 하네스에만 적용. Self-Harness(arXiv:2606.09498) paradigm 기반. (Add evidence-driven autonomous self-evolution loop, opt-in for verifier-equipped harnesses.)
+- `references/self-evolution-loop.md` — 자격 분류(A/B/C), 실패 시그니처 스키마 `(c, q, m)`, 3단계 루프, 비퇴행 수용 규칙, 되돌리기·로깅 프로토콜, 주관 하네스 golden-sample 폴백, 오케스트레이션 스케치, 실패 모드 가드 수록.
 
 ### Changed
 - Phase 선택 매트릭스에 3-0/4-0 명시
 - Phase 2-3에 재사용 검토 단계 포인터 추가
 - 산출물 체크리스트에 재사용 검토 항목 2개 추가
+- Phase 7 진화를 두 모드(피드백 주도 기본 / 증거 주도 자율 옵트인)로 명시 구분
+- 산출물 체크리스트에 자격 게이트(7-6) 판정 항목 추가
 
 ---
 
