@@ -28,7 +28,7 @@ claude plugin marketplace add revfactory/harness
 ## Step 2 — Install the plugin and enable the Experimental flag (40 seconds)
 
 ```bash
-claude plugin install harness@harness
+claude plugin install harness@harness-marketplace
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
 
@@ -76,7 +76,7 @@ ls -la .claude/skills/
 
 **Failure FAQ #3 — "Nothing was generated" / directories are empty**
 **Cause:** The plugin is not actually installed or is not active in the current project.
-**Fix:** Run `claude plugin list`. If `harness@harness` is absent, repeat Step 2. If present but inactive, run `claude plugin enable harness@harness`, then repeat Step 3.
+**Fix:** Run `claude plugin list`. If `harness@harness-marketplace` is absent, repeat Step 2. If present but inactive, run `claude plugin enable harness@harness-marketplace`, then repeat Step 3.
 
 ---
 
