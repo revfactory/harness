@@ -89,7 +89,7 @@ Phase 6: 검증 및 테스트
 
 #### 플러그인 설치
 ```shell
-/plugin install harness-marketplace
+/plugin install harness@harness-marketplace
 ```
 
 ### 글로벌 스킬로 직접 설치
