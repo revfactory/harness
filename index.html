@@ -184,6 +184,7 @@ footer .links{display:flex;gap:2rem;justify-content:center;margin-bottom:1rem}
   <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
   <button class="lang-btn" data-lang="ko" onclick="setLang('ko')">KO</button>
   <button class="lang-btn" data-lang="ja" onclick="setLang('ja')">JA</button>
+  <button class="lang-btn" data-lang="vi" onclick="setLang('vi')">VI</button>
 </div>
 
 <!-- ── Background canvas ── -->
@@ -557,576 +558,806 @@ const i18n = {
     "en": "Claude Code Plugin",
     "ko": "Claude Code \ud50c\ub7ec\uadf8\uc778",
     "ja": "Claude Code \u30d7\u30e9\u30b0\u30a4\u30f3"
+,
+    "vi": "Plugin Claude Code"
   },
   "hero.title": {
     "en": "Build <span>Agent Teams</span><br>That Actually Work",
     "ko": "\uc9c4\uc9dc \uc791\ub3d9\ud558\ub294 <span>\uc5d0\uc774\uc804\ud2b8 \ud300</span>\uc744<br>\uad6c\ucd95\ud558\uc138\uc694",
     "ja": "\u672c\u5f53\u306b\u6a5f\u80fd\u3059\u308b<span>\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0</span>\u3092<br>\u69cb\u7bc9\u3057\u3088\u3046"
+,
+    "vi": "Xây dựng <span>Đội Agent</span><br>Thực Sự Hoạt Động"
   },
   "hero.desc": {
     "en": "Harness is a meta-skill that designs domain-specific agent teams, defines specialized agents, and generates the skills they use \u2014 all from a single prompt.",
     "ko": "Harness\ub294 \ub3c4\uba54\uc778\uc5d0 \ub9de\ub294 \uc5d0\uc774\uc804\ud2b8 \ud300\uc744 \uc124\uacc4\ud558\uace0, \uc804\ubb38 \uc5d0\uc774\uc804\ud2b8\ub97c \uc815\uc758\ud558\uba70, \uc5d0\uc774\uc804\ud2b8\uac00 \uc0ac\uc6a9\ud560 \uc2a4\ud0ac\uc744 \uc0dd\uc131\ud558\ub294 \uba54\ud0c0 \uc2a4\ud0ac\uc785\ub2c8\ub2e4 \u2014 \ub2e8 \ud558\ub098\uc758 \ud504\ub86c\ud504\ud2b8\ub85c.",
     "ja": "Harness\u306f\u30c9\u30e1\u30a4\u30f3\u7279\u5316\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u3092\u8a2d\u8a08\u3057\u3001\u5c02\u9580\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u3092\u5b9a\u7fa9\u3057\u3001\u5f7c\u3089\u304c\u4f7f\u3046\u30b9\u30ad\u30eb\u3092\u751f\u6210\u3059\u308b\u30e1\u30bf\u30b9\u30ad\u30eb\u3067\u3059 \u2014 \u305f\u3063\u305f\u4e00\u3064\u306e\u30d7\u30ed\u30f3\u30d7\u30c8\u3067\u3002"
+,
+    "vi": "Harness là một meta-skill thiết kế đội agent theo từng lĩnh vực, định nghĩa các agent chuyên biệt, và sinh ra skill mà chúng sử dụng — tất cả chỉ từ một prompt."
   },
   "hero.btn_start": {
     "en": "Get Started",
     "ko": "\uc2dc\uc791\ud558\uae30",
     "ja": "\u59cb\u3081\u307e\u3057\u3087\u3046"
+,
+    "vi": "Bắt đầu"
   },
   "hero.btn_github": {
     "en": "GitHub",
     "ko": "GitHub",
     "ja": "GitHub"
+,
+    "vi": "GitHub"
   },
   "stats.quality_label": {
     "en": "Quality Improvement",
     "ko": "\ud488\uc9c8 \uac1c\uc120",
     "ja": "\u54c1\u8cea\u5411\u4e0a"
+,
+    "vi": "Cải thiện chất lượng"
   },
   "stats.winrate_label": {
     "en": "Win Rate (15/15 tasks)",
     "ko": "\uc2b9\ub960 (15/15 \uacfc\uc81c)",
     "ja": "\u52dd\u7387\uff0815/15\u30bf\u30b9\u30af\uff09"
+,
+    "vi": "Tỷ lệ thắng (15/15 nhiệm vụ)"
   },
   "stats.files_label": {
     "en": "Generated Files in Harness&nbsp;100",
     "ko": "Harness 100\uc5d0\uc11c \uc0dd\uc131\ub41c \ud30c\uc77c",
     "ja": "Harness 100\u3067\u751f\u6210\u3055\u308c\u305f\u30d5\u30a1\u30a4\u30eb"
+,
+    "vi": "File được sinh trong Harness&nbsp;100"
   },
   "stats.patterns_label": {
     "en": "Architecture Patterns",
     "ko": "\uc544\ud0a4\ud14d\ucc98 \ud328\ud134",
     "ja": "\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u30d1\u30bf\u30fc\u30f3"
+,
+    "vi": "Mẫu kiến trúc"
   },
   "features.title": {
     "en": "Everything You Need to<br>Orchestrate Agent Teams",
     "ko": "\uc5d0\uc774\uc804\ud2b8 \ud300 \uc624\ucf00\uc2a4\ud2b8\ub808\uc774\uc158\uc5d0<br>\ud544\uc694\ud55c \ubaa8\ub4e0 \uac83",
     "ja": "\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u306e\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3\u306b<br>\u5fc5\u8981\u306a\u3059\u3079\u3066"
+,
+    "vi": "Mọi thứ bạn cần để<br>Điều phối Đội Agent"
   },
   "features.desc": {
     "en": "From domain analysis to validation, Harness automates the entire lifecycle of building multi-agent systems.",
     "ko": "\ub3c4\uba54\uc778 \ubd84\uc11d\ubd80\ud130 \uac80\uc99d\uae4c\uc9c0, Harness\uac00 \uba40\ud2f0 \uc5d0\uc774\uc804\ud2b8 \uc2dc\uc2a4\ud15c \uad6c\ucd95\uc758 \uc804 \uacfc\uc815\uc744 \uc790\ub3d9\ud654\ud569\ub2c8\ub2e4.",
     "ja": "\u30c9\u30e1\u30a4\u30f3\u5206\u6790\u304b\u3089\u30d0\u30ea\u30c7\u30fc\u30b7\u30e7\u30f3\u307e\u3067\u3001Harness\u304c\u30de\u30eb\u30c1\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30b7\u30b9\u30c6\u30e0\u69cb\u7bc9\u306e\u5168\u30e9\u30a4\u30d5\u30b5\u30a4\u30af\u30eb\u3092\u81ea\u52d5\u5316\u3057\u307e\u3059\u3002"
+,
+    "vi": "Từ phân tích lĩnh vực đến kiểm định, Harness tự động hóa toàn bộ chu trình xây dựng hệ thống multi-agent."
   },
   "features.agent_title": {
     "en": "Agent Team Design",
     "ko": "\uc5d0\uc774\uc804\ud2b8 \ud300 \uc124\uacc4",
     "ja": "\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u8a2d\u8a08"
+,
+    "vi": "Thiết kế đội Agent"
   },
   "features.agent_desc": {
     "en": "6 battle-tested patterns \u2014 Pipeline, Fan-out/Fan-in, Expert Pool, Producer-Reviewer, Supervisor, and Hierarchical Delegation.",
     "ko": "\uc2e4\uc804 \uac80\uc99d\ub41c 6\uac00\uc9c0 \ud328\ud134 \u2014 Pipeline, Fan-out/Fan-in, \uc804\ubb38\uac00 \ud480, \uc0dd\uc131-\uac80\uc99d, \uac10\ub3c5\uc790, \uacc4\uce35\uc801 \uc704\uc784.",
     "ja": "\u5b9f\u6226\u691c\u8a3c\u6e08\u307f\u306e6\u30d1\u30bf\u30fc\u30f3 \u2014 Pipeline\u3001Fan-out/Fan-in\u3001\u30a8\u30ad\u30b9\u30d1\u30fc\u30c8\u30d7\u30fc\u30eb\u3001\u30d7\u30ed\u30c7\u30e5\u30fc\u30b5\u30fc\u30fb\u30ec\u30d3\u30e5\u30ef\u30fc\u3001\u30b9\u30fc\u30d1\u30fc\u30d0\u30a4\u30b6\u30fc\u3001\u968e\u5c64\u7684\u59d4\u4efb\u3002"
+,
+    "vi": "6 mẫu đã được kiểm chứng thực chiến — Pipeline, Fan-out/Fan-in, Expert Pool, Producer-Reviewer, Supervisor, và Hierarchical Delegation."
   },
   "features.skill_title": {
     "en": "Skill Generation",
     "ko": "\uc2a4\ud0ac \uc0dd\uc131",
     "ja": "\u30b9\u30ad\u30eb\u751f\u6210"
+,
+    "vi": "Sinh Skill"
   },
   "features.skill_desc": {
     "en": "Auto-generates skills with Progressive Disclosure, keeping context lean and loading details only when needed.",
     "ko": "Progressive Disclosure \ud328\ud134\uc73c\ub85c \ucee8\ud14d\uc2a4\ud2b8\ub97c \ud6a8\uc728\uc801\uc73c\ub85c \uad00\ub9ac\ud558\uba70, \ud544\uc694\ud560 \ub54c\ub9cc \uc138\ubd80\uc0ac\ud56d\uc744 \ub85c\ub4dc\ud558\ub294 \uc2a4\ud0ac\uc744 \uc790\ub3d9 \uc0dd\uc131\ud569\ub2c8\ub2e4.",
     "ja": "Progressive Disclosure\u3067\u30b3\u30f3\u30c6\u30ad\u30b9\u30c8\u3092\u52b9\u7387\u7684\u306b\u7ba1\u7406\u3057\u3001\u5fc5\u8981\u306a\u6642\u3060\u3051\u8a73\u7d30\u3092\u8aad\u307f\u8fbc\u3080\u30b9\u30ad\u30eb\u3092\u81ea\u52d5\u751f\u6210\u3057\u307e\u3059\u3002"
+,
+    "vi": "Tự động sinh skill với Progressive Disclosure, giữ ngữ cảnh gọn nhẹ và chỉ nạp chi tiết khi cần."
   },
   "features.orch_title": {
     "en": "Orchestration",
     "ko": "\uc624\ucf00\uc2a4\ud2b8\ub808\uc774\uc158",
     "ja": "\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3"
+,
+    "vi": "Điều phối"
   },
   "features.orch_desc": {
     "en": "Message-based, task-based, and file-based data passing between agents with built-in error handling and fallback strategies.",
     "ko": "\uba54\uc2dc\uc9c0, \ud0dc\uc2a4\ud06c, \ud30c\uc77c \uae30\ubc18\uc758 \uc5d0\uc774\uc804\ud2b8 \uac04 \ub370\uc774\ud130 \uc804\ub2ec\uacfc \ub0b4\uc7a5\ub41c \uc5d0\ub7ec \ud578\ub4e4\ub9c1 \ubc0f \ud3f4\ubc31 \uc804\ub7b5\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
     "ja": "\u30e1\u30c3\u30bb\u30fc\u30b8\u3001\u30bf\u30b9\u30af\u3001\u30d5\u30a1\u30a4\u30eb\u30d9\u30fc\u30b9\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u9593\u30c7\u30fc\u30bf\u53d7\u3051\u6e21\u3057\u3068\u3001\u7d44\u307f\u8fbc\u307f\u306e\u30a8\u30e9\u30fc\u30cf\u30f3\u30c9\u30ea\u30f3\u30b0\u30fb\u30d5\u30a9\u30fc\u30eb\u30d0\u30c3\u30af\u6226\u7565\u3002"
+,
+    "vi": "Truyền dữ liệu giữa agent dựa trên message, task, và file, kèm xử lý lỗi và chiến lược fallback có sẵn."
   },
   "features.valid_title": {
     "en": "Validation",
     "ko": "\uac80\uc99d \uccb4\uacc4",
     "ja": "\u30d0\u30ea\u30c7\u30fc\u30b7\u30e7\u30f3"
+,
+    "vi": "Kiểm định"
   },
   "features.valid_desc": {
     "en": "Trigger verification, dry-run testing, and with-skill vs without-skill A/B comparison tests to prove quality gains.",
     "ko": "\ud2b8\ub9ac\uac70 \uac80\uc99d, \ub4dc\ub77c\uc774\ub7f0 \ud14c\uc2a4\ud2b8, With-skill vs Without-skill A/B \ube44\uad50 \ud14c\uc2a4\ud2b8\ub85c \ud488\uc9c8 \ud5a5\uc0c1\uc744 \uc785\uc99d\ud569\ub2c8\ub2e4.",
     "ja": "\u30c8\u30ea\u30ac\u30fc\u691c\u8a3c\u3001\u30c9\u30e9\u30a4\u30e9\u30f3\u30c6\u30b9\u30c8\u3001With-skill vs Without-skill\u306eA/B\u6bd4\u8f03\u30c6\u30b9\u30c8\u3067\u54c1\u8cea\u5411\u4e0a\u3092\u5b9f\u8a3c\u3057\u307e\u3059\u3002"
+,
+    "vi": "Kiểm định trigger, kiểm thử dry-run, và so sánh A/B with-skill vs without-skill để chứng minh hiệu quả."
   },
   "usecases.title": {
     "en": "Try These Prompts",
     "ko": "\uc774 \ud504\ub86c\ud504\ud2b8\ub97c \uc0ac\uc6a9\ud574\ubcf4\uc138\uc694",
     "ja": "\u3053\u306e\u30d7\u30ed\u30f3\u30d7\u30c8\u3092\u8a66\u3057\u3066\u307f\u3088\u3046"
+,
+    "vi": "Thử Các Prompt Này"
   },
   "usecases.desc": {
     "en": "Copy any prompt into Claude Code after installing Harness. Click to expand.",
     "ko": "Harness \uc124\uce58 \ud6c4 \uc544\ubb34 \ud504\ub86c\ud504\ud2b8\ub098 Claude Code\uc5d0 \ubcf5\uc0ac\ud574\uc11c \uc0ac\uc6a9\ud558\uc138\uc694. \ud074\ub9ad\ud558\uc5ec \ud3bc\uce58\uae30.",
     "ja": "Harness\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb\u5f8c\u3001\u4efb\u610f\u306e\u30d7\u30ed\u30f3\u30d7\u30c8\u3092Claude Code\u306b\u30b3\u30d4\u30fc\u3057\u3066\u304f\u3060\u3055\u3044\u3002\u30af\u30ea\u30c3\u30af\u3067\u5c55\u958b\u3002"
+,
+    "vi": "Copy bất kỳ prompt nào vào Claude Code sau khi cài Harness. Bấm để xem chi tiết."
   },
   "usecases.research.title": {
     "en": "Deep Research",
     "ko": "\ub525 \ub9ac\uc11c\uce58",
     "ja": "\u30c7\u30a3\u30fc\u30d7\u30ea\u30b5\u30fc\u30c1"
+,
+    "vi": "Nghiên cứu chuyên sâu"
   },
   "usecases.research.short": {
     "en": "Multi-agent investigation teams",
     "ko": "\uba40\ud2f0 \uc5d0\uc774\uc804\ud2b8 \uc870\uc0ac \ud300",
     "ja": "\u30de\u30eb\u30c1\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u8abf\u67fb\u30c1\u30fc\u30e0"
+,
+    "vi": "Đội điều tra multi-agent"
   },
   "usecases.research.prompt": {
     "en": "Build a harness for deep research. I need an agent team that can investigate any topic from multiple angles \u2014 web search, academic sources, community sentiment \u2014 then cross-validate findings and produce a comprehensive report.",
     "ko": "\ub9ac\uc11c\uce58 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \uc5b4\ub5a4 \uc8fc\uc81c\ub4e0 \uc5ec\ub7ec \uac01\ub3c4\uc5d0\uc11c \uc870\uc0ac\ud560 \uc218 \uc788\ub294 \uc5d0\uc774\uc804\ud2b8 \ud300\uc774 \ud544\uc694\ud574 \u2014 \uc6f9 \uac80\uc0c9, \ud559\uc220 \uc790\ub8cc, \ucee4\ubba4\ub2c8\ud2f0 \ubc18\uc751 \u2014 \uad50\ucc28 \uac80\uc99d \ud6c4 \uc885\ud569 \ubcf4\uace0\uc11c\ub97c \uc791\uc131\ud558\ub294 \ud300.",
     "ja": "\u30c7\u30a3\u30fc\u30d7\u30ea\u30b5\u30fc\u30c1\u7528\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u3042\u3089\u3086\u308b\u30c6\u30fc\u30de\u3092\u8907\u6570\u306e\u89d2\u5ea6\u304b\u3089\u8abf\u67fb\u3067\u304d\u308b\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u304c\u5fc5\u8981 \u2014 \u30a6\u30a7\u30d6\u691c\u7d22\u3001\u5b66\u8853\u8cc7\u6599\u3001\u30b3\u30df\u30e5\u30cb\u30c6\u30a3\u306e\u53cd\u5fdc \u2014 \u4ea4\u5dee\u691c\u8a3c\u3057\u3066\u7dcf\u5408\u30ec\u30dd\u30fc\u30c8\u3092\u4f5c\u6210\u3059\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness cho nghiên cứu chuyên sâu. Tôi cần một đội agent có thể điều tra bất kỳ chủ đề nào từ nhiều góc độ — tìm kiếm web, nguồn học thuật, cảm nhận cộng đồng — sau đó đối chiếu chéo phát hiện và tạo báo cáo toàn diện."
   },
   "usecases.website.title": {
     "en": "Website Development",
     "ko": "\uc6f9\uc0ac\uc774\ud2b8 \uc81c\uc791",
     "ja": "\u30a6\u30a7\u30d6\u30b5\u30a4\u30c8\u958b\u767a"
+,
+    "vi": "Phát triển Website"
   },
   "usecases.website.short": {
     "en": "Full-stack build pipeline",
     "ko": "\ud480\uc2a4\ud0dd \ube4c\ub4dc \ud30c\uc774\ud504\ub77c\uc778",
     "ja": "\u30d5\u30eb\u30b9\u30bf\u30c3\u30af\u30d3\u30eb\u30c9\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3"
+,
+    "vi": "Pipeline build full-stack"
   },
   "usecases.website.prompt": {
     "en": "Build a harness for full-stack website development. The team should handle design, frontend (React/Next.js), backend (API), and QA testing in a coordinated pipeline from wireframe to deployment.",
     "ko": "\ud480\uc2a4\ud0dd \uc6f9\uc0ac\uc774\ud2b8 \uac1c\ubc1c \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \ub514\uc790\uc778, \ud504\ub860\ud2b8\uc5d4\ub4dc(React/Next.js), \ubc31\uc5d4\ub4dc(API), QA \ud14c\uc2a4\ud2b8\ub97c \uc640\uc774\uc5b4\ud504\ub808\uc784\ubd80\ud130 \ubc30\ud3ec\uae4c\uc9c0 \ud30c\uc774\ud504\ub77c\uc778\uc73c\ub85c \uc870\uc728\ud558\ub294 \ud300.",
     "ja": "\u30d5\u30eb\u30b9\u30bf\u30c3\u30afWeb\u30b5\u30a4\u30c8\u958b\u767a\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30c7\u30b6\u30a4\u30f3\u3001\u30d5\u30ed\u30f3\u30c8\u30a8\u30f3\u30c9\uff08React/Next.js\uff09\u3001\u30d0\u30c3\u30af\u30a8\u30f3\u30c9\uff08API\uff09\u3001QA\u30c6\u30b9\u30c8\u3092\u30ef\u30a4\u30e4\u30fc\u30d5\u30ec\u30fc\u30e0\u304b\u3089\u30c7\u30d7\u30ed\u30a4\u307e\u3067\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3\u3067\u8abf\u6574\u3059\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness cho phát triển website full-stack. Đội cần xử lý thiết kế, frontend (React/Next.js), backend (API), và kiểm thử QA trong một pipeline phối hợp từ wireframe đến triển khai."
   },
   "usecases.webtoon.title": {
     "en": "Webtoon Production",
     "ko": "\uc6f9\ud230 \uc81c\uc791",
     "ja": "\u30a6\u30a7\u30d6\u30c8\u30a5\u30fc\u30f3\u5236\u4f5c"
+,
+    "vi": "Sản xuất Webtoon"
   },
   "usecases.webtoon.short": {
     "en": "Creative team for episodic content",
     "ko": "\uc5d0\ud53c\uc18c\ub4dc \ucf58\ud150\uce20 \ud06c\ub9ac\uc5d0\uc774\ud2f0\ube0c \ud300",
     "ja": "\u30a8\u30d4\u30bd\u30fc\u30c9\u30b3\u30f3\u30c6\u30f3\u30c4\u306e\u30af\u30ea\u30a8\u30a4\u30c6\u30a3\u30d6\u30c1\u30fc\u30e0"
+,
+    "vi": "Đội sáng tạo cho nội dung theo tập"
   },
   "usecases.webtoon.prompt": {
     "en": "Build a harness for webtoon episode production. I need agents for story writing, character design prompts, panel layout planning, and dialogue editing. They should review each other\u2019s work for style consistency.",
     "ko": "\uc6f9\ud230 \uc5d0\ud53c\uc18c\ub4dc \uc81c\uc791 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \uc2a4\ud1a0\ub9ac \uc791\uc131, \uce90\ub9ad\ud130 \ub514\uc790\uc778 \ud504\ub86c\ud504\ud2b8, \ud328\ub110 \ub808\uc774\uc544\uc6c3 \uae30\ud68d, \ub300\uc0ac \ud3b8\uc9d1 \uc5d0\uc774\uc804\ud2b8\uac00 \ud544\uc694\ud558\uace0 \uc11c\ub85c\uc758 \uc791\uc5c5\ubb3c\uc744 \uc2a4\ud0c0\uc77c \uc77c\uad00\uc131 \uad00\uc810\uc5d0\uc11c \ub9ac\ubdf0\ud574\uc57c \ud574.",
     "ja": "\u30a6\u30a7\u30d6\u30c8\u30a5\u30fc\u30f3\u306e\u30a8\u30d4\u30bd\u30fc\u30c9\u5236\u4f5c\u7528\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30b9\u30c8\u30fc\u30ea\u30fc\u57f7\u7b46\u3001\u30ad\u30e3\u30e9\u30af\u30bf\u30fc\u30c7\u30b6\u30a4\u30f3\u30d7\u30ed\u30f3\u30d7\u30c8\u3001\u30d1\u30cd\u30eb\u30ec\u30a4\u30a2\u30a6\u30c8\u4f01\u753b\u3001\u30bb\u30ea\u30d5\u7de8\u96c6\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u5fc5\u8981\u3067\u3001\u4e92\u3044\u306e\u6210\u679c\u7269\u3092\u30b9\u30bf\u30a4\u30eb\u306e\u4e00\u8cab\u6027\u3067\u30ec\u30d3\u30e5\u30fc\u3059\u308b\u3053\u3068\u3002"
+,
+    "vi": "Xây dựng harness cho sản xuất tập webtoon. Tôi cần agent cho viết truyện, prompt thiết kế nhân vật, lập kế hoạch bố cục khung hình, và biên tập lời thoại. Họ cần kiểm tra chéo công việc của nhau để đảm bảo nhất quán phong cách."
   },
   "usecases.youtube.title": {
     "en": "YouTube Content",
     "ko": "\uc720\ud29c\ube0c \ucf58\ud150\uce20 \uae30\ud68d",
     "ja": "YouTube\u30b3\u30f3\u30c6\u30f3\u30c4"
+,
+    "vi": "Nội dung YouTube"
   },
   "usecases.youtube.short": {
     "en": "End-to-end video planning",
     "ko": "\uc5d4\ub4dc\ud22c\uc5d4\ub4dc \uc601\uc0c1 \uae30\ud68d",
     "ja": "\u30a8\u30f3\u30c9\u30c4\u30fc\u30a8\u30f3\u30c9\u306e\u52d5\u753b\u4f01\u753b"
+,
+    "vi": "Lập kế hoạch video toàn trình"
   },
   "usecases.youtube.prompt": {
     "en": "Build a harness for YouTube content creation. The team should research trending topics, write scripts, optimize titles/tags for SEO, and plan thumbnail concepts \u2014 all coordinated by a supervisor agent.",
     "ko": "\uc720\ud29c\ube0c \ucf58\ud150\uce20 \uc81c\uc791 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \ud2b8\ub80c\ub4dc \uc870\uc0ac, \ub300\ubcf8 \uc791\uc131, \uc81c\ubaa9/\ud0dc\uadf8 SEO \ucd5c\uc801\ud654, \uc378\ub124\uc77c \ucee8\uc149 \uae30\ud68d\uc744 \uac10\ub3c5\uc790 \uc5d0\uc774\uc804\ud2b8\uac00 \uc870\uc728\ud558\ub294 \ud300.",
     "ja": "YouTube\u30b3\u30f3\u30c6\u30f3\u30c4\u5236\u4f5c\u7528\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30c8\u30ec\u30f3\u30c9\u8abf\u67fb\u3001\u53f0\u672c\u57f7\u7b46\u3001\u30bf\u30a4\u30c8\u30eb/\u30bf\u30b0\u306eSEO\u6700\u9069\u5316\u3001\u30b5\u30e0\u30cd\u30a4\u30eb\u30b3\u30f3\u30bb\u30d7\u30c8\u4f01\u753b\u3092\u30b9\u30fc\u30d1\u30fc\u30d0\u30a4\u30b6\u30fc\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u8abf\u6574\u3059\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness cho sáng tạo nội dung YouTube. Đội cần nghiên cứu chủ đề trending, viết script, tối ưu title/tag cho SEO, và lên ý tưởng thumbnail — tất cả được điều phối bởi một agent giám sát."
   },
   "usecases.codereview.title": {
     "en": "Code Review",
     "ko": "\ucf54\ub4dc \ub9ac\ubdf0",
     "ja": "\u30b3\u30fc\u30c9\u30ec\u30d3\u30e5\u30fc"
+,
+    "vi": "Review Code"
   },
   "usecases.codereview.short": {
     "en": "Parallel multi-dimension audit",
     "ko": "\ubcd1\ub82c \ub2e4\ucc28\uc6d0 \uac10\uc0ac",
     "ja": "\u4e26\u5217\u30de\u30eb\u30c1\u30c7\u30a3\u30e1\u30f3\u30b7\u30e7\u30f3\u76e3\u67fb"
+,
+    "vi": "Audit đa chiều song song"
   },
   "usecases.codereview.prompt": {
     "en": "Build a harness for comprehensive code review. I want parallel agents checking architecture, security vulnerabilities, performance bottlenecks, and code style \u2014 then merging all findings into a single report.",
     "ko": "\uc885\ud569 \ucf54\ub4dc \ub9ac\ubdf0 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \uc544\ud0a4\ud14d\ucc98, \ubcf4\uc548 \ucde8\uc57d\uc810, \uc131\ub2a5 \ubcd1\ubaa9, \ucf54\ub4dc \uc2a4\ud0c0\uc77c\uc744 \ubcd1\ub82c\ub85c \uac10\uc0ac\ud558\ub294 \uc5d0\uc774\uc804\ud2b8\ub4e4\uc774 \uacb0\uacfc\ub97c \ud558\ub098\uc758 \ub9ac\ud3ec\ud2b8\ub85c \ud1b5\ud569\ud558\ub294 \ud300.",
     "ja": "\u5305\u62ec\u7684\u306a\u30b3\u30fc\u30c9\u30ec\u30d3\u30e5\u30fc\u7528\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u3001\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u8106\u5f31\u6027\u3001\u30d1\u30d5\u30a9\u30fc\u30de\u30f3\u30b9\u30dc\u30c8\u30eb\u30cd\u30c3\u30af\u3001\u30b3\u30fc\u30c9\u30b9\u30bf\u30a4\u30eb\u3092\u4e26\u5217\u306b\u76e3\u67fb\u3059\u308b\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u7d50\u679c\u3092\u4e00\u3064\u306e\u30ec\u30dd\u30fc\u30c8\u306b\u7d71\u5408\u3059\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness cho review code toàn diện. Tôi muốn các agent song song kiểm tra kiến trúc, lỗ hổng an ninh, điểm nghẽn hiệu năng, và phong cách code — sau đó hợp nhất mọi phát hiện vào một báo cáo duy nhất."
   },
   "usecases.techdocs.title": {
     "en": "Technical Docs",
     "ko": "\uae30\uc220 \ubb38\uc11c \uc791\uc131",
     "ja": "\u6280\u8853\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8"
+,
+    "vi": "Tài liệu kỹ thuật"
   },
   "usecases.techdocs.short": {
     "en": "Docs from codebase analysis",
     "ko": "\ucf54\ub4dc\ubca0\uc774\uc2a4 \ubd84\uc11d \uae30\ubc18 \ubb38\uc11c\ud654",
     "ja": "\u30b3\u30fc\u30c9\u30d9\u30fc\u30b9\u5206\u6790\u304b\u3089\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\u751f\u6210"
+,
+    "vi": "Tài liệu từ phân tích codebase"
   },
   "usecases.techdocs.prompt": {
     "en": "Build a harness that generates API documentation from this codebase. Agents should analyze endpoints, write descriptions, generate usage examples, and review for completeness.",
     "ko": "\uc774 \ucf54\ub4dc\ubca0\uc774\uc2a4\uc5d0\uc11c API \ubb38\uc11c\ub97c \uc790\ub3d9 \uc0dd\uc131\ud558\ub294 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \uc5d4\ub4dc\ud3ec\uc778\ud2b8 \ubd84\uc11d, \uc124\uba85 \uc791\uc131, \uc0ac\uc6a9 \uc608\uc81c \uc0dd\uc131, \uc644\uc131\ub3c4 \ub9ac\ubdf0\ub97c \ud30c\uc774\ud504\ub77c\uc778\uc73c\ub85c \ucc98\ub9ac\ud558\ub294 \ud300.",
     "ja": "\u3053\u306e\u30b3\u30fc\u30c9\u30d9\u30fc\u30b9\u304b\u3089API\u30c9\u30ad\u30e5\u30e1\u30f3\u30c8\u3092\u81ea\u52d5\u751f\u6210\u3059\u308b\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8\u5206\u6790\u3001\u8aac\u660e\u306e\u4f5c\u6210\u3001\u4f7f\u7528\u4f8b\u306e\u751f\u6210\u3001\u5b8c\u5168\u6027\u306e\u30ec\u30d3\u30e5\u30fc\u3092\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3\u3067\u51e6\u7406\u3059\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness để sinh tài liệu API từ codebase này. Agent cần phân tích endpoint, viết mô tả, sinh ví dụ sử dụng, và review độ đầy đủ."
   },
   "usecases.datapipeline.title": {
     "en": "Data Pipelines",
     "ko": "\ub370\uc774\ud130 \ud30c\uc774\ud504\ub77c\uc778 \uc124\uacc4",
     "ja": "\u30c7\u30fc\u30bf\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3"
+,
+    "vi": "Data Pipeline"
   },
   "usecases.datapipeline.short": {
     "en": "End-to-end data workflows",
     "ko": "\uc5d4\ub4dc\ud22c\uc5d4\ub4dc \ub370\uc774\ud130 \uc6cc\ud06c\ud50c\ub85c\uc6b0",
     "ja": "\u30a8\u30f3\u30c9\u30c4\u30fc\u30a8\u30f3\u30c9\u306e\u30c7\u30fc\u30bf\u30ef\u30fc\u30af\u30d5\u30ed\u30fc"
+,
+    "vi": "Quy trình dữ liệu toàn trình"
   },
   "usecases.datapipeline.prompt": {
     "en": "Build a harness for designing data pipelines. I need agents for schema design, ETL logic, data validation rules, and monitoring setup that delegate sub-tasks hierarchically.",
     "ko": "\ub370\uc774\ud130 \ud30c\uc774\ud504\ub77c\uc778 \uc124\uacc4 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \uc2a4\ud0a4\ub9c8 \uc124\uacc4, ETL \ub85c\uc9c1, \ub370\uc774\ud130 \uac80\uc99d \uaddc\uce59, \ubaa8\ub2c8\ud130\ub9c1 \uc124\uc815\uc744 \uacc4\uce35\uc801\uc73c\ub85c \uc704\uc784\ud558\ub294 \uc5d0\uc774\uc804\ud2b8 \ud300.",
     "ja": "\u30c7\u30fc\u30bf\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3\u8a2d\u8a08\u7528\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30b9\u30ad\u30fc\u30de\u8a2d\u8a08\u3001ETL\u30ed\u30b8\u30c3\u30af\u3001\u30c7\u30fc\u30bf\u691c\u8a3c\u30eb\u30fc\u30eb\u3001\u30e2\u30cb\u30bf\u30ea\u30f3\u30b0\u8a2d\u5b9a\u3092\u968e\u5c64\u7684\u306b\u59d4\u4efb\u3059\u308b\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness để thiết kế data pipeline. Tôi cần agent cho thiết kế schema, logic ETL, quy tắc kiểm định dữ liệu, và thiết lập giám sát, ủy quyền nhiệm vụ con theo phân cấp."
   },
   "usecases.marketing.title": {
     "en": "Marketing Campaign",
     "ko": "\ub9c8\ucf00\ud305 \uce60\ud398\uc778",
     "ja": "\u30de\u30fc\u30b1\u30c6\u30a3\u30f3\u30b0\u30ad\u30e3\u30f3\u30da\u30fc\u30f3"
+,
+    "vi": "Chiến dịch Marketing"
   },
   "usecases.marketing.short": {
     "en": "Campaign asset creation & testing",
     "ko": "\uce60\ud398\uc778 \uc5d0\uc14b \uc81c\uc791 \ubc0f \ud14c\uc2a4\ud2b8",
     "ja": "\u30ad\u30e3\u30f3\u30da\u30fc\u30f3\u30a2\u30bb\u30c3\u30c8\u5236\u4f5c\u3068\u30c6\u30b9\u30c8"
+,
+    "vi": "Tạo asset chiến dịch & kiểm thử"
   },
   "usecases.marketing.prompt": {
     "en": "Build a harness for marketing campaign creation. The team should research the target market, write ad copy, design visual concepts, and set up A/B test plans with iterative quality review.",
     "ko": "\ub9c8\ucf00\ud305 \uce60\ud398\uc778 \uc81c\uc791 \ud558\ub124\uc2a4\ub97c \uad6c\uc131\ud574\uc918. \ud0c0\uac9f \uc2dc\uc7a5 \uc870\uc0ac, \uad11\uace0 \uce74\ud53c \uc791\uc131, \ube44\uc8fc\uc5bc \ucee8\uc149 \ub514\uc790\uc778, A/B \ud14c\uc2a4\ud2b8 \uacc4\ud68d\uc744 \ubc18\ubcf5\uc801 \ud488\uc9c8 \ub9ac\ubdf0\uc640 \ud568\uaed8 \uc9c4\ud589\ud558\ub294 \ud300.",
     "ja": "\u30de\u30fc\u30b1\u30c6\u30a3\u30f3\u30b0\u30ad\u30e3\u30f3\u30da\u30fc\u30f3\u5236\u4f5c\u7528\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u3002\u30bf\u30fc\u30b2\u30c3\u30c8\u5e02\u5834\u8abf\u67fb\u3001\u5e83\u544a\u30b3\u30d4\u30fc\u4f5c\u6210\u3001\u30d3\u30b8\u30e5\u30a2\u30eb\u30b3\u30f3\u30bb\u30d7\u30c8\u30c7\u30b6\u30a4\u30f3\u3001A/B\u30c6\u30b9\u30c8\u8a08\u753b\u3092\u53cd\u5fa9\u7684\u306a\u54c1\u8cea\u30ec\u30d3\u30e5\u30fc\u3068\u5171\u306b\u9032\u3081\u308b\u30c1\u30fc\u30e0\u3002"
+,
+    "vi": "Xây dựng harness cho tạo chiến dịch marketing. Đội cần nghiên cứu thị trường mục tiêu, viết nội dung quảng cáo, thiết kế ý tưởng hình ảnh, và thiết lập kế hoạch thử nghiệm A/B với review chất lượng lặp lại."
   },
   "workflow.title": {
     "en": "6-Phase Workflow",
     "ko": "6\ub2e8\uacc4 \uc6cc\ud06c\ud50c\ub85c\uc6b0",
     "ja": "6\u30d5\u30a7\u30fc\u30ba\u30ef\u30fc\u30af\u30d5\u30ed\u30fc"
+,
+    "vi": "Quy trình 6 Giai đoạn"
   },
   "workflow.desc": {
     "en": "Say &ldquo;build a harness&rdquo; and Harness runs a structured 6-phase pipeline to produce production-ready agent teams.",
     "ko": "&ldquo;\ud558\ub124\uc2a4 \uad6c\uc131\ud574\uc918&rdquo;\ub77c\uace0 \ub9d0\ud558\uba74, Harness\uac00 6\ub2e8\uacc4 \ud30c\uc774\ud504\ub77c\uc778\uc744 \uc2e4\ud589\ud558\uc5ec \ud504\ub85c\ub355\uc158 \ub808\ub514 \uc5d0\uc774\uc804\ud2b8 \ud300\uc744 \uc0dd\uc131\ud569\ub2c8\ub2e4.",
     "ja": "\u300c\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u300d\u3068\u8a00\u3048\u3070\u3001Harness\u304c\u69cb\u9020\u5316\u3055\u308c\u305f6\u30d5\u30a7\u30fc\u30ba\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3\u3067\u30d7\u30ed\u30c0\u30af\u30b7\u30e7\u30f3\u30ec\u30c7\u30a3\u306a\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u3092\u751f\u6210\u3057\u307e\u3059\u3002"
+,
+    "vi": "Chỉ cần nói &ldquo;xây dựng harness&rdquo;, Harness sẽ chạy một pipeline 6 giai đoạn có cấu trúc để tạo ra đội agent sẵn sàng sản xuất."
   },
   "workflow.phase1.title": {
     "en": "Domain Analysis",
     "ko": "\ub3c4\uba54\uc778 \ubd84\uc11d",
     "ja": "\u30c9\u30e1\u30a4\u30f3\u5206\u6790"
+,
+    "vi": "Phân tích lĩnh vực"
   },
   "workflow.phase1.desc": {
     "en": "Analyze your codebase, identify task types, detect user expertise, and prevent conflicts with existing agents.",
     "ko": "\ucf54\ub4dc\ubca0\uc774\uc2a4\ub97c \ubd84\uc11d\ud558\uace0, \uc791\uc5c5 \uc720\ud615\uc744 \ud30c\uc545\ud558\uba70, \uc0ac\uc6a9\uc790 \uc804\ubb38\uc131\uc744 \uac10\uc9c0\ud558\uace0, \uae30\uc874 \uc5d0\uc774\uc804\ud2b8\uc640\uc758 \ucda9\ub3cc\uc744 \ubc29\uc9c0\ud569\ub2c8\ub2e4.",
     "ja": "\u30b3\u30fc\u30c9\u30d9\u30fc\u30b9\u3092\u5206\u6790\u3057\u3001\u30bf\u30b9\u30af\u306e\u7a2e\u985e\u3092\u7279\u5b9a\u3057\u3001\u30e6\u30fc\u30b6\u30fc\u306e\u5c02\u9580\u6027\u3092\u691c\u51fa\u3057\u3001\u65e2\u5b58\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u3068\u306e\u7af6\u5408\u3092\u9632\u6b62\u3057\u307e\u3059\u3002"
+,
+    "vi": "Phân tích codebase của bạn, xác định loại nhiệm vụ, nhận diện trình độ người dùng, và tránh xung đột với agent hiện có."
   },
   "workflow.phase2.title": {
     "en": "Team Architecture Design",
     "ko": "\ud300 \uc544\ud0a4\ud14d\ucc98 \uc124\uacc4",
     "ja": "\u30c1\u30fc\u30e0\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u8a2d\u8a08"
+,
+    "vi": "Thiết kế kiến trúc đội"
   },
   "workflow.phase2.desc": {
     "en": "Choose between Agent Teams and Subagents, select from 6 architectural patterns, and define agent separation criteria.",
     "ko": "\uc5d0\uc774\uc804\ud2b8 \ud300\uacfc \uc11c\ube0c\uc5d0\uc774\uc804\ud2b8 \uc911 \uc120\ud0dd\ud558\uace0, 6\uac00\uc9c0 \uc544\ud0a4\ud14d\ucc98 \ud328\ud134\uc5d0\uc11c \uace0\ub974\uba70, \uc5d0\uc774\uc804\ud2b8 \ubd84\ub9ac \uae30\uc900\uc744 \uc815\uc758\ud569\ub2c8\ub2e4.",
     "ja": "\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u3068\u30b5\u30d6\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304b\u3089\u9078\u629e\u3057\u30016\u3064\u306e\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u30d1\u30bf\u30fc\u30f3\u304b\u3089\u9078\u3073\u3001\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u5206\u96e2\u57fa\u6e96\u3092\u5b9a\u7fa9\u3057\u307e\u3059\u3002"
+,
+    "vi": "Chọn giữa Agent Teams và Subagents, chọn từ 6 mẫu kiến trúc, và định nghĩa tiêu chí tách agent."
   },
   "workflow.phase3.title": {
     "en": "Agent Definition Generation",
     "ko": "\uc5d0\uc774\uc804\ud2b8 \uc815\uc758 \uc0dd\uc131",
     "ja": "\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u5b9a\u7fa9\u751f\u6210"
+,
+    "vi": "Sinh định nghĩa Agent"
   },
   "workflow.phase3.desc": {
     "en": "Generate <code>.claude/agents/*.md</code> files with roles, principles, I/O protocols, and team communication contracts.",
     "ko": "<code>.claude/agents/*.md</code> \ud30c\uc77c\uc744 \uc0dd\uc131\ud558\uba70, \uc5ed\ud560, \uc6d0\uce59, \uc785\ucd9c\ub825 \ud504\ub85c\ud1a0\ucf5c, \ud300 \ucee4\ubba4\ub2c8\ucf00\uc774\uc158 \uacc4\uc57d\uc744 \ud3ec\ud568\ud569\ub2c8\ub2e4.",
     "ja": "<code>.claude/agents/*.md</code>\u30d5\u30a1\u30a4\u30eb\u3092\u751f\u6210\u3057\u3001\u5f79\u5272\u3001\u539f\u5247\u3001\u5165\u51fa\u529b\u30d7\u30ed\u30c8\u30b3\u30eb\u3001\u30c1\u30fc\u30e0\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3\u898f\u7d04\u3092\u542b\u3081\u307e\u3059\u3002"
+,
+    "vi": "Sinh file <code>.claude/agents/*.md</code> với vai trò, nguyên tắc, giao thức I/O, và hợp đồng giao tiếp đội."
   },
   "workflow.phase4.title": {
     "en": "Skill Generation",
     "ko": "\uc2a4\ud0ac \uc0dd\uc131",
     "ja": "\u30b9\u30ad\u30eb\u751f\u6210"
+,
+    "vi": "Sinh Skill"
   },
   "workflow.phase4.desc": {
     "en": "Create skills with YAML frontmatter, pushy trigger descriptions, and Progressive Disclosure (metadata &rarr; body &rarr; references).",
     "ko": "YAML \ud504\ub860\ud2b8\ub9e4\ud130, \uc801\uadf9\uc801\uc778 \ud2b8\ub9ac\uac70 \uc124\uba85, Progressive Disclosure(\uba54\ud0c0\ub370\uc774\ud130 &rarr; \ubcf8\ubb38 &rarr; \ucc38\uc870) \uad6c\uc870\uc758 \uc2a4\ud0ac\uc744 \uc0dd\uc131\ud569\ub2c8\ub2e4.",
     "ja": "YAML\u30d5\u30ed\u30f3\u30c8\u30de\u30bf\u30fc\u3001\u7a4d\u6975\u7684\u306a\u30c8\u30ea\u30ac\u30fc\u8a18\u8ff0\u3001Progressive Disclosure\uff08\u30e1\u30bf\u30c7\u30fc\u30bf &rarr; \u672c\u6587 &rarr; \u53c2\u7167\uff09\u69cb\u9020\u306e\u30b9\u30ad\u30eb\u3092\u751f\u6210\u3057\u307e\u3059\u3002"
+,
+    "vi": "Tạo skill với YAML frontmatter, description trigger chủ động, và Progressive Disclosure (metadata &rarr; phần thân &rarr; references)."
   },
   "workflow.phase5.title": {
     "en": "Integration &amp; Orchestration",
     "ko": "\ud1b5\ud569 \ubc0f \uc624\ucf00\uc2a4\ud2b8\ub808\uc774\uc158",
     "ja": "\u7d71\u5408\u3068\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30b7\u30e7\u30f3"
+,
+    "vi": "Tích hợp &amp; Điều phối"
   },
   "workflow.phase5.desc": {
     "en": "Wire agents together with orchestrator skills, data-passing protocols, error handling, and team size guidelines.",
     "ko": "\uc624\ucf00\uc2a4\ud2b8\ub808\uc774\ud130 \uc2a4\ud0ac, \ub370\uc774\ud130 \uc804\ub2ec \ud504\ub85c\ud1a0\ucf5c, \uc5d0\ub7ec \ud578\ub4e4\ub9c1, \ud300 \uaddc\ubaa8 \uac00\uc774\ub4dc\ub77c\uc778\uc73c\ub85c \uc5d0\uc774\uc804\ud2b8\ub97c \uc5f0\uacb0\ud569\ub2c8\ub2e4.",
     "ja": "\u30aa\u30fc\u30b1\u30b9\u30c8\u30ec\u30fc\u30bf\u30fc\u30b9\u30ad\u30eb\u3001\u30c7\u30fc\u30bf\u53d7\u3051\u6e21\u3057\u30d7\u30ed\u30c8\u30b3\u30eb\u3001\u30a8\u30e9\u30fc\u30cf\u30f3\u30c9\u30ea\u30f3\u30b0\u3001\u30c1\u30fc\u30e0\u30b5\u30a4\u30ba\u30ac\u30a4\u30c9\u30e9\u30a4\u30f3\u3067\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u3092\u63a5\u7d9a\u3057\u307e\u3059\u3002"
+,
+    "vi": "Kết nối agent bằng skill orchestrator, giao thức truyền dữ liệu, xử lý lỗi, và hướng dẫn kích thước đội."
   },
   "workflow.phase6.title": {
     "en": "Validation &amp; Testing",
     "ko": "\uac80\uc99d \ubc0f \ud14c\uc2a4\ud2b8",
     "ja": "\u30d0\u30ea\u30c7\u30fc\u30b7\u30e7\u30f3\u3068\u30c6\u30b9\u30c8"
+,
+    "vi": "Kiểm định &amp; Kiểm thử"
   },
   "workflow.phase6.desc": {
     "en": "Structure checks, trigger verification, dry-run tests, with/without-skill comparison, and iterative refinement.",
     "ko": "\uad6c\uc870 \uac80\uc0ac, \ud2b8\ub9ac\uac70 \uac80\uc99d, \ub4dc\ub77c\uc774\ub7f0 \ud14c\uc2a4\ud2b8, With/Without-skill \ube44\uad50, \ubc18\ubcf5\uc801 \uac1c\uc120\uc744 \uc218\ud589\ud569\ub2c8\ub2e4.",
     "ja": "\u69cb\u9020\u30c1\u30a7\u30c3\u30af\u3001\u30c8\u30ea\u30ac\u30fc\u691c\u8a3c\u3001\u30c9\u30e9\u30a4\u30e9\u30f3\u30c6\u30b9\u30c8\u3001With/Without-skill\u6bd4\u8f03\u3001\u53cd\u5fa9\u7684\u306a\u6539\u5584\u3092\u5b9f\u884c\u3057\u307e\u3059\u3002"
+,
+    "vi": "Kiểm tra cấu trúc, kiểm định trigger, kiểm thử dry-run, so sánh with/without-skill, và cải tiến lặp lại."
   },
   "patterns.title": {
     "en": "6 Architecture Patterns",
     "ko": "6\uac00\uc9c0 \uc544\ud0a4\ud14d\ucc98 \ud328\ud134",
     "ja": "6\u3064\u306e\u30a2\u30fc\u30ad\u30c6\u30af\u30c1\u30e3\u30d1\u30bf\u30fc\u30f3"
+,
+    "vi": "6 Mẫu Kiến trúc"
   },
   "patterns.desc": {
     "en": "Pick the right coordination strategy for your workload. Click a pattern to learn more.",
     "ko": "\uc6cc\ud06c\ub85c\ub4dc\uc5d0 \ub9de\ub294 \uc870\uc728 \uc804\ub7b5\uc744 \uc120\ud0dd\ud558\uc138\uc694. \ud328\ud134\uc744 \ud074\ub9ad\ud558\uba74 \uc790\uc138\ud788 \ubcfc \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
     "ja": "\u30ef\u30fc\u30af\u30ed\u30fc\u30c9\u306b\u5408\u3063\u305f\u8abf\u6574\u6226\u7565\u3092\u9078\u3073\u307e\u3057\u3087\u3046\u3002\u30d1\u30bf\u30fc\u30f3\u3092\u30af\u30ea\u30c3\u30af\u3057\u3066\u8a73\u7d30\u3092\u78ba\u8a8d\u3002"
+,
+    "vi": "Chọn chiến lược điều phối phù hợp cho workload của bạn. Bấm vào một mẫu để xem chi tiết."
   },
   "patterns.pipeline.title": {
     "en": "Pipeline",
     "ko": "\ud30c\uc774\ud504\ub77c\uc778",
     "ja": "\u30d1\u30a4\u30d7\u30e9\u30a4\u30f3"
+,
+    "vi": "Pipeline"
   },
   "patterns.pipeline.short": {
     "en": "Sequential dependent tasks",
     "ko": "\uc21c\ucc28 \uc758\uc874 \uc791\uc5c5",
     "ja": "\u9010\u6b21\u4f9d\u5b58\u30bf\u30b9\u30af"
+,
+    "vi": "Nhiệm vụ phụ thuộc tuần tự"
   },
   "patterns.pipeline.detail": {
     "en": "Each agent's output feeds directly into the next. Ideal for workflows where steps are strictly ordered \u2014 code generation \u2192 review \u2192 testing \u2192 deployment. Simple to reason about, but the chain is only as fast as the slowest link.",
     "ko": "\uac01 \uc5d0\uc774\uc804\ud2b8\uc758 \ucd9c\ub825\uc774 \ub2e4\uc74c \uc5d0\uc774\uc804\ud2b8\uc758 \uc785\ub825\uc73c\ub85c \uc9c1\uc811 \uc804\ub2ec\ub429\ub2c8\ub2e4. \ub2e8\uacc4\uac00 \uc5c4\uaca9\ud788 \uc21c\uc11c\ud654\ub41c \uc6cc\ud06c\ud50c\ub85c\uc6b0\uc5d0 \uc774\uc0c1\uc801 \u2014 \ucf54\ub4dc \uc0dd\uc131 \u2192 \ub9ac\ubdf0 \u2192 \ud14c\uc2a4\ud2b8 \u2192 \ubc30\ud3ec. \uc774\ud574\ud558\uae30 \uc27d\uc9c0\ub9cc, \uac00\uc7a5 \ub290\ub9b0 \ub2e8\uacc4\uac00 \uc804\uccb4 \uc18d\ub3c4\ub97c \uacb0\uc815\ud569\ub2c8\ub2e4.",
     "ja": "\u5404\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306e\u51fa\u529b\u304c\u6b21\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306b\u76f4\u63a5\u6e21\u3055\u308c\u307e\u3059\u3002\u30b9\u30c6\u30c3\u30d7\u304c\u53b3\u5bc6\u306b\u9806\u5e8f\u5316\u3055\u308c\u305f\u30ef\u30fc\u30af\u30d5\u30ed\u30fc\u306b\u6700\u9069 \u2014 \u30b3\u30fc\u30c9\u751f\u6210\u2192\u30ec\u30d3\u30e5\u30fc\u2192\u30c6\u30b9\u30c8\u2192\u30c7\u30d7\u30ed\u30a4\u3002\u7406\u89e3\u3057\u3084\u3059\u3044\u3067\u3059\u304c\u3001\u6700\u3082\u9045\u3044\u30ea\u30f3\u30af\u304c\u5168\u4f53\u306e\u901f\u5ea6\u3092\u6c7a\u3081\u307e\u3059\u3002"
+,
+    "vi": "Output của mỗi agent truyền trực tiếp cho agent tiếp theo. Lý tưởng cho quy trình mà các bước có thứ tự nghiêm ngặt — sinh code → review → test → deploy. Dễ suy luận, nhưng chuỗi chỉ nhanh bằng mắt xích chậm nhất."
   },
   "patterns.fanout.title": {
     "en": "Fan-out / Fan-in",
     "ko": "Fan-out / Fan-in",
     "ja": "Fan-out / Fan-in"
+,
+    "vi": "Fan-out / Fan-in"
   },
   "patterns.fanout.short": {
     "en": "Parallel independent tasks",
     "ko": "\ubcd1\ub82c \ub3c5\ub9bd \uc791\uc5c5",
     "ja": "\u4e26\u5217\u72ec\u7acb\u30bf\u30b9\u30af"
+,
+    "vi": "Nhiệm vụ song song độc lập"
   },
   "patterns.fanout.detail": {
     "en": "Dispatch independent subtasks to multiple agents in parallel, then merge their results. Perfect for research, multi-file analysis, or any workload where throughput matters more than order.",
     "ko": "\ub3c5\ub9bd\uc801\uc778 \ud558\uc704 \uc791\uc5c5\uc744 \uc5ec\ub7ec \uc5d0\uc774\uc804\ud2b8\uc5d0 \ubcd1\ub82c \ubd84\ubc30\ud55c \ub4a4 \uacb0\uacfc\ub97c \ubcd1\ud569\ud569\ub2c8\ub2e4. \ub9ac\uc11c\uce58, \uba40\ud2f0\ud30c\uc77c \ubd84\uc11d, \uc21c\uc11c\ubcf4\ub2e4 \ucc98\ub9ac\ub7c9\uc774 \uc911\uc694\ud55c \ubaa8\ub4e0 \uc6cc\ud06c\ub85c\ub4dc\uc5d0 \uc801\ud569\ud569\ub2c8\ub2e4.",
     "ja": "\u72ec\u7acb\u3057\u305f\u30b5\u30d6\u30bf\u30b9\u30af\u3092\u8907\u6570\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306b\u4e26\u5217\u3067\u5206\u914d\u3057\u3001\u7d50\u679c\u3092\u30de\u30fc\u30b8\u3057\u307e\u3059\u3002\u30ea\u30b5\u30fc\u30c1\u3001\u30de\u30eb\u30c1\u30d5\u30a1\u30a4\u30eb\u5206\u6790\u3001\u9806\u5e8f\u3088\u308a\u51e6\u7406\u91cf\u304c\u91cd\u8981\u306a\u30ef\u30fc\u30af\u30ed\u30fc\u30c9\u306b\u6700\u9069\u3067\u3059\u3002"
+,
+    "vi": "Phân phối nhiệm vụ con độc lập cho nhiều agent song song, rồi hợp nhất kết quả. Hoàn hảo cho nghiên cứu, phân tích đa file, hoặc bất kỳ workload nào mà throughput quan trọng hơn thứ tự."
   },
   "patterns.expert.title": {
     "en": "Expert Pool",
     "ko": "\uc804\ubb38\uac00 \ud480",
     "ja": "\u30a8\u30ad\u30b9\u30d1\u30fc\u30c8\u30d7\u30fc\u30eb"
+,
+    "vi": "Expert Pool"
   },
   "patterns.expert.short": {
     "en": "Context-dependent selection",
     "ko": "\uc0c1\ud669\ubcc4 \uc120\ud0dd \ud638\ucd9c",
     "ja": "\u30b3\u30f3\u30c6\u30ad\u30b9\u30c8\u4f9d\u5b58\u306e\u9078\u629e"
+,
+    "vi": "Chọn theo ngữ cảnh"
   },
   "patterns.expert.detail": {
     "en": "A router agent selects the best specialist for each incoming request. The pool grows as new domains emerge. Great for help desks, multi-language codebases, or domain-specific Q&A.",
     "ko": "\ub77c\uc6b0\ud130 \uc5d0\uc774\uc804\ud2b8\uac00 \uac01 \uc694\uccad\uc5d0 \ucd5c\uc801\uc758 \uc804\ubb38\uac00\ub97c \uc120\ud0dd\ud569\ub2c8\ub2e4. \uc0c8\ub85c\uc6b4 \ub3c4\uba54\uc778\uc774 \ub4f1\uc7a5\ud558\uba74 \ud480\uc774 \ud655\uc7a5\ub429\ub2c8\ub2e4. \ud5ec\ud504 \ub370\uc2a4\ud06c, \ub2e4\uad6d\uc5b4 \ucf54\ub4dc\ubca0\uc774\uc2a4, \ub3c4\uba54\uc778\ubcc4 Q&A\uc5d0 \uc801\ud569\ud569\ub2c8\ub2e4.",
     "ja": "\u30eb\u30fc\u30bf\u30fc\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u5404\u30ea\u30af\u30a8\u30b9\u30c8\u306b\u6700\u9069\u306a\u30b9\u30da\u30b7\u30e3\u30ea\u30b9\u30c8\u3092\u9078\u629e\u3057\u307e\u3059\u3002\u65b0\u3057\u3044\u30c9\u30e1\u30a4\u30f3\u306e\u51fa\u73fe\u306b\u5fdc\u3058\u3066\u30d7\u30fc\u30eb\u304c\u62e1\u5f35\u3055\u308c\u307e\u3059\u3002\u30d8\u30eb\u30d7\u30c7\u30b9\u30af\u3001\u591a\u8a00\u8a9e\u30b3\u30fc\u30c9\u30d9\u30fc\u30b9\u3001\u30c9\u30e1\u30a4\u30f3\u7279\u5316Q&A\u306b\u6700\u9069\u3067\u3059\u3002"
+,
+    "vi": "Một agent router chọn chuyên gia phù hợp nhất cho mỗi yêu cầu đến. Pool mở rộng khi có lĩnh vực mới xuất hiện. Phù hợp cho help desk, codebase đa ngôn ngữ, hoặc Q&A theo lĩnh vực."
   },
   "patterns.review.title": {
     "en": "Producer-Reviewer",
     "ko": "\uc0dd\uc131-\uac80\uc99d",
     "ja": "\u30d7\u30ed\u30c7\u30e5\u30fc\u30b5\u30fc\u30fb\u30ec\u30d3\u30e5\u30ef\u30fc"
+,
+    "vi": "Producer-Reviewer"
   },
   "patterns.review.short": {
     "en": "Generate then verify",
     "ko": "\uc0dd\uc131 \ud6c4 \ud488\uc9c8 \uac80\uc218",
     "ja": "\u751f\u6210\u3057\u3066\u304b\u3089\u691c\u8a3c"
+,
+    "vi": "Sinh rồi kiểm chứng"
   },
   "patterns.review.detail": {
     "en": "One agent generates, another critiques. The feedback loop continues until quality gates pass. Essential for code generation, content writing, and any task where a second opinion catches blind spots.",
     "ko": "\ud558\ub098\uc758 \uc5d0\uc774\uc804\ud2b8\uac00 \uc0dd\uc131\ud558\uace0, \ub2e4\ub978 \uc5d0\uc774\uc804\ud2b8\uac00 \uac80\uc99d\ud569\ub2c8\ub2e4. \ud488\uc9c8 \uae30\uc900\uc744 \ud1b5\uacfc\ud560 \ub54c\uae4c\uc9c0 \ud53c\ub4dc\ubc31 \ub8e8\ud504\uac00 \ubc18\ubcf5\ub429\ub2c8\ub2e4. \ucf54\ub4dc \uc0dd\uc131, \ucf58\ud150\uce20 \uc791\uc131, \uc81c2\uc758 \uc2dc\uac01\uc774 \uc0ac\uac01\uc9c0\ub300\ub97c \ubc1c\uacac\ud558\ub294 \ubaa8\ub4e0 \uc791\uc5c5\uc5d0 \ud544\uc218\uc801\uc785\ub2c8\ub2e4.",
     "ja": "\u4e00\u65b9\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u751f\u6210\u3057\u3001\u3082\u3046\u4e00\u65b9\u304c\u6279\u8a55\u3057\u307e\u3059\u3002\u54c1\u8cea\u30b2\u30fc\u30c8\u3092\u901a\u904e\u3059\u308b\u307e\u3067\u30d5\u30a3\u30fc\u30c9\u30d0\u30c3\u30af\u30eb\u30fc\u30d7\u304c\u7d99\u7d9a\u3057\u307e\u3059\u3002\u30b3\u30fc\u30c9\u751f\u6210\u3001\u30b3\u30f3\u30c6\u30f3\u30c4\u57f7\u7b46\u3001\u30bb\u30ab\u30f3\u30c9\u30aa\u30d4\u30cb\u30aa\u30f3\u304c\u76f2\u70b9\u3092\u767a\u898b\u3059\u308b\u3042\u3089\u3086\u308b\u30bf\u30b9\u30af\u306b\u4e0d\u53ef\u6b20\u3067\u3059\u3002"
+,
+    "vi": "Một agent sinh nội dung, agent khác phản biện. Vòng lặp phản hồi tiếp tục cho đến khi qua được tiêu chí chất lượng. Thiết yếu cho sinh code, viết nội dung, và mọi nhiệm vụ mà ý kiến thứ hai giúp phát hiện điểm mù."
   },
   "patterns.supervisor.title": {
     "en": "Supervisor",
     "ko": "\uac10\ub3c5\uc790",
     "ja": "\u30b9\u30fc\u30d1\u30fc\u30d0\u30a4\u30b6\u30fc"
+,
+    "vi": "Supervisor"
   },
   "patterns.supervisor.short": {
     "en": "Central dynamic dispatch",
     "ko": "\uc911\uc559 \uc5d0\uc774\uc804\ud2b8\uac00 \ub3d9\uc801 \ubd84\ubc30",
     "ja": "\u4e2d\u592e\u52d5\u7684\u30c7\u30a3\u30b9\u30d1\u30c3\u30c1"
+,
+    "vi": "Phân phối động trung tâm"
   },
   "patterns.supervisor.detail": {
     "en": "A central agent maintains global state and dynamically assigns work based on progress and priority. Ideal when the plan evolves \u2014 incident response, complex refactors, or exploratory research.",
     "ko": "\uc911\uc559 \uc5d0\uc774\uc804\ud2b8\uac00 \uc804\uc5ed \uc0c1\ud0dc\ub97c \uad00\ub9ac\ud558\uace0 \uc9c4\ud589 \uc0c1\ud669\uacfc \uc6b0\uc120\uc21c\uc704\uc5d0 \ub530\ub77c \ub3d9\uc801\uc73c\ub85c \uc791\uc5c5\uc744 \ubd84\ubc30\ud569\ub2c8\ub2e4. \uacc4\ud68d\uc774 \ubcc0\ud654\ud558\ub294 \uc0c1\ud669\uc5d0 \uc774\uc0c1\uc801 \u2014 \uc778\uc2dc\ub358\ud2b8 \ub300\uc751, \ubcf5\uc7a1\ud55c \ub9ac\ud329\ud130\ub9c1, \ud0d0\uc0c9\uc801 \ub9ac\uc11c\uce58.",
     "ja": "\u4e2d\u592e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u30b0\u30ed\u30fc\u30d0\u30eb\u72b6\u614b\u3092\u7ba1\u7406\u3057\u3001\u9032\u6357\u3068\u512a\u5148\u5ea6\u306b\u57fa\u3065\u3044\u3066\u52d5\u7684\u306b\u30bf\u30b9\u30af\u3092\u5272\u308a\u5f53\u3066\u307e\u3059\u3002\u8a08\u753b\u304c\u5909\u5316\u3059\u308b\u72b6\u6cc1\u306b\u6700\u9069 \u2014 \u30a4\u30f3\u30b7\u30c7\u30f3\u30c8\u5bfe\u5fdc\u3001\u8907\u96d1\u306a\u30ea\u30d5\u30a1\u30af\u30bf\u30ea\u30f3\u30b0\u3001\u63a2\u7d22\u7684\u30ea\u30b5\u30fc\u30c1\u3002"
+,
+    "vi": "Một agent trung tâm duy trì trạng thái toàn cục và phân phối công việc động theo tiến độ và độ ưu tiên. Lý tưởng khi kế hoạch thay đổi — phản ứng sự cố, tái cấu trúc phức tạp, hoặc nghiên cứu thăm dò."
   },
   "patterns.hierarchy.title": {
     "en": "Hierarchical Delegation",
     "ko": "\uacc4\uce35\uc801 \uc704\uc784",
     "ja": "\u968e\u5c64\u7684\u59d4\u4efb"
+,
+    "vi": "Hierarchical Delegation"
   },
   "patterns.hierarchy.short": {
     "en": "Top-down recursive split",
     "ko": "\uc0c1\uc704\u2192\ud558\uc704 \uc7ac\uadc0\uc801 \uc704\uc784",
     "ja": "\u30c8\u30c3\u30d7\u30c0\u30a6\u30f3\u518d\u5e30\u7684\u5206\u5272"
+,
+    "vi": "Tách đệ quy từ trên xuống"
   },
   "patterns.hierarchy.detail": {
     "en": "A top-level agent breaks a goal into subgoals and delegates recursively. Each level adds specificity. Best for large-scale projects where a single prompt is too vague but a flat team is too chaotic.",
     "ko": "\ucd5c\uc0c1\uc704 \uc5d0\uc774\uc804\ud2b8\uac00 \ubaa9\ud45c\ub97c \ud558\uc704 \ubaa9\ud45c\ub85c \ubd84\ud574\ud558\uace0 \uc7ac\uadc0\uc801\uc73c\ub85c \uc704\uc784\ud569\ub2c8\ub2e4. \uac01 \ub808\ubca8\uc774 \uad6c\uccb4\uc131\uc744 \ub354\ud569\ub2c8\ub2e4. \ub2e8\uc77c \ud504\ub86c\ud504\ud2b8\ub85c\ub294 \ubaa8\ud638\ud558\uc9c0\ub9cc \ud3c9\uba74\uc801 \ud300\uc73c\ub85c\ub294 \ud63c\ub780\uc2a4\ub7ec\uc6b4 \ub300\uaddc\ubaa8 \ud504\ub85c\uc81d\ud2b8\uc5d0 \ucd5c\uc801\uc785\ub2c8\ub2e4.",
     "ja": "\u30c8\u30c3\u30d7\u30ec\u30d9\u30eb\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u30b4\u30fc\u30eb\u3092\u30b5\u30d6\u30b4\u30fc\u30eb\u306b\u5206\u89e3\u3057\u3001\u518d\u5e30\u7684\u306b\u59d4\u4efb\u3057\u307e\u3059\u3002\u5404\u30ec\u30d9\u30eb\u304c\u5177\u4f53\u6027\u3092\u8ffd\u52a0\u3057\u307e\u3059\u3002\u5358\u4e00\u30d7\u30ed\u30f3\u30d7\u30c8\u3067\u306f\u66d6\u6627\u3060\u304c\u30d5\u30e9\u30c3\u30c8\u306a\u30c1\u30fc\u30e0\u3067\u306f\u6df7\u4e71\u3059\u308b\u5927\u898f\u6a21\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u306b\u6700\u9069\u3067\u3059\u3002"
+,
+    "vi": "Một agent cấp cao chia mục tiêu thành các mục tiêu con và ủy quyền đệ quy. Mỗi cấp tăng thêm độ cụ thể. Tốt nhất cho dự án quy mô lớn mà một prompt đơn quá mơ hồ nhưng một đội phẳng lại quá hỗn loạn."
   },
   "research.title": {
     "en": "Proven by Research",
     "ko": "\uc5f0\uad6c\ub85c \uc785\uc99d\ub428",
     "ja": "\u7814\u7a76\u3067\u5b9f\u8a3c\u6e08\u307f"
+,
+    "vi": "Được Chứng Minh Bằng Nghiên Cứu"
   },
   "research.desc": {
     "en": "A controlled A/B experiment across 15 software engineering tasks at 3 difficulty levels.",
     "ko": "3\uac00\uc9c0 \ub09c\uc774\ub3c4, 15\uac1c \uc18c\ud504\ud2b8\uc6e8\uc5b4 \uc5d4\uc9c0\ub2c8\uc5b4\ub9c1 \uacfc\uc81c\uc5d0 \ub300\ud55c \ud1b5\uc81c\ub41c A/B \uc2e4\ud5d8.",
     "ja": "3\u3064\u306e\u96e3\u6613\u5ea6\u300115\u306e\u30bd\u30d5\u30c8\u30a6\u30a7\u30a2\u30a8\u30f3\u30b8\u30cb\u30a2\u30ea\u30f3\u30b0\u30bf\u30b9\u30af\u306b\u308f\u305f\u308b\u7d71\u5236\u3055\u308c\u305fA/B\u5b9f\u9a13\u3002"
+,
+    "vi": "Một thử nghiệm A/B có kiểm soát trên 15 nhiệm vụ kỹ thuật phần mềm ở 3 mức độ khó."
   },
   "research.big_label": {
     "en": "Average quality improvement",
     "ko": "\ud3c9\uade0 \ud488\uc9c8 \uac1c\uc120",
     "ja": "\u5e73\u5747\u54c1\u8cea\u5411\u4e0a"
+,
+    "vi": "Cải thiện chất lượng trung bình"
   },
   "research.finding1": {
     "en": "<strong>100% win rate</strong> across all 15 test cases",
     "ko": "15\uac1c \uc804\uccb4 \ud14c\uc2a4\ud2b8 \ucf00\uc774\uc2a4\uc5d0\uc11c <strong>100% \uc2b9\ub960</strong>",
     "ja": "\u516815\u30c6\u30b9\u30c8\u30b1\u30fc\u30b9\u3067<strong>100%\u52dd\u7387</strong>"
+,
+    "vi": "<strong>Tỷ lệ thắng 100%</strong> trên toàn bộ 15 test case"
   },
   "research.finding2": {
     "en": "<strong>32% less variance</strong> &mdash; more consistent, predictable output",
     "ko": "<strong>32% \ub0ae\uc740 \ubd84\uc0b0</strong> &mdash; \ub354 \uc77c\uad00\ub418\uace0 \uc608\uce21 \uac00\ub2a5\ud55c \ucd9c\ub825",
     "ja": "<strong>32%\u4f4e\u3044\u5206\u6563</strong> &mdash; \u3088\u308a\u4e00\u8cab\u6027\u304c\u3042\u308a\u4e88\u6e2c\u53ef\u80fd\u306a\u51fa\u529b"
+,
+    "vi": "<strong>Giảm 32% độ phân tán</strong> &mdash; đầu ra nhất quán và dự đoán được hơn"
   },
   "research.finding3": {
     "en": "<strong>Scales with complexity</strong> &mdash; the harder the task, the bigger the gain",
     "ko": "<strong>\ubcf5\uc7a1\ub3c4\uc5d0 \ube44\ub840\ud558\uc5ec \ud6a8\uacfc \uc99d\ub300</strong> &mdash; \uacfc\uc81c\uac00 \uc5b4\ub824\uc6b8\uc218\ub85d \uac1c\uc120 \ud3ed\uc774 \ucee4\uc9d0",
     "ja": "<strong>\u8907\u96d1\u3055\u306b\u6bd4\u4f8b\u3057\u3066\u52b9\u679c\u304c\u5897\u5927</strong> &mdash; \u30bf\u30b9\u30af\u304c\u96e3\u3057\u3044\u307b\u3069\u6539\u5584\u5e45\u304c\u5927\u304d\u3044"
+,
+    "vi": "<strong>Tăng theo độ phức tạp</strong> &mdash; nhiệm vụ càng khó, mức cải thiện càng lớn"
   },
   "research.btn": {
     "en": "Read the Paper &rarr;",
     "ko": "\ub17c\ubb38 \uc77d\uae30 &rarr;",
     "ja": "\u8ad6\u6587\u3092\u8aad\u3080 &rarr;"
+,
+    "vi": "Đọc bài báo &rarr;"
   },
   "research.bar_without": {
     "en": "Without Harness",
     "ko": "Harness \ubbf8\uc801\uc6a9",
     "ja": "Harness\u306a\u3057"
+,
+    "vi": "Không có Harness"
   },
   "research.bar_with": {
     "en": "With Harness",
     "ko": "Harness \uc801\uc6a9",
     "ja": "Harness\u3042\u308a"
+,
+    "vi": "Có Harness"
   },
   "harness100.title": {
     "en": "100 Ready-Made Harnesses",
     "ko": "100\uac1c\uc758 \ud504\ub85c\ub355\uc158 \ub808\ub514 \ud558\ub124\uc2a4",
     "ja": "100\u306e\u3059\u3050\u4f7f\u3048\u308b\u30cf\u30fc\u30cd\u30b9"
+,
+    "vi": "100 Harness Sẵn Dùng"
   },
   "harness100.desc": {
     "en": "Production-ready agent teams across 10 domains. 200 packages (EN + KO). 1,808 files. All generated by this plugin.",
     "ko": "10\uac1c \ub3c4\uba54\uc778\uc758 \ud504\ub85c\ub355\uc158 \ub808\ub514 \uc5d0\uc774\uc804\ud2b8 \ud300. 200\uac1c \ud328\ud0a4\uc9c0 (EN + KO). 1,808\uac1c \ud30c\uc77c. \ubaa8\ub450 \uc774 \ud50c\ub7ec\uadf8\uc778\uc73c\ub85c \uc0dd\uc131.",
     "ja": "10\u30c9\u30e1\u30a4\u30f3\u306b\u308f\u305f\u308b\u30d7\u30ed\u30c0\u30af\u30b7\u30e7\u30f3\u30ec\u30c7\u30a3\u306a\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u30c1\u30fc\u30e0\u3002200\u30d1\u30c3\u30b1\u30fc\u30b8\uff08EN + KO\uff09\u30021,808\u30d5\u30a1\u30a4\u30eb\u3002\u3059\u3079\u3066\u3053\u306e\u30d7\u30e9\u30b0\u30a4\u30f3\u3067\u751f\u6210\u3002"
+,
+    "vi": "Đội agent sẵn sàng sản xuất trên 10 lĩnh vực. 200 package (EN + KO). 1.808 file. Tất cả được sinh bởi plugin này."
   },
   "harness100.domain_content": {
     "en": "Content Creation",
     "ko": "\ucf58\ud150\uce20 \uc81c\uc791",
     "ja": "\u30b3\u30f3\u30c6\u30f3\u30c4\u5236\u4f5c"
+,
+    "vi": "Sáng tạo nội dung"
   },
   "harness100.domain_software": {
     "en": "Software Dev",
     "ko": "\uc18c\ud504\ud2b8\uc6e8\uc5b4 \uac1c\ubc1c",
     "ja": "\u30bd\u30d5\u30c8\u30a6\u30a7\u30a2\u958b\u767a"
+,
+    "vi": "Phát triển phần mềm"
   },
   "harness100.domain_data": {
     "en": "Data & AI/ML",
     "ko": "\ub370\uc774\ud130 & AI/ML",
     "ja": "\u30c7\u30fc\u30bf & AI/ML"
+,
+    "vi": "Dữ liệu & AI/ML"
   },
   "harness100.domain_business": {
     "en": "Business Strategy",
     "ko": "\ube44\uc988\ub2c8\uc2a4 \uc804\ub7b5",
     "ja": "\u30d3\u30b8\u30cd\u30b9\u6226\u7565"
+,
+    "vi": "Chiến lược kinh doanh"
   },
   "harness100.domain_education": {
     "en": "Education",
     "ko": "\uad50\uc721",
     "ja": "\u6559\u80b2"
+,
+    "vi": "Giáo dục"
   },
   "harness100.domain_legal": {
     "en": "Legal & Compliance",
     "ko": "\ubc95\ub960 & \ucef4\ud50c\ub77c\uc774\uc5b8\uc2a4",
     "ja": "\u6cd5\u52d9 & \u30b3\u30f3\u30d7\u30e9\u30a4\u30a2\u30f3\u30b9"
+,
+    "vi": "Pháp lý & Tuân thủ"
   },
   "harness100.domain_health": {
     "en": "Health & Lifestyle",
     "ko": "\ud5ec\uc2a4 & \ub77c\uc774\ud504\uc2a4\ud0c0\uc77c",
     "ja": "\u30d8\u30eb\u30b9 & \u30e9\u30a4\u30d5\u30b9\u30bf\u30a4\u30eb"
+,
+    "vi": "Sức khỏe & Lối sống"
   },
   "harness100.domain_communication": {
     "en": "Communication",
     "ko": "\ucee4\ubba4\ub2c8\ucf00\uc774\uc158",
     "ja": "\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3"
+,
+    "vi": "Giao tiếp"
   },
   "harness100.domain_operations": {
     "en": "Operations",
     "ko": "\uc6b4\uc601",
     "ja": "\u30aa\u30da\u30ec\u30fc\u30b7\u30e7\u30f3"
+,
+    "vi": "Vận hành"
   },
   "harness100.domain_specialized": {
     "en": "Specialized Domains",
     "ko": "\uc804\ubb38 \ub3c4\uba54\uc778",
     "ja": "\u7279\u5316\u30c9\u30e1\u30a4\u30f3"
+,
+    "vi": "Lĩnh vực chuyên biệt"
   },
   "harness100.btn": {
     "en": "Explore Harness 100 &rarr;",
     "ko": "Harness 100 \ub458\ub7ec\ubcf4\uae30 &rarr;",
     "ja": "Harness 100\u3092\u898b\u308b &rarr;"
+,
+    "vi": "Khám phá Harness 100 &rarr;"
   },
   "install.title": {
     "en": "Get Started in Seconds",
     "ko": "\uba87 \ucd08\uba74 \uc2dc\uc791\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4",
     "ja": "\u6570\u79d2\u3067\u59cb\u3081\u3089\u308c\u307e\u3059"
+,
+    "vi": "Bắt Đầu Trong Vài Giây"
   },
   "install.desc": {
     "en": "Two commands. That\u2019s it.",
     "ko": "\uba85\ub839\uc5b4 \ub450 \uc904\uc774\uba74 \ub05d.",
     "ja": "\u30b3\u30de\u30f3\u30c92\u3064\u3060\u3051\u3002\u305d\u308c\u3060\u3051\u3067\u3059\u3002"
+,
+    "vi": "Hai lệnh. Vậy là xong."
   },
   "install.step1": {
     "en": "Add the marketplace",
     "ko": "\ub9c8\ucf13\ud50c\ub808\uc774\uc2a4 \ucd94\uac00",
     "ja": "\u30de\u30fc\u30b1\u30c3\u30c8\u30d7\u30ec\u30a4\u30b9\u3092\u8ffd\u52a0"
+,
+    "vi": "Thêm marketplace"
   },
   "install.step2": {
     "en": "Install the plugin",
     "ko": "\ud50c\ub7ec\uadf8\uc778 \uc124\uce58",
     "ja": "\u30d7\u30e9\u30b0\u30a4\u30f3\u3092\u30a4\u30f3\u30b9\u30c8\u30fc\u30eb"
+,
+    "vi": "Cài plugin"
   },
   "install.hint": {
     "en": "Then just say: <strong style=\"color:var(--accent2)\">&ldquo;Build a harness for this project&rdquo;</strong>",
     "ko": "\uadf8\ub9ac\uace0 \uc774\ub807\uac8c \ub9d0\ud558\uc138\uc694: <strong style=\"color:var(--accent2)\">&ldquo;\uc774 \ud504\ub85c\uc81d\ud2b8\uc5d0 \ud558\ub124\uc2a4 \uad6c\uc131\ud574\uc918&rdquo;</strong>",
     "ja": "\u3042\u3068\u306f\u4e00\u8a00: <strong style=\"color:var(--accent2)\">\u300c\u3053\u306e\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u306e\u30cf\u30fc\u30cd\u30b9\u3092\u69cb\u6210\u3057\u3066\u300d</strong>"
+,
+    "vi": "Sau đó chỉ cần nói: <strong style=\"color:var(--accent2)\">&ldquo;Xây dựng harness cho dự án này&rdquo;</strong>"
   },
   "install.copy_btn": {
     "en": "Copy",
     "ko": "\ubcf5\uc0ac",
     "ja": "\u30b3\u30d4\u30fc"
+,
+    "vi": "Copy"
   },
   "footer.github": {
     "en": "GitHub",
     "ko": "GitHub",
     "ja": "GitHub"
+,
+    "vi": "GitHub"
   },
   "footer.harness100": {
     "en": "Harness 100",
     "ko": "Harness 100",
     "ja": "Harness 100"
+,
+    "vi": "Harness 100"
   },
   "footer.research": {
     "en": "Research Paper",
     "ko": "\uc5f0\uad6c \ub17c\ubb38",
     "ja": "\u7814\u7a76\u8ad6\u6587"
+,
+    "vi": "Bài báo nghiên cứu"
   },
   "footer.privacy": {
     "en": "Privacy Policy",
     "ko": "\uac1c\uc778\uc815\ubcf4 \ubcf4\ud638\uc815\ucc45",
     "ja": "\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc\u30dd\u30ea\u30b7\u30fc"
+,
+    "vi": "Chính sách quyền riêng tư"
   },
   "footer.copyright": {
     "en": "Apache 2.0 &mdash; Built by <a href=\"https://github.com/revfactory\" target=\"_blank\">revfactory</a>",
     "ko": "Apache 2.0 &mdash; <a href=\"https://github.com/revfactory\" target=\"_blank\">revfactory</a> \uc81c\uc791",
     "ja": "Apache 2.0 &mdash; <a href=\"https://github.com/revfactory\" target=\"_blank\">revfactory</a> \u5236\u4f5c"
+,
+    "vi": "Apache 2.0 &mdash; Xây dựng bởi <a href=\"https://github.com/revfactory\" target=\"_blank\">revfactory</a>"
   },
   "common.click_to_copy": {
     "en": "Click to copy",
     "ko": "\ud074\ub9ad\ud558\uc5ec \ubcf5\uc0ac",
     "ja": "\u30af\u30ea\u30c3\u30af\u3067\u30b3\u30d4\u30fc"
+,
+    "vi": "Bấm để copy"
   },
   "common.copied": {
     "en": "Copied!",
     "ko": "\ubcf5\uc0ac\ub428!",
     "ja": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f\uff01"
+,
+    "vi": "Đã copy!"
   },
   "common.copy": {
     "en": "Copy",
     "ko": "\ubcf5\uc0ac",
     "ja": "\u30b3\u30d4\u30fc"
+,
+    "vi": "Copy"
   }
 };
 
@@ -1155,18 +1386,27 @@ const patternDataI18n = {
     review: { title: '\u30d7\u30ed\u30c7\u30e5\u30fc\u30b5\u30fc\u30fb\u30ec\u30d3\u30e5\u30ef\u30fc', desc: '\u4e00\u65b9\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u751f\u6210\u3057\u3001\u3082\u3046\u4e00\u65b9\u304c\u6279\u8a55\u3057\u307e\u3059\u3002\u54c1\u8cea\u30b2\u30fc\u30c8\u3092\u901a\u904e\u3059\u308b\u307e\u3067\u30d5\u30a3\u30fc\u30c9\u30d0\u30c3\u30af\u30eb\u30fc\u30d7\u304c\u7d99\u7d9a\u3057\u307e\u3059\u3002\u30b3\u30fc\u30c9\u751f\u6210\u3001\u30b3\u30f3\u30c6\u30f3\u30c4\u57f7\u7b46\u3001\u30bb\u30ab\u30f3\u30c9\u30aa\u30d4\u30cb\u30aa\u30f3\u304c\u76f2\u70b9\u3092\u767a\u898b\u3059\u308b\u3042\u3089\u3086\u308b\u30bf\u30b9\u30af\u306b\u4e0d\u53ef\u6b20\u3067\u3059\u3002' },
     supervisor: { title: '\u30b9\u30fc\u30d1\u30fc\u30d0\u30a4\u30b6\u30fc', desc: '\u4e2d\u592e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u30b0\u30ed\u30fc\u30d0\u30eb\u72b6\u614b\u3092\u7ba1\u7406\u3057\u3001\u9032\u6357\u3068\u512a\u5148\u5ea6\u306b\u57fa\u3065\u3044\u3066\u52d5\u7684\u306b\u30bf\u30b9\u30af\u3092\u5272\u308a\u5f53\u3066\u307e\u3059\u3002\u8a08\u753b\u304c\u5909\u5316\u3059\u308b\u72b6\u6cc1\u306b\u6700\u9069 \u2014 \u30a4\u30f3\u30b7\u30c7\u30f3\u30c8\u5bfe\u5fdc\u3001\u8907\u96d1\u306a\u30ea\u30d5\u30a1\u30af\u30bf\u30ea\u30f3\u30b0\u3001\u63a2\u7d22\u7684\u30ea\u30b5\u30fc\u30c1\u3002' },
     hierarchy: { title: '\u968e\u5c64\u7684\u59d4\u4efb', desc: '\u30c8\u30c3\u30d7\u30ec\u30d9\u30eb\u306e\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u30b4\u30fc\u30eb\u3092\u30b5\u30d6\u30b4\u30fc\u30eb\u306b\u5206\u89e3\u3057\u3001\u518d\u5e30\u7684\u306b\u59d4\u4efb\u3057\u307e\u3059\u3002\u5404\u30ec\u30d9\u30eb\u304c\u5177\u4f53\u6027\u3092\u8ffd\u52a0\u3057\u307e\u3059\u3002\u5358\u4e00\u30d7\u30ed\u30f3\u30d7\u30c8\u3067\u306f\u66d6\u6627\u3060\u304c\u30d5\u30e9\u30c3\u30c8\u306a\u30c1\u30fc\u30e0\u3067\u306f\u6df7\u4e71\u3059\u308b\u5927\u898f\u6a21\u30d7\u30ed\u30b8\u30a7\u30af\u30c8\u306b\u6700\u9069\u3067\u3059\u3002' }
+  },
+  vi: {
+    pipeline: { title: 'Pipeline', desc: 'Output c\u1ee7a m\u1ed7i agent truy\u1ec1n tr\u1ef1c ti\u1ebfp cho agent ti\u1ebfp theo. L\u00fd t\u01b0\u1edfng cho quy tr\u00ecnh m\u00e0 c\u00e1c b\u01b0\u1edbc c\u00f3 th\u1ee9 t\u1ef1 nghi\u00eam ng\u1eb7t \u2014 sinh code \u2192 review \u2192 test \u2192 deploy. D\u1ec5 suy lu\u1eadn, nh\u01b0ng chu\u1ed7i ch\u1ec9 nhanh b\u1eb1ng m\u1eaft x\u00edch ch\u1eadm nh\u1ea5t.' },
+    fanout: { title: 'Fan-out / Fan-in', desc: 'Ph\u00e2n ph\u1ed1i nhi\u1ec7m v\u1ee5 con \u0111\u1ed9c l\u1eadp cho nhi\u1ec1u agent song song, r\u1ed3i h\u1ee3p nh\u1ea5t k\u1ebft qu\u1ea3. Ho\u00e0n h\u1ea3o cho nghi\u00ean c\u1ee9u, ph\u00e2n t\u00edch \u0111a file, ho\u1eb7c b\u1ea5t k\u1ef3 workload n\u00e0o m\u00e0 throughput quan tr\u1ecdng h\u01a1n th\u1ee9 t\u1ef1.' },
+    expert: { title: 'Expert Pool', desc: 'M\u1ed9t agent router ch\u1ecdn chuy\u00ean gia ph\u00f9 h\u1ee3p nh\u1ea5t cho m\u1ed7i y\u00eau c\u1ea7u \u0111\u1ebfn. Pool m\u1edf r\u1ed9ng khi c\u00f3 l\u0129nh v\u1ef1c m\u1edbi xu\u1ea5t hi\u1ec7n. Ph\u00f9 h\u1ee3p cho help desk, codebase \u0111a ng\u00f4n ng\u1eef, ho\u1eb7c Q&A theo l\u0129nh v\u1ef1c.' },
+    review: { title: 'Producer-Reviewer', desc: 'M\u1ed9t agent sinh n\u1ed9i dung, agent kh\u00e1c ph\u1ea3n bi\u1ec7n. V\u00f2ng l\u1eb7p ph\u1ea3n h\u1ed3i ti\u1ebfp t\u1ee5c cho \u0111\u1ebfn khi qua \u0111\u01b0\u1ee3c ti\u00eau ch\u00ed ch\u1ea5t l\u01b0\u1ee3ng. Thi\u1ebft y\u1ebfu cho sinh code, vi\u1ebft n\u1ed9i dung, v\u00e0 m\u1ecdi nhi\u1ec7m v\u1ee5 m\u00e0 \u00fd ki\u1ebfn th\u1ee9 hai gi\u00fap ph\u00e1t hi\u1ec7n \u0111i\u1ec3m m\u00f9.' },
+    supervisor: { title: 'Supervisor', desc: 'M\u1ed9t agent trung t\u00e2m duy tr\u00ec tr\u1ea1ng th\u00e1i to\u00e0n c\u1ee5c v\u00e0 ph\u00e2n ph\u1ed1i c\u00f4ng vi\u1ec7c \u0111\u1ed9ng theo ti\u1ebfn \u0111\u1ed9 v\u00e0 \u0111\u1ed9 \u01b0u ti\u00ean. L\u00fd t\u01b0\u1edfng khi k\u1ebf ho\u1ea1ch thay \u0111\u1ed5i \u2014 ph\u1ea3n \u1ee9ng s\u1ef1 c\u1ed1, t\u00e1i c\u1ea5u tr\u00fac ph\u1ee9c t\u1ea1p, ho\u1eb7c nghi\u00ean c\u1ee9u th\u0103m d\u00f2.' },
+    hierarchy: { title: 'Hierarchical Delegation', desc: 'M\u1ed9t agent c\u1ea5p cao chia m\u1ee5c ti\u00eau th\u00e0nh c\u00e1c m\u1ee5c ti\u00eau con v\u00e0 \u1ee7y quy\u1ec1n \u0111\u1ec7 quy. M\u1ed7i c\u1ea5p t\u0103ng th\u00eam \u0111\u1ed9 c\u1ee5 th\u1ec3. T\u1ed1t nh\u1ea5t cho d\u1ef1 \u00e1n quy m\u00f4 l\u1edbn m\u00e0 m\u1ed9t prompt \u0111\u01a1n qu\u00e1 m\u01a1 h\u1ed3 nh\u01b0ng m\u1ed9t \u0111\u1ed9i ph\u1eb3ng l\u1ea1i qu\u00e1 h\u1ed7n lo\u1ea1n.' }
   }
 };
 
 // Language priority: URL hash > localStorage > browser language
 function detectLang() {
   const hash = location.hash.replace('#', '').toLowerCase();
-  if (['en', 'ko', 'ja'].includes(hash)) return hash;
+  if (['en', 'ko', 'ja', 'vi'].includes(hash)) return hash;
   const stored = localStorage.getItem('harness-lang');
-  if (stored && ['en', 'ko', 'ja'].includes(stored)) return stored;
+  if (stored && ['en', 'ko', 'ja', 'vi'].includes(stored)) return stored;
   const nav = (navigator.language || '').toLowerCase();
   if (nav.startsWith('ko')) return 'ko';
   if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('vi')) return 'vi';
   return 'en';
 }
 let currentLang = detectLang();
@@ -1411,7 +1651,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 window.addEventListener('hashchange', () => {
   const lang = location.hash.replace('#', '').toLowerCase();
-  if (['en', 'ko', 'ja'].includes(lang) && lang !== currentLang) setLang(lang);
+  if (['en', 'ko', 'ja', 'vi'].includes(lang) && lang !== currentLang) setLang(lang);
 });
 </script>
 </body>

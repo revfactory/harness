@@ -1,16 +1,18 @@
-# Harness Launch Content — Multi-Platform
+# Nội dung Ra mắt Harness — Đa nền tảng
+
+> **Lưu ý:** Nội dung bài đăng dưới đây (trong các code block) được viết bằng tiếng Anh có chủ đích, vì đây là nội dung dùng để đăng trực tiếp lên các nền tảng tiếng Anh (Hacker News, Reddit, Twitter/X, Dev.to). Chỉ phần tiêu đề mục và ghi chú cấu trúc được dịch sang tiếng Việt.
 
 ---
 
 ## 1. Hacker News (Show HN)
 
-### Title
+### Tiêu đề
 
 ```
 Show HN: Harness – A Claude Code plugin that designs AI agent teams from a single prompt
 ```
 
-### Body
+### Nội dung
 
 ```
 I've been using Claude Code's agent teams for months, and the same problem kept coming up: every time I set up a multi-agent workflow, I was reinventing the wheel. Defining agent roles, writing skill files, figuring out which coordination pattern to use, wiring up data passing between agents — it was a 2-hour yak shave before the actual work could start.
@@ -50,9 +52,9 @@ Happy to answer questions about the architecture patterns, the research methodol
 
 ### 2a. r/ClaudeAI
 
-**Title:** `I built a Claude Code plugin that designs agent teams for you — 60% quality improvement in A/B tests`
+**Tiêu đề:** `I built a Claude Code plugin that designs agent teams for you — 60% quality improvement in A/B tests`
 
-**Body:**
+**Nội dung:**
 
 ```
 I kept running into the same friction with Claude Code's agent teams: setting up agents, writing skills, choosing coordination patterns, and wiring orchestration was taking longer than the actual task.
@@ -99,9 +101,9 @@ Would love feedback from anyone using Claude Code's agent teams. What domains ar
 
 ### 2b. r/MachineLearning
 
-**Title:** `[P] Harness: Structured Pre-Configuration for LLM Code Agents — +60% Quality, 100% Win Rate in A/B Tests`
+**Tiêu đề:** `[P] Harness: Structured Pre-Configuration for LLM Code Agents — +60% Quality, 100% Win Rate in A/B Tests`
 
-**Body:**
+**Nội dung:**
 
 ```
 **TL;DR:** Structured pre-configuration (defining agent roles, coordination patterns, and skill specifications before execution) improves LLM code agent output quality by +60% with 100% win rate across 15 tasks.
@@ -146,9 +148,9 @@ Happy to discuss the experimental design, pattern selection heuristics, or the p
 
 ### 2c. r/programming
 
-**Title:** `Show r/programming: A plugin that auto-generates multi-agent AI teams from your codebase — with A/B tested results`
+**Tiêu đề:** `Show r/programming: A plugin that auto-generates multi-agent AI teams from your codebase — with A/B tested results`
 
-**Body:**
+**Nội dung:**
 
 ```
 I've been working with Claude Code's agent teams — think of it as spawning multiple AI "workers" that coordinate on complex tasks. The problem: setting up these teams is tedious. You need to define roles, write skill files, pick a coordination pattern, wire data passing, handle errors. Every. Single. Time.
@@ -208,7 +210,7 @@ Requires Claude Code with Agent Teams enabled.
 
 ---
 
-## 3. Twitter/X Thread
+## 3. Chuỗi Twitter/X
 
 ### Tweet 1 — Hook
 
@@ -224,7 +226,7 @@ It's called Harness, and it's open source.
 🧵👇
 ```
 
-### Tweet 2 — The Problem
+### Tweet 2 — Vấn đề
 
 ```
 The problem with AI code agents:
@@ -238,7 +240,7 @@ The missing piece isn't intelligence. It's structure.
 [IMAGE: Side-by-side comparison showing scattered vs. organized agent output]
 ```
 
-### Tweet 3 — The Solution
+### Tweet 3 — Giải pháp
 
 ```
 Harness is a Claude Code Plugin — a "meta-skill" that designs multi-agent teams.
@@ -255,7 +257,7 @@ Say "build a harness for this project" and it runs a 6-phase pipeline:
 [IMAGE: Workflow diagram showing the 6 phases]
 ```
 
-### Tweet 4 — Architecture Patterns
+### Tweet 4 — Mẫu kiến trúc
 
 ```
 6 battle-tested coordination patterns:
@@ -272,7 +274,7 @@ It picks the right one for your domain.
 [IMAGE: Visual of the 6 architecture pattern cards]
 ```
 
-### Tweet 5 — The Research
+### Tweet 5 — Nghiên cứu
 
 ```
 I didn't just ship it — I measured it.
@@ -290,7 +292,7 @@ The effect SCALES with complexity.
 [IMAGE: Bar chart from landing page showing Basic/Advanced/Expert results]
 ```
 
-### Tweet 6 — The Scaling Insight
+### Tweet 6 — Phát hiện về quy mô
 
 ```
 This is the key insight:
@@ -322,7 +324,7 @@ To prove it generalizes, I generated 100 production-ready harness configurations
 github.com/revfactory/harness-100
 ```
 
-### Tweet 8 — Demo: Getting Started
+### Tweet 8 — Demo: Bắt đầu
 
 ```
 Getting started takes 30 seconds:
@@ -358,9 +360,9 @@ Stars welcome — helps others find it.
 
 ---
 
-## 4. Dev.to Article
+## 4. Bài viết Dev.to
 
-### Title
+### Tiêu đề
 
 ```
 How I Built a Meta-Skill That Designs AI Agent Teams — and Proved It Works with A/B Tests
@@ -370,7 +372,7 @@ How I Built a Meta-Skill That Designs AI Agent Teams — and Proved It Works wit
 
 `#ai #claude #agents #opensource`
 
-### Body
+### Nội dung
 
 ```markdown
 ## The problem nobody talks about
@@ -588,73 +590,73 @@ Apache 2.0 licensed. Stars and feedback welcome.
 
 ---
 
-## 5. Content Calendar — Coordinated Launch Plan
+## 5. Lịch nội dung — Kế hoạch ra mắt phối hợp
 
-All times in **UTC**. Designed for maximum cross-platform amplification within a 48-hour window.
+Mọi thời gian theo **UTC**. Thiết kế để khuếch đại tối đa đa nền tảng trong khung 48 giờ.
 
-### Day 1 (Launch Day)
+### Ngày 1 (Ngày ra mắt)
 
-| Time (UTC) | Platform | Content | Notes |
+| Giờ (UTC) | Nền tảng | Nội dung | Ghi chú |
 |------------|----------|---------|-------|
-| 08:00 | **Hacker News** | Show HN post | Post early AM US West Coast. HN traffic peaks 9-11am PT. |
-| 08:30 | **Twitter/X** | Thread (Tweets 1-9) | Post full thread immediately. Pin Tweet 1. |
-| 09:00 | **r/ClaudeAI** | Reddit post | Primary community. Most receptive audience. |
-| 10:00 | **r/programming** | Reddit post | Broader developer audience. Wait 1hr to avoid spam flags. |
-| 12:00 | **Dev.to** | Full article | Longer-form content for search & discovery. |
+| 08:00 | **Hacker News** | Bài Show HN | Đăng sáng sớm giờ US West Coast. Traffic HN đạt đỉnh 9-11h sáng PT. |
+| 08:30 | **Twitter/X** | Chuỗi tweet (Tweet 1-9) | Đăng toàn bộ chuỗi ngay lập tức. Pin Tweet 1. |
+| 09:00 | **r/ClaudeAI** | Bài Reddit | Cộng đồng chính. Đối tượng tiếp nhận tốt nhất. |
+| 10:00 | **r/programming** | Bài Reddit | Đối tượng developer rộng hơn. Đợi 1 giờ để tránh bị đánh dấu spam. |
+| 12:00 | **Dev.to** | Bài viết đầy đủ | Nội dung dài hơn cho tìm kiếm & khám phá. |
 
-### Day 2 (Follow-up)
+### Ngày 2 (Theo dõi tiếp)
 
-| Time (UTC) | Platform | Content | Notes |
+| Giờ (UTC) | Nền tảng | Nội dung | Ghi chú |
 |------------|----------|---------|-------|
-| 08:00 | **r/MachineLearning** | Reddit post | Research-focused audience. Lead with methodology. |
-| 10:00 | **Twitter/X** | Quote-tweet Thread with new angle | "The research results surprised me..." — highlight scaling insight. |
-| 14:00 | **Hacker News** | Respond to comments | Engage deeply. Technical answers boost ranking. |
+| 08:00 | **r/MachineLearning** | Bài Reddit | Đối tượng tập trung nghiên cứu. Dẫn bằng phương pháp luận. |
+| 10:00 | **Twitter/X** | Chuỗi quote-tweet với góc nhìn mới | "Kết quả nghiên cứu khiến tôi bất ngờ..." — nhấn vào phát hiện về quy mô. |
+| 14:00 | **Hacker News** | Trả lời comment | Tương tác sâu. Câu trả lời kỹ thuật giúp tăng ranking. |
 
-### Day 3+ (Sustained)
+### Ngày 3+ (Duy trì)
 
-| Time (UTC) | Platform | Content | Notes |
+| Giờ (UTC) | Nền tảng | Nội dung | Ghi chú |
 |------------|----------|---------|-------|
-| Ongoing | **Twitter/X** | Reply to quotes/mentions | Engage with everyone who shares. |
-| Ongoing | **GitHub** | Respond to issues/stars | Fast issue response signals active maintenance. |
-| +3 days | **Twitter/X** | "100 harnesses" standalone post | Separate content piece for the companion repo. |
-| +5 days | **Dev.to** | Follow-up: "5 architecture patterns for AI agent teams" | Evergreen content driving back to the repo. |
-| +7 days | **Twitter/X** | Milestone update | "500 stars in a week" or similar social proof. |
+| Liên tục | **Twitter/X** | Trả lời quote/mention | Tương tác với mọi người chia sẻ lại. |
+| Liên tục | **GitHub** | Trả lời issue/star | Phản hồi issue nhanh báo hiệu duy trì chủ động. |
+| +3 ngày | **Twitter/X** | Bài đăng riêng "100 harnesses" | Nội dung riêng cho repo song hành. |
+| +5 ngày | **Dev.to** | Bài theo dõi: "5 architecture patterns for AI agent teams" | Nội dung lâu bền dẫn về repo. |
+| +7 ngày | **Twitter/X** | Cập nhật mốc quan trọng | "500 stars trong một tuần" hoặc bằng chứng xã hội tương tự. |
 
-### Launch Checklist
+### Checklist ra mắt
 
-- [ ] GitHub README is polished with badges, banner, clear install instructions
-- [ ] Landing page (index.html) is live and linked from README
-- [ ] harness-100 repo is public with clear README
-- [ ] claude-code-harness (research repo) is public
-- [ ] All GitHub repos have proper topics/tags for discoverability
-- [ ] Twitter profile bio updated to mention Harness
-- [ ] Prepare 2-3 demo GIFs/screenshots for Twitter thread
-- [ ] Have responses pre-drafted for likely HN questions (methodology, limitations, comparison to other tools)
+- [ ] README GitHub đã hoàn thiện với badge, banner, hướng dẫn cài đặt rõ ràng
+- [ ] Landing page (index.html) đã live và được link từ README
+- [ ] Repo harness-100 công khai với README rõ ràng
+- [ ] claude-code-harness (repo nghiên cứu) công khai
+- [ ] Mọi repo GitHub có topic/tag phù hợp để dễ tìm thấy
+- [ ] Bio profile Twitter đã cập nhật nhắc đến Harness
+- [ ] Chuẩn bị 2-3 GIF/screenshot demo cho chuỗi Twitter
+- [ ] Đã soạn trước câu trả lời cho các câu hỏi HN khả dĩ (phương pháp luận, hạn chế, so sánh với công cụ khác)
 
 ---
 
-## Platform-Specific Optimization Notes
+## Ghi chú tối ưu theo từng nền tảng
 
 ### Hacker News
-- Title starts with "Show HN:" — required for Show HN posts
-- Plain text only, no markdown rendering
-- Lead with the problem, not the solution
-- Include concrete numbers early
-- End with "Happy to answer questions" — signals engagement
+- Tiêu đề bắt đầu bằng "Show HN:" — bắt buộc cho bài Show HN
+- Chỉ plain text, không render markdown
+- Dẫn bằng vấn đề, không dẫn bằng giải pháp
+- Đưa số liệu cụ thể vào sớm
+- Kết bằng "Happy to answer questions" — báo hiệu sẵn sàng tương tác
 
 ### Reddit
-- Each subreddit gets a different angle: r/ClaudeAI (practical/tutorial), r/MachineLearning (research/methodology), r/programming (engineering/show-off)
-- Never cross-post — each post is original
-- Don't say "my project" too many times — focus on the reader's problem
+- Mỗi subreddit có góc nhìn khác nhau: r/ClaudeAI (thực tế/hướng dẫn), r/MachineLearning (nghiên cứu/phương pháp luận), r/programming (kỹ thuật/khoe sản phẩm)
+- Không bao giờ cross-post — mỗi bài là nội dung gốc
+- Không nói "my project" quá nhiều lần — tập trung vào vấn đề của người đọc
 
 ### Twitter/X
-- Hook tweet is everything — must stop the scroll
-- Thread should work if someone only reads tweets 1 and 9
-- Mark image/GIF slots — visual content gets 3x engagement
-- End with clear CTA and links
+- Tweet hook là tất cả — phải dừng được hành vi lướt
+- Chuỗi tweet phải vẫn hiểu được nếu ai đó chỉ đọc tweet 1 và 9
+- Đánh dấu vị trí ảnh/GIF — nội dung hình ảnh tăng tương tác 3 lần
+- Kết bằng CTA và link rõ ràng
 
 ### Dev.to
-- Long-form for SEO — will rank for "AI agent teams", "Claude Code plugin", "multi-agent orchestration"
-- Include code blocks — Dev.to readers expect technical depth
-- "What I learned" section drives engagement and shares
-- Tags determine distribution — use high-traffic tags
+- Bài dài cho SEO — sẽ rank cho "AI agent teams", "Claude Code plugin", "multi-agent orchestration"
+- Bao gồm code block — người đọc Dev.to mong đợi độ sâu kỹ thuật
+- Section "What I learned" thúc đẩy tương tác và lượt chia sẻ
+- Tag quyết định khả năng phân phối — dùng tag có traffic cao

@@ -1,148 +1,148 @@
-# Harness — GitHub Trending Readiness Audit
+# Harness — Audit Sẵn Sàng GitHub Trending
 
-**Date:** 2026-03-29
+**Ngày:** 2026-03-29
 **Repo:** [revfactory/harness](https://github.com/revfactory/harness)
 **Tagline:** Agent Team & Skill Architect — A Claude Code Plugin
 
 ---
 
-## Key Strengths
+## Điểm mạnh chính
 
-1. **Excellent README structure** — Banner image above fold, 6 badges, multilingual support (EN/KO/JA), clear workflow diagram, architecture pattern tables, and rich use-case prompts. This is already above-average for most trending repos.
-2. **Landing page (index.html)** — A polished, dark-themed landing page with multilingual toggle. Many trending repos lack any web presence.
-3. **Strong narrative** — The README includes a "Built with Harness" section with quantitative A/B test results (+60% quality improvement, 100% win rate). This kind of evidence is rare and compelling.
-4. **Multilingual from day one** — README in 3 languages (EN, KO, JA) with landing page i18n. Expands discoverability across language communities.
-5. **Clear plugin structure** — Well-organized `plugin.json`, `SKILL.md`, and references directory. Professional packaging.
-6. **CHANGELOG** — Follows Semantic Versioning with detailed entries. Shows active maintenance.
-7. **Apache 2.0 License** — Permissive and enterprise-friendly.
+1. **Cấu trúc README xuất sắc** — Ảnh banner ngay đầu trang, 6 badge, hỗ trợ đa ngôn ngữ (EN/KO/JA), sơ đồ quy trình rõ ràng, bảng mẫu kiến trúc, và nhiều prompt use-case phong phú. Đã trên trung bình so với phần lớn repo trending.
+2. **Landing page (index.html)** — Một landing page tối màu, hoàn thiện, có toggle đa ngôn ngữ. Nhiều repo trending không có web presence nào.
+3. **Câu chuyện mạnh** — README có section "Built with Harness" với kết quả thử nghiệm A/B định lượng (+60% cải thiện chất lượng, tỷ lệ thắng 100%). Loại bằng chứng này hiếm và rất thuyết phục.
+4. **Đa ngôn ngữ từ ngày đầu** — README ở 3 ngôn ngữ (EN, KO, JA) cùng i18n trên landing page. Mở rộng khả năng được tìm thấy qua các cộng đồng ngôn ngữ.
+5. **Cấu trúc plugin rõ ràng** — `plugin.json`, `SKILL.md`, và thư mục references được tổ chức tốt. Đóng gói chuyên nghiệp.
+6. **CHANGELOG** — Tuân theo Semantic Versioning với các mục chi tiết. Cho thấy duy trì chủ động.
+7. **Giấy phép Apache 2.0** — Linh hoạt, thân thiện với doanh nghiệp.
 
 ---
 
-## Audit Scores
+## Điểm số Audit
 
-| Category | Score | Notes |
+| Hạng mục | Điểm | Ghi chú |
 |----------|:-----:|-------|
-| 1. README Quality | **8/10** | Strong. Missing: demo GIF/screencast, Quick Start could be more prominent |
-| 2. Repo Structure | **4/10** | No issue templates, PR template, CONTRIBUTING.md, CODE_OF_CONDUCT.md, no tags/releases |
-| 3. Trust Signals | **3/10** | No CI/CD, no tests, no docs site, no releases |
-| 4. Discoverability | **7/10** | Multilingual READMEs, landing page, badges. Missing: GitHub Topics, social preview, SEO description |
+| 1. Chất lượng README | **8/10** | Mạnh. Thiếu: GIF/screencast demo, Quick Start có thể nổi bật hơn |
+| 2. Cấu trúc repo | **4/10** | Không có issue template, PR template, CONTRIBUTING.md, CODE_OF_CONDUCT.md, không có tag/release |
+| 3. Tín hiệu tin cậy | **3/10** | Không có CI/CD, không có test, không có docs site, không có release |
+| 4. Khả năng được tìm thấy | **7/10** | README đa ngôn ngữ, landing page, badge. Thiếu: GitHub Topics, social preview, SEO description |
 
-**Overall Score: 5.5 / 10**
+**Điểm tổng: 5.5 / 10**
 
 ---
 
-## Detailed Findings & Recommendations
+## Phát hiện chi tiết & khuyến nghị
 
-### 1. README Quality (8/10)
+### 1. Chất lượng README (8/10)
 
-| Item | Status | Notes |
+| Mục | Trạng thái | Ghi chú |
 |------|--------|-------|
 | Tagline | ✅ | "Agent Team & Skill Architect — A Claude Code Plugin" |
-| Banner image above fold | ✅ | `harness_banner.png` |
-| Badges (3-5) | ✅ | 6 badges including version, license, stars |
-| Quick Start (≤5 steps) | ⚠️ | Installation exists but not labeled "Quick Start" |
-| Install section | ✅ | Marketplace + direct install |
-| Usage examples | ✅ | 8 detailed prompt examples |
-| Contributing link | ❌ | No CONTRIBUTING.md or link |
+| Ảnh banner ngay đầu trang | ✅ | `harness_banner.png` |
+| Badge (3-5) | ✅ | 6 badge bao gồm version, license, stars |
+| Quick Start (≤5 bước) | ⚠️ | Có phần Installation nhưng không đặt tên "Quick Start" |
+| Section cài đặt | ✅ | Marketplace + cài trực tiếp |
+| Ví dụ sử dụng | ✅ | 8 ví dụ prompt chi tiết |
+| Link Contributing | ❌ | Không có CONTRIBUTING.md hoặc link |
 | License | ✅ | Apache 2.0 |
-| Demo GIF/screencast | ❌ | No animated demo showing the plugin in action |
+| GIF/screencast demo | ❌ | Không có demo động cho thấy plugin hoạt động |
 
-#### Recommendations
+#### Khuyến nghị
 
-| # | Recommendation | Impact | Effort |
+| # | Khuyến nghị | Tác động | Công sức |
 |---|---------------|--------|--------|
-| R1 | **Add a demo GIF/screencast** showing Harness generating an agent team from a single prompt. Place it immediately after the tagline. This is the single highest-impact visual for GitHub Trending — visitors decide in 3 seconds. | **High** | **Medium** |
-| R2 | **Rename install section to "Quick Start"** and ensure it's ≤5 numbered steps. First step should be a one-liner copy-paste command. | **Medium** | **Low** |
-| R3 | **Add a "Contributing" section** at the bottom of README linking to CONTRIBUTING.md (see R7). | **Medium** | **Low** |
+| R1 | **Thêm GIF/screencast demo** cho thấy Harness sinh đội agent từ một prompt. Đặt ngay sau tagline. Đây là yếu tố hình ảnh có tác động cao nhất cho GitHub Trending — người xem quyết định trong 3 giây. | **Cao** | **Trung bình** |
+| R2 | **Đổi tên section cài đặt thành "Quick Start"** và đảm bảo ≤5 bước có số thứ tự. Bước đầu nên là một lệnh copy-paste một dòng. | **Trung bình** | **Thấp** |
+| R3 | **Thêm section "Contributing"** ở cuối README link tới CONTRIBUTING.md (xem R7). | **Trung bình** | **Thấp** |
 
 ---
 
-### 2. Repo Structure (4/10)
+### 2. Cấu trúc repo (4/10)
 
-| Item | Status |
+| Mục | Trạng thái |
 |------|--------|
-| `.github/ISSUE_TEMPLATE/` | ❌ Missing |
-| `.github/PULL_REQUEST_TEMPLATE.md` | ❌ Missing |
-| `CONTRIBUTING.md` | ❌ Missing |
-| `CODE_OF_CONDUCT.md` | ❌ Missing |
-| `.gitignore` | ✅ Present (minimal) |
-| Git tags / GitHub Releases | ❌ No tags |
-| GitHub Topics | ❌ Not set |
-| LICENSE | ✅ Present |
-| CHANGELOG.md | ✅ Present |
+| `.github/ISSUE_TEMPLATE/` | ❌ Thiếu |
+| `.github/PULL_REQUEST_TEMPLATE.md` | ❌ Thiếu |
+| `CONTRIBUTING.md` | ❌ Thiếu |
+| `CODE_OF_CONDUCT.md` | ❌ Thiếu |
+| `.gitignore` | ✅ Có (tối giản) |
+| Git tag / GitHub Releases | ❌ Không có tag |
+| GitHub Topics | ❌ Chưa đặt |
+| LICENSE | ✅ Có |
+| CHANGELOG.md | ✅ Có |
 
-#### Recommendations
+#### Khuyến nghị
 
-| # | Recommendation | Impact | Effort |
+| # | Khuyến nghị | Tác động | Công sức |
 |---|---------------|--------|--------|
-| R4 | **Create GitHub Releases** with tags `v1.0.0` and `v1.0.1`. Releases appear in the sidebar and signal project maturity. Include release notes from CHANGELOG.md. | **High** | **Low** |
-| R5 | **Add issue templates** — at minimum: `bug_report.yml`, `feature_request.yml`. This lowers the barrier for first-time contributors and signals community readiness. | **High** | **Low** |
-| R6 | **Add PR template** (`.github/PULL_REQUEST_TEMPLATE.md`) with checklist: description, testing, screenshots. | **Medium** | **Low** |
-| R7 | **Add CONTRIBUTING.md** — even a short one covering: how to report bugs, how to submit PRs, development setup. Critical for trending because new visitors look for this. | **High** | **Low** |
-| R8 | **Add CODE_OF_CONDUCT.md** — use the Contributor Covenant template. GitHub shows a "Code of Conduct" badge in the community profile. | **Medium** | **Low** |
-| R9 | **Set GitHub Topics** on the repo: `claude-code`, `claude-code-plugin`, `agent-team`, `ai-agent`, `llm`, `skill-generation`, `orchestration`, `claude`. Topics drive GitHub search and "Explore" recommendations. | **High** | **Low** |
+| R4 | **Tạo GitHub Releases** với tag `v1.0.0` và `v1.0.1`. Release hiện ở sidebar và báo hiệu độ trưởng thành của project. Đưa release notes từ CHANGELOG.md. | **Cao** | **Thấp** |
+| R5 | **Thêm issue template** — tối thiểu: `bug_report.yml`, `feature_request.yml`. Giảm rào cản cho contributor lần đầu và báo hiệu sẵn sàng cho cộng đồng. | **Cao** | **Thấp** |
+| R6 | **Thêm PR template** (`.github/PULL_REQUEST_TEMPLATE.md`) với checklist: mô tả, test, screenshot. | **Trung bình** | **Thấp** |
+| R7 | **Thêm CONTRIBUTING.md** — dù ngắn, cần có: cách báo bug, cách gửi PR, thiết lập môi trường phát triển. Quan trọng cho trending vì người xem mới tìm cái này. | **Cao** | **Thấp** |
+| R8 | **Thêm CODE_OF_CONDUCT.md** — dùng template Contributor Covenant. GitHub hiện badge "Code of Conduct" trong community profile. | **Trung bình** | **Thấp** |
+| R9 | **Đặt GitHub Topics** cho repo: `claude-code`, `claude-code-plugin`, `agent-team`, `ai-agent`, `llm`, `skill-generation`, `orchestration`, `claude`. Topics dẫn dắt tìm kiếm GitHub và đề xuất "Explore". | **Cao** | **Thấp** |
 
 ---
 
-### 3. Trust Signals (3/10)
+### 3. Tín hiệu tin cậy (3/10)
 
-| Item | Status |
+| Mục | Trạng thái |
 |------|--------|
-| CI/CD (GitHub Actions) | ❌ None |
-| Tests | ❌ No test suite |
-| Docs site | ⚠️ Landing page exists but no dedicated docs |
-| Recent commits | ✅ Active (multiple commits in last 2 days) |
-| Issue response time | N/A (no issues yet) |
+| CI/CD (GitHub Actions) | ❌ Không có |
+| Test | ❌ Không có test suite |
+| Docs site | ⚠️ Có landing page nhưng không có docs riêng |
+| Commit gần đây | ✅ Hoạt động (nhiều commit trong 2 ngày gần nhất) |
+| Thời gian phản hồi issue | N/A (chưa có issue) |
 
-#### Recommendations
+#### Khuyến nghị
 
-| # | Recommendation | Impact | Effort |
+| # | Khuyến nghị | Tác động | Công sức |
 |---|---------------|--------|--------|
-| R10 | **Add a basic GitHub Actions CI workflow** — even a simple one that validates YAML/JSON, runs a linter on markdown, or checks that plugin.json is well-formed. A green CI badge in the README is a strong trust signal. | **High** | **Low** |
-| R11 | **Add validation tests** — the plugin already mentions "dry-run testing" and "with-skill vs without-skill comparison." Package at least a smoke test that validates the plugin structure (plugin.json schema, SKILL.md exists, references exist). | **High** | **Medium** |
-| R12 | **Deploy landing page to GitHub Pages** — enable Pages for the repo so `index.html` is live at `revfactory.github.io/harness`. Add the URL to the repo's "About" section. This doubles as a docs site. | **High** | **Low** |
+| R10 | **Thêm workflow CI cơ bản bằng GitHub Actions** — dù chỉ đơn giản kiểm định YAML/JSON, chạy linter markdown, hoặc kiểm tra plugin.json hợp lệ. Badge CI xanh trong README là tín hiệu tin cậy mạnh. | **Cao** | **Thấp** |
+| R11 | **Thêm test kiểm định** — plugin đã đề cập "kiểm thử dry-run" và "so sánh with-skill vs without-skill". Đóng gói tối thiểu một smoke test kiểm định cấu trúc plugin (schema plugin.json, SKILL.md tồn tại, references tồn tại). | **Cao** | **Trung bình** |
+| R12 | **Deploy landing page lên GitHub Pages** — bật Pages cho repo để `index.html` chạy live tại `revfactory.github.io/harness`. Thêm URL vào section "About" của repo. Việc này cũng kiêm luôn vai trò docs site. | **Cao** | **Thấp** |
 
 ---
 
-### 4. Discoverability (7/10)
+### 4. Khả năng được tìm thấy (7/10)
 
-| Item | Status |
+| Mục | Trạng thái |
 |------|--------|
-| GitHub Topics | ❌ Not set |
-| SEO description (repo About) | ⚠️ Unknown — needs to be set via GitHub UI |
-| Social preview image | ❌ Not set (defaults to GitHub's auto-generated) |
-| Multilingual README | ✅ EN, KO, JA |
-| Landing page | ✅ `index.html` with i18n |
+| GitHub Topics | ❌ Chưa đặt |
+| SEO description (repo About) | ⚠️ Chưa rõ — cần đặt qua GitHub UI |
+| Ảnh social preview | ❌ Chưa đặt (dùng mặc định tự sinh của GitHub) |
+| README đa ngôn ngữ | ✅ EN, KO, JA |
+| Landing page | ✅ `index.html` có i18n |
 
-#### Recommendations
+#### Khuyến nghị
 
-| # | Recommendation | Impact | Effort |
+| # | Khuyến nghị | Tác động | Công sức |
 |---|---------------|--------|--------|
-| R13 | **Set repo description** in GitHub "About" section: "Agent Team & Skill Architect — A Claude Code Plugin that designs domain-specific agent teams and generates skills" | **High** | **Low** |
-| R14 | **Upload a social preview image** (1280×640px) via Settings → Social preview. This controls how the repo appears when shared on Twitter/X, Discord, Slack, etc. Use the banner image adapted to 2:1 ratio. | **High** | **Low** |
-| R15 | **Set the website URL** in repo About to the GitHub Pages URL (see R12). | **Medium** | **Low** |
+| R13 | **Đặt description repo** trong section "About" của GitHub: "Agent Team & Skill Architect — A Claude Code Plugin that designs domain-specific agent teams and generates skills" | **Cao** | **Thấp** |
+| R14 | **Upload ảnh social preview** (1280×640px) qua Settings → Social preview. Quyết định cách repo hiện khi share trên Twitter/X, Discord, Slack, v.v. Dùng ảnh banner chỉnh sang tỷ lệ 2:1. | **Cao** | **Thấp** |
+| R15 | **Đặt website URL** trong About repo tới URL GitHub Pages (xem R12). | **Trung bình** | **Thấp** |
 
 ---
 
-## Priority Matrix (Top 10 Actions)
+## Ma trận ưu tiên (10 hành động hàng đầu)
 
-Sorted by Impact ÷ Effort ratio for maximum trending readiness:
+Sắp xếp theo tỷ lệ Tác động ÷ Công sức để sẵn sàng trending tối đa:
 
-| Priority | Rec | Action | Impact | Effort |
+| Ưu tiên | Rec | Hành động | Tác động | Công sức |
 |:--------:|:---:|--------|--------|--------|
-| 1 | R4 | Create GitHub Releases (v1.0.0, v1.0.1) | High | Low |
-| 2 | R9 | Set GitHub Topics | High | Low |
-| 3 | R13 | Set repo description | High | Low |
-| 4 | R14 | Upload social preview image | High | Low |
-| 5 | R12 | Deploy landing page to GitHub Pages | High | Low |
-| 6 | R5 | Add issue templates | High | Low |
-| 7 | R7 | Add CONTRIBUTING.md | High | Low |
-| 8 | R10 | Add CI workflow with badge | High | Low |
-| 9 | R1 | Add demo GIF/screencast | High | Medium |
-| 10 | R11 | Add validation tests | High | Medium |
+| 1 | R4 | Tạo GitHub Releases (v1.0.0, v1.0.1) | Cao | Thấp |
+| 2 | R9 | Đặt GitHub Topics | Cao | Thấp |
+| 3 | R13 | Đặt description repo | Cao | Thấp |
+| 4 | R14 | Upload ảnh social preview | Cao | Thấp |
+| 5 | R12 | Deploy landing page lên GitHub Pages | Cao | Thấp |
+| 6 | R5 | Thêm issue template | Cao | Thấp |
+| 7 | R7 | Thêm CONTRIBUTING.md | Cao | Thấp |
+| 8 | R10 | Thêm workflow CI kèm badge | Cao | Thấp |
+| 9 | R1 | Thêm GIF/screencast demo | Cao | Trung bình |
+| 10 | R11 | Thêm test kiểm định | Cao | Trung bình |
 
 ---
 
-## Summary
+## Tổng kết
 
-The Harness repo has a **strong foundation** — the README is well-structured with multilingual support, the landing page is polished, and the A/B testing evidence is a standout differentiator. The main gaps are in **community infrastructure** (no issue templates, PR template, CONTRIBUTING.md, CODE_OF_CONDUCT.md) and **trust signals** (no CI/CD, no tests, no releases/tags). The good news is that most high-impact fixes are low-effort — setting topics, creating releases, adding templates, and deploying the landing page to GitHub Pages can all be done in a single session and would raise the overall score from **5.5 to ~8/10**.
+Repo Harness có **nền tảng vững** — README có cấu trúc tốt với hỗ trợ đa ngôn ngữ, landing page hoàn thiện, và bằng chứng thử nghiệm A/B là điểm khác biệt nổi bật. Khoảng trống chính nằm ở **hạ tầng cộng đồng** (không có issue template, PR template, CONTRIBUTING.md, CODE_OF_CONDUCT.md) và **tín hiệu tin cậy** (không CI/CD, không test, không release/tag). Tin tốt là phần lớn các sửa có tác động cao lại tốn ít công sức — đặt topics, tạo release, thêm template, và deploy landing page lên GitHub Pages đều có thể làm trong một buổi và sẽ nâng điểm tổng từ **5.5 lên ~8/10**.
