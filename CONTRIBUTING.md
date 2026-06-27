@@ -1,154 +1,154 @@
-# Contributing to Harness
+# Đóng góp cho Harness
 
-Thanks for considering a contribution to **Harness** — a Claude Code meta-skill factory that designs agent teams and generates skills.
+Cảm ơn bạn đã xem xét đóng góp cho **Harness** — một nhà máy meta-skill của Claude Code chuyên thiết kế đội agent và sinh skill.
 
-This document covers: response SLAs, how to contribute, development setup, PR conventions, commit message rules, code of conduct, and maintainer list.
+Tài liệu này bao gồm: SLA phản hồi, cách đóng góp, thiết lập môi trường phát triển, quy ước PR, quy tắc commit message, code of conduct, và danh sách maintainer.
 
 ---
 
-## Response SLA (commitments)
+## SLA phản hồi (cam kết)
 
-These are the maintainer response targets for this repository. They are **conservative** so that a small maintainer team can realistically keep them while scaling.
+Đây là mục tiêu phản hồi của maintainer cho repo này. Các chỉ số này được đặt **bảo thủ** để một team maintainer nhỏ có thể thực hiện được khi quy mô tăng lên.
 
-| Surface | Target | Notes |
+| Bề mặt | Mục tiêu | Ghi chú |
 |---------|--------|-------|
-| PR — 1st response | **< 72h** | Business days. A "1st response" means at minimum a label + one comment acknowledging the PR. |
-| Issue triage & labeling | **< 48h** | Every new issue gets `needs-triage` removed and a type label (`bug` / `enhancement` / `question` / `discussion`) within 48h. |
-| Bug resolve (P0 / P1) | **< 14d** | P0 = data loss / security / broken install. P1 = common path broken. P2/P3 tracked on roadmap without a hard SLA. |
-| Security report | **< 7d** | Initial acknowledgement within 7 days. Patch target 30 days. Please see **Security** section below for the private channel. |
-| Release cadence | **every 2 weeks** | Biweekly tag unless there is nothing shippable. P0 fixes may cut an off-schedule patch release. |
+| PR — phản hồi lần đầu | **< 72h** | Ngày làm việc. "Phản hồi lần đầu" nghĩa là tối thiểu một label + một comment xác nhận đã nhận PR. |
+| Phân loại & gắn label Issue | **< 48h** | Mọi issue mới sẽ được bỏ label `needs-triage` và gắn label loại (`bug` / `enhancement` / `question` / `discussion`) trong 48h. |
+| Xử lý bug (P0 / P1) | **< 14 ngày** | P0 = mất dữ liệu / an ninh / cài đặt bị hỏng. P1 = luồng phổ biến bị hỏng. P2/P3 theo dõi trên roadmap, không có SLA cứng. |
+| Báo cáo bảo mật | **< 7 ngày** | Xác nhận ban đầu trong 7 ngày. Mục tiêu patch trong 30 ngày. Xem mục **Security** dưới đây cho kênh riêng tư. |
+| Nhịp release | **mỗi 2 tuần** | Gắn tag hai tuần một lần, trừ khi không có gì để release. Fix P0 có thể phát hành patch ngoài lịch. |
 
-If we miss an SLA, please feel free to ping the issue/PR — that is not rude, it is the agreed feedback loop.
+Nếu chúng tôi trễ SLA, hãy ping vào issue/PR — điều đó không hề thất thố, đó là vòng phản hồi đã được thống nhất.
 
 ---
 
-## How to Contribute
+## Cách đóng góp
 
-Different kinds of contributions go through different entry points. Pick the one that fits.
+Mỗi loại đóng góp đi qua một điểm vào khác nhau. Chọn loại phù hợp.
 
-### Bug report
+### Báo cáo lỗi (Bug report)
 
-- Open an issue using the **Bug report** form (`.github/ISSUE_TEMPLATE/bug_report.yml`).
-- Required: Claude Code version, `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` flag state, reproduction steps, expected vs actual, OS.
-- Small reproductions (< 30 lines) are ideal. If your repro needs a full project, link a public fork.
+- Mở issue dùng form **Bug report** (`.github/ISSUE_TEMPLATE/bug_report.yml`).
+- Bắt buộc: phiên bản Claude Code, trạng thái flag `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`, bước tái hiện lỗi, kỳ vọng vs thực tế, OS.
+- Tái hiện ngắn (< 30 dòng) là lý tưởng nhất. Nếu cần cả project để tái hiện, hãy link một fork công khai.
 
-### Feature request
+### Yêu cầu tính năng (Feature request)
 
-- Open an issue using the **Feature request** form.
-- We expect a short "what problem does this solve" paragraph. If you have a proposal, put it in the PR-ready shape (which of the 6 team-architecture patterns does it extend / replace?).
+- Mở issue dùng form **Feature request**.
+- Chúng tôi mong có một đoạn ngắn "vấn đề này giải quyết điều gì". Nếu có đề xuất, hãy trình bày ở dạng sẵn sàng đưa vào PR (đề xuất này mở rộng/thay thế mẫu kiến trúc nào trong 6 mẫu?).
 
-### Question
+### Câu hỏi
 
-- Open an issue using the **Question** form, **or** start a thread in [GitHub Discussions](https://github.com/revfactory/harness/discussions) if the matter is open-ended.
+- Mở issue dùng form **Question**, **hoặc** mở thread trong [GitHub Discussions](https://github.com/revfactory/harness/discussions) nếu vấn đề còn mở.
 
-### Discussion (RFC-sized ideas)
+### Thảo luận (ý tưởng cỡ RFC)
 
-- Prefer GitHub Discussions. Only promote to an issue once there is rough consensus on direction.
+- Ưu tiên GitHub Discussions. Chỉ nâng lên issue khi đã có đồng thuận cơ bản về hướng đi.
 
 ### Pull Request
 
-- See **Pull Request Guidelines** below.
-- Small PRs merge faster. Anything > 400 lines of diff should probably have been a Discussion first.
+- Xem **Hướng dẫn Pull Request** dưới đây.
+- PR nhỏ được merge nhanh hơn. Diff > 400 dòng nên được thảo luận trước qua Discussion.
 
-### Security
+### Bảo mật
 
-- Do **not** open a public issue for anything that could be abused.
-- Email: `robin.hwang@kakaocorp.com` with subject prefix `[harness-security]`.
-- We aim to acknowledge within 7 days (see SLA table).
+- **Không** mở issue công khai cho bất kỳ điều gì có thể bị lợi dụng.
+- Email: `robin.hwang@kakaocorp.com` với tiền tố subject `[harness-security]`.
+- Chúng tôi cố gắng xác nhận trong 7 ngày (xem bảng SLA).
 
 ---
 
-## Development Setup
+## Thiết lập môi trường phát triển
 
-### Prerequisites
+### Yêu cầu trước
 
-- Claude Code `v2.x` (Agent Teams API required)
-- Node.js `>= 18` (for local tooling used in CI)
+- Claude Code `v2.x` (cần Agent Teams API)
+- Node.js `>= 18` (cho tooling cục bộ dùng trong CI)
 - Git
 
-### Environment flag
+### Cờ môi trường
 
-Harness currently requires Claude Code's experimental Agent Teams feature. Set the flag in your shell profile or per-session:
+Hiện tại Harness yêu cầu tính năng Agent Teams thử nghiệm của Claude Code. Đặt cờ này trong shell profile hoặc theo phiên:
 
 ```bash
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
 
-We track this dependency in `docs/experimental-dependency.md` (if Anthropic promotes the flag to stable, we update the README within 72h per the SLA above).
+Chúng tôi theo dõi phụ thuộc này tại `docs/experimental-dependency.md` (nếu Anthropic chuyển cờ này thành stable, chúng tôi sẽ cập nhật README trong 72h theo SLA trên).
 
-### Local plugin link
+### Link plugin cục bộ
 
-To test your changes in a local Claude Code session without publishing to the marketplace:
+Để kiểm thử thay đổi của bạn trong một phiên Claude Code cục bộ mà không cần publish lên marketplace:
 
 ```bash
-# From your checkout
+# Từ checkout của bạn
 claude plugin link ./harness
 
-# Verify
+# Kiểm tra
 claude plugin list | grep harness
 ```
 
-Unlink with `claude plugin unlink harness` when you're done.
+Unlink bằng `claude plugin unlink harness` khi xong.
 
-### Running the meta-skill
+### Chạy meta-skill
 
 ```bash
 claude "build a harness for a fintech risk-assessment team"
 ```
 
-Scaffolded agents and skills land under `.claude/agents/` and `.claude/skills/` in the target project.
+Agent và skill được scaffold sẽ nằm dưới `.claude/agents/` và `.claude/skills/` trong project đích.
 
-### Tests & lints
+### Test & lint
 
 - Markdown lint: `npx markdownlint '**/*.md'`
-- YAML lint (issue templates & workflows): `npx yaml-lint .github/`
-- Skill metadata validation: `python scripts/validate_skills.py` (if present)
+- YAML lint (issue template & workflow): `npx yaml-lint .github/`
+- Kiểm định metadata skill: `python scripts/validate_skills.py` (nếu có)
 
-CI runs these on every PR. Local execution is encouraged but not required — we won't block on CI-caught issues that are trivial to fix on merge.
+CI chạy các bước này trên mọi PR. Khuyến khích chạy cục bộ nhưng không bắt buộc — chúng tôi sẽ không chặn merge với các lỗi CI phát hiện nhưng dễ sửa.
 
 ---
 
-## Pull Request Guidelines
+## Hướng dẫn Pull Request
 
-### Branch naming
+### Đặt tên branch
 
-Use the `type/short-description` shape:
+Dùng cấu trúc `type/short-description`:
 
-| Prefix | Use for | Example |
+| Tiền tố | Dùng cho | Ví dụ |
 |--------|---------|---------|
-| `feat/` | New user-visible capability | `feat/expert-pool-variance-mode` |
-| `fix/` | Bug fix | `fix/agent-teams-flag-detection` |
-| `docs/` | Docs-only changes | `docs/quickstart-gemini-section` |
-| `refactor/` | Internal structure, no behavior change | `refactor/skill-loader-split` |
-| `chore/` | Build, deps, housekeeping | `chore/upgrade-markdownlint` |
-| `test/` | Tests only | `test/fan-out-fan-in-e2e` |
+| `feat/` | Tính năng mới hiển thị với người dùng | `feat/expert-pool-variance-mode` |
+| `fix/` | Sửa lỗi | `fix/agent-teams-flag-detection` |
+| `docs/` | Chỉ thay đổi docs | `docs/quickstart-gemini-section` |
+| `refactor/` | Tái cấu trúc nội bộ, không đổi hành vi | `refactor/skill-loader-split` |
+| `chore/` | Build, dependency, dọn dẹp | `chore/upgrade-markdownlint` |
+| `test/` | Chỉ test | `test/fan-out-fan-in-e2e` |
 
-### Commit message language
+### Ngôn ngữ commit message
 
-- **Korean and English are both accepted.** Write in whichever you are more precise in.
-- If the change will appear in the CHANGELOG or release notes, please also provide an English title in the PR description so downstream readers can follow.
+- **Cả tiếng Hàn và tiếng Anh đều được chấp nhận.** Viết bằng ngôn ngữ bạn diễn đạt chính xác hơn.
+- Nếu thay đổi sẽ xuất hiện trong CHANGELOG hoặc release notes, vui lòng cũng cung cấp title tiếng Anh trong PR description để người đọc sau có thể theo dõi.
 
-### PR template
+### Template PR
 
-Every PR body is pre-filled from `.github/PULL_REQUEST_TEMPLATE.md`. Please fill in:
+Mọi nội dung PR được điền sẵn từ `.github/PULL_REQUEST_TEMPLATE.md`. Vui lòng điền:
 
-- **Summary** (what & why, 2–4 sentences)
-- **Motivation** (link issue, reference research, or 1-line rationale)
-- **Scope of change** (checklist of touched surfaces)
-- **Tests** (what you ran / added)
-- **CHANGELOG** (did you update `CHANGELOG.md`? Y/N/NA)
-- **SemVer impact** (patch / minor / major — see next section)
+- **Tóm tắt** (cái gì & vì sao, 2–4 câu)
+- **Động lực** (link issue, tham chiếu nghiên cứu, hoặc lý do 1 dòng)
+- **Phạm vi thay đổi** (checklist các bề mặt bị ảnh hưởng)
+- **Test** (bạn đã chạy/thêm gì)
+- **CHANGELOG** (đã cập nhật `CHANGELOG.md` chưa? Y/N/NA)
+- **Tác động SemVer** (patch / minor / major — xem mục tiếp theo)
 
-### Review expectation
+### Kỳ vọng review
 
-- One approving review from a maintainer is required.
-- We try to respond on PRs within 72h (see SLA). If you're blocked, ping.
+- Cần ít nhất một review chấp thuận từ maintainer.
+- Chúng tôi cố gắng phản hồi PR trong 72h (xem SLA). Nếu bị chặn, hãy ping.
 
 ---
 
-## Commit Message Convention
+## Quy ước Commit Message
 
-We follow a light variant of **Conventional Commits** that maps directly to SemVer.
+Chúng tôi theo một biến thể nhẹ của **Conventional Commits**, ánh xạ trực tiếp sang SemVer.
 
 ```
 <type>(<scope>)!: <short summary>
@@ -158,54 +158,54 @@ We follow a light variant of **Conventional Commits** that maps directly to SemV
 <footer — optional>
 ```
 
-### Types & SemVer mapping
+### Loại & ánh xạ SemVer
 
-| Commit type | SemVer impact | Example |
+| Loại commit | Tác động SemVer | Ví dụ |
 |-------------|---------------|---------|
-| `feat!:` or `BREAKING CHANGE:` in footer | **major** (e.g. 1.x → 2.0) | `feat!: rename primary pattern "Supervisor" → "Orchestrator"` |
-| `feat:` | **minor** (e.g. 1.2 → 1.3) | `feat: add Producer-Reviewer variance metric` |
-| `fix:` | **patch** (e.g. 1.2.3 → 1.2.4) | `fix: correct flag detection on zsh` |
-| `docs:` / `chore:` / `refactor:` / `test:` | no release bump | `docs: clarify Gemini roadmap` |
+| `feat!:` hoặc `BREAKING CHANGE:` trong footer | **major** (ví dụ 1.x → 2.0) | `feat!: rename primary pattern "Supervisor" → "Orchestrator"` |
+| `feat:` | **minor** (ví dụ 1.2 → 1.3) | `feat: add Producer-Reviewer variance metric` |
+| `fix:` | **patch** (ví dụ 1.2.3 → 1.2.4) | `fix: correct flag detection on zsh` |
+| `docs:` / `chore:` / `refactor:` / `test:` | không tăng version release | `docs: clarify Gemini roadmap` |
 
-- Korean summaries are fine: `feat: 전문가 풀 패턴에 분산 지표 추가`.
-- The `!` suffix (or `BREAKING CHANGE:` footer) is the **only** canonical major-version trigger. Please do not set it lightly.
+- Tóm tắt bằng tiếng Hàn cũng được: `feat: 전문가 풀 패턴에 분산 지표 추가`.
+- Hậu tố `!` (hoặc footer `BREAKING CHANGE:`) là **duy nhất** trigger chính thức cho major version. Vui lòng không dùng tùy tiện.
 
-### Release tagging
+### Gắn tag release
 
-- Releases are cut every 2 weeks (see SLA).
-- Tagging happens from `main` after CI passes and CHANGELOG is updated.
-- Tags follow `vMAJOR.MINOR.PATCH` (e.g. `v1.3.0`).
-
----
-
-## Code of Conduct
-
-This project adheres to the **Contributor Covenant v1.4** — in short:
-
-- Be welcoming and inclusive. Assume good intent.
-- No harassment, no personal attacks, no discriminatory language.
-- Critique ideas, not people. Back claims with references where possible.
-- Maintainers may moderate, edit, or remove comments/commits/issues/PRs that violate these principles, and may ban offenders.
-
-Full text: <https://www.contributor-covenant.org/version/1/4/code-of-conduct/>
-
-Report Code of Conduct violations privately to `robin.hwang@kakaocorp.com` with subject prefix `[harness-coc]`.
+- Release được phát hành mỗi 2 tuần (xem SLA).
+- Gắn tag được thực hiện từ `main` sau khi CI pass và CHANGELOG đã cập nhật.
+- Tag theo định dạng `vMAJOR.MINOR.PATCH` (ví dụ `v1.3.0`).
 
 ---
 
-## Maintainers
+## Quy tắc ứng xử (Code of Conduct)
 
-| Role | Handle | Area |
+Project này tuân theo **Contributor Covenant v1.4** — tóm tắt:
+
+- Chào đón và bao trùm. Giả định ý định tốt.
+- Không quấy rối, không tấn công cá nhân, không ngôn từ phân biệt.
+- Phê bình ý tưởng, không phê bình con người. Hỗ trợ luận điểm bằng tham chiếu khi có thể.
+- Maintainer có thể kiểm duyệt, sửa, hoặc xóa comment/commit/issue/PR vi phạm các nguyên tắc này, và có thể cấm người vi phạm.
+
+Toàn văn: <https://www.contributor-covenant.org/version/1/4/code-of-conduct/>
+
+Báo cáo vi phạm Code of Conduct riêng tư tới `robin.hwang@kakaocorp.com` với tiền tố subject `[harness-coc]`.
+
+---
+
+## Maintainer
+
+| Vai trò | Handle | Phụ trách |
 |------|--------|------|
-| Lead maintainer | [@revfactory](https://github.com/revfactory) | Project direction, releases, final review |
-| Contributor | [@hnts03](https://github.com/hnts03) | Skill templates, Korean documentation |
-| Contributor | [@JunghwanNA](https://github.com/JunghwanNA) | Agent patterns, integration tests |
+| Lead maintainer | [@revfactory](https://github.com/revfactory) | Định hướng project, release, review cuối |
+| Contributor | [@hnts03](https://github.com/hnts03) | Template skill, tài liệu tiếng Hàn |
+| Contributor | [@JunghwanNA](https://github.com/JunghwanNA) | Mẫu agent, test tích hợp |
 | Contributor | [@shaun0927](https://github.com/shaun0927) | Tooling, CI, infra |
 
-New contributors become listed here after sustained contribution (not a single PR). Drop a note in a Discussion if you'd like to discuss a maintainer path.
+Contributor mới sẽ được đưa vào danh sách này sau khi đóng góp liên tục (không phải chỉ một PR). Hãy để lại ghi chú trong Discussion nếu bạn muốn thảo luận về con đường trở thành maintainer.
 
 ---
 
-## License
+## Giấy phép
 
-By contributing, you agree that your contributions will be licensed under the same license as this repository (see [`LICENSE`](./LICENSE)).
+Khi đóng góp, bạn đồng ý rằng đóng góp của bạn sẽ được cấp phép theo cùng giấy phép của repo này (xem [`LICENSE`](./LICENSE)).

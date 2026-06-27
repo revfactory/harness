@@ -1,457 +1,457 @@
 ---
 name: harness
-description: "하네스를 구성합니다. 전문 에이전트를 정의하며, 해당 에이전트가 사용할 스킬을 생성하는 메타 스킬. (1) '하네스 구성해줘', '하네스 구축해줘' 요청 시, (2) '하네스 설계', '하네스 엔지니어링' 요청 시, (3) 새로운 도메인/프로젝트에 대한 하네스 기반 자동화 체계를 구축할 때, (4) 하네스 구성을 재구성하거나 확장할 때, (5) '하네스 점검', '하네스 감사', '하네스 현황', '에이전트/스킬 동기화' 등 기존 하네스 운영/유지보수 요청 시 사용."
+description: "Cấu hình harness. Định nghĩa các agent chuyên biệt, và sinh ra các skill mà các agent đó sẽ sử dụng — đây là một meta-skill. Sử dụng khi: (1) yêu cầu '하네스 구성해줘', '하네스 구축해줘' (하네스 trong tiếng Hàn) hoặc 'xây dựng harness', 'thiết lập harness'; (2) yêu cầu '하네스 설계', '하네스 엔지니어링' hoặc 'thiết kế harness', 'kỹ thuật harness'; (3) khi xây dựng hệ thống tự động hóa dựa trên harness cho một lĩnh vực/dự án mới; (4) khi cấu hình lại hoặc mở rộng cấu hình harness hiện có; (5) khi có yêu cầu vận hành/bảo trì harness hiện có như '하네스 점검', '하네스 감사', '하네스 현황', '에이전트/스킬 동기화' hoặc 'kiểm tra harness', 'audit harness', 'hiện trạng harness', 'đồng bộ agent/skill'."
 ---
 
 # Harness — Agent Team & Skill Architect
 
-도메인/프로젝트에 맞는 하네스를 구성하고, 각 에이전트의 역할을 정의하며, 에이전트가 사용할 스킬을 생성하는 메타 스킬.
+Meta-skill chuyên cấu hình harness phù hợp với lĩnh vực/dự án, định nghĩa vai trò của từng agent, và sinh ra các skill mà agent sẽ sử dụng.
 
-**핵심 원칙:**
-1. 에이전트 정의(`.claude/agents/`)와 스킬(`.claude/skills/`)을 생성한다.
-2. **에이전트 팀을 기본 실행 모드로 사용한다.**
-3. **CLAUDE.md에 하네스 포인터를 등록한다.** — 새 세션에서 오케스트레이터 스킬이 트리거되도록 최소한의 포인터(트리거 규칙 + 변경 이력)만 기록한다.
-4. **하네스는 고정물이 아니라 진화하는 시스템이다.** — 매 실행 후 피드백을 반영하고, 에이전트·스킬·CLAUDE.md를 지속 갱신한다.
+**Nguyên tắc cốt lõi:**
+1. Sinh ra định nghĩa agent (`.claude/agents/`) và skill (`.claude/skills/`).
+2. **Sử dụng agent team là chế độ thực thi mặc định.**
+3. **Đăng ký con trỏ harness vào CLAUDE.md.** — Chỉ ghi lại con trỏ tối thiểu (quy tắc trigger + lịch sử thay đổi) để skill orchestrator được trigger ở phiên làm việc mới.
+4. **Harness không phải là vật cố định mà là hệ thống tiến hóa.** — Sau mỗi lần thực thi, phản ánh phản hồi và liên tục cập nhật agent, skill, CLAUDE.md.
 
-## 워크플로우
+## Quy trình
 
-### Phase 0: 현황 감사
+### Phase 0: Kiểm tra hiện trạng
 
-하네스 스킬이 트리거되면 가장 먼저 기존 하네스 현황을 확인한다.
+Khi skill harness được trigger, việc đầu tiên là kiểm tra hiện trạng harness hiện có.
 
-1. `프로젝트/.claude/agents/`, `프로젝트/.claude/skills/`, `프로젝트/CLAUDE.md`를 읽는다
-2. 현황에 따라 실행 모드를 분기한다:
-   - **신규 구축**: 에이전트/스킬 디렉토리가 없거나 비어있음 → Phase 1부터 전체 실행
-   - **기존 확장**: 기존 하네스가 있고 새 에이전트/스킬 추가 요청 → 아래 Phase 선택 매트릭스에 따라 필요한 Phase만 실행
-   - **운영/유지보수**: 기존 하네스의 감사·수정·동기화 요청 → Phase 7-5 운영/유지보수 워크플로우로 이동
+1. Đọc `project/.claude/agents/`, `project/.claude/skills/`, `project/CLAUDE.md`
+2. Phân nhánh chế độ thực thi theo hiện trạng:
+   - **Xây mới**: thư mục agent/skill không tồn tại hoặc trống → thực thi toàn bộ từ Phase 1
+   - **Mở rộng harness có sẵn**: đã có harness và yêu cầu thêm agent/skill mới → chỉ thực thi các Phase cần thiết theo ma trận chọn Phase dưới đây
+   - **Vận hành/bảo trì**: yêu cầu audit·sửa·đồng bộ harness hiện có → chuyển sang quy trình vận hành/bảo trì ở Phase 7-5
 
-   **기존 확장 시 Phase 선택 매트릭스:**
-   | 변경 유형 | Phase 1 | Phase 2 | Phase 3 | Phase 4 | Phase 5 | Phase 6 |
+   **Ma trận chọn Phase khi mở rộng harness có sẵn:**
+   | Loại thay đổi | Phase 1 | Phase 2 | Phase 3 | Phase 4 | Phase 5 | Phase 6 |
    |----------|---------|---------|---------|---------|---------|---------|
-   | 에이전트 추가 | 건너뜀 (Phase 0 결과 활용) | 배치 결정만 | 필수 (3-0 포함) | 전용 스킬 필요 시 (4-0 포함) | 오케스트레이터 수정 | 필수 |
-   | 스킬 추가/수정 | 건너뜀 | 건너뜀 | 건너뜀 | 필수 (4-0 포함) | 연결 변경 시 | 필수 |
-   | 아키텍처 변경 | 건너뜀 | 필수 | 영향받는 에이전트만 (3-0 포함) | 영향받는 스킬만 (4-0 포함) | 필수 | 필수 |
-3. 기존 에이전트/스킬 목록과 CLAUDE.md 기록을 대조하여 불일치(drift)를 감지한다
-4. 감사 결과를 사용자에게 요약 보고하고, 실행 계획을 확인받는다
+   | Thêm agent | Bỏ qua (dùng kết quả Phase 0) | Chỉ quyết định bố trí | Bắt buộc (gồm 3-0) | Khi cần skill riêng (gồm 4-0) | Sửa orchestrator | Bắt buộc |
+   | Thêm/sửa skill | Bỏ qua | Bỏ qua | Bỏ qua | Bắt buộc (gồm 4-0) | Khi thay đổi liên kết | Bắt buộc |
+   | Đổi kiến trúc | Bỏ qua | Bắt buộc | Chỉ agent bị ảnh hưởng (gồm 3-0) | Chỉ skill bị ảnh hưởng (gồm 4-0) | Bắt buộc | Bắt buộc |
+3. Đối chiếu danh sách agent/skill hiện có với nội dung ghi trong CLAUDE.md để phát hiện sai lệch (drift)
+4. Báo cáo tóm tắt kết quả kiểm tra cho người dùng và xác nhận kế hoạch thực thi
 
-### Phase 1: 도메인 분석
-1. 사용자 요청에서 도메인/프로젝트 파악
-2. 핵심 작업 유형 식별 (생성, 검증, 편집, 분석 등)
-3. Phase 0 감사 결과를 기반으로 기존 에이전트/스킬과의 충돌/중복 분석
-4. 프로젝트 코드베이스 탐색 — 기술 스택, 데이터 모델, 주요 모듈 파악
-5. **사용자 숙련도 감지** — 대화의 맥락 단서(사용 용어, 질문 수준)로 기술 수준을 파악하고, 이후 커뮤니케이션 톤을 조절한다. 코딩 경험이 적은 사용자에게는 "assertion", "JSON schema" 같은 용어를 설명 없이 쓰지 않는다.
+### Phase 1: Phân tích lĩnh vực
+1. Xác định lĩnh vực/dự án từ yêu cầu người dùng
+2. Xác định loại công việc cốt lõi (sinh nội dung, kiểm định, biên tập, phân tích, v.v.)
+3. Phân tích xung đột/trùng lặp với agent/skill hiện có, dựa trên kết quả kiểm tra ở Phase 0
+4. Khám phá codebase của dự án — xác định tech stack, mô hình dữ liệu, module chính
+5. **Nhận diện trình độ người dùng** — dựa vào ngữ cảnh hội thoại (thuật ngữ dùng, mức độ câu hỏi) để xác định trình độ kỹ thuật, và điều chỉnh tông giao tiếp tương ứng. Với người dùng ít kinh nghiệm coding, không dùng các thuật ngữ như "assertion", "JSON schema" mà không giải thích.
 
-### Phase 2: 팀 아키텍처 설계
+### Phase 2: Thiết kế kiến trúc đội
 
-#### 2-1. 실행 모드 선택
+#### 2-1. Chọn chế độ thực thi
 
-**에이전트 팀이 최우선 기본값이다.** 2개 이상의 에이전트가 협업할 때는 반드시 에이전트 팀을 먼저 검토한다. 팀원 간 직접 통신(SendMessage)과 공유 작업 목록(TaskCreate)으로 자체 조율하며, 발견 공유·상충 토론·누락 보완이 결과 품질을 높인다.
+**Agent team là mặc định ưu tiên hàng đầu.** Khi 2 agent trở lên cần phối hợp, luôn xem xét agent team trước. Các thành viên tự điều phối thông qua giao tiếp trực tiếp (SendMessage) và danh sách công việc chung (TaskCreate), việc chia sẻ phát hiện, thảo luận xung đột, bổ sung thiếu sót giúp nâng cao chất lượng kết quả.
 
-| 모드 | 언제 사용 | 특성 |
-|------|----------|------|
-| **에이전트 팀** (기본) | 2명 이상 협업, 실시간 조율·피드백 교환이 필요, 중간 산출물 상호 참조 | `TeamCreate` + `SendMessage` + `TaskCreate`로 자체 조율 |
-| **서브 에이전트** (대안) | 단일 에이전트 작업, 결과만 메인에 반환하면 충분, 팀 통신 오버헤드가 과할 때 | `Agent` 도구 직접 호출, `run_in_background`로 병렬 |
-| **하이브리드** | Phase마다 특성이 다를 때 — 예: 병렬 수집(서브) → 합의 기반 통합(팀) | Phase 단위로 팀/서브를 섞어 구성 |
+| Chế độ | Khi nào dùng | Đặc điểm |
+|------|----------|----------|
+| **Agent Team** (mặc định) | 2 người trở lên phối hợp, cần điều phối/trao đổi phản hồi theo thời gian thực, tham chiếu chéo sản phẩm trung gian | Tự điều phối bằng `TeamCreate` + `SendMessage` + `TaskCreate` |
+| **Subagent** (phương án thay thế) | Công việc của một agent đơn, chỉ cần trả kết quả về main, khi chi phí giao tiếp đội là quá mức | Gọi trực tiếp công cụ `Agent`, chạy song song với `run_in_background` |
+| **Hybrid** | Khi đặc điểm khác nhau theo từng Phase — ví dụ: thu thập song song (sub) → hợp nhất theo đồng thuận (team) | Trộn team/sub theo từng Phase |
 
-**의사결정 순서:**
-1. 먼저 에이전트 팀으로 설계 가능한지 검토한다 — 2명 이상이면 기본값
-2. 팀 통신이 구조적으로 불필요하고(결과 전달만), 팀 오버헤드가 이득보다 클 때만 서브 에이전트 선택
-3. Phase별 특성이 확연히 다르면 하이브리드 고려 — 각 Phase의 실행 모드를 오케스트레이터에 명시
+**Trình tự ra quyết định:**
+1. Đầu tiên xem xét có thể thiết kế bằng agent team không — 2 người trở lên thì là mặc định
+2. Chỉ chọn subagent khi giao tiếp đội về cấu trúc là không cần thiết (chỉ truyền kết quả) và chi phí đội lớn hơn lợi ích
+3. Nếu đặc điểm các Phase khác biệt rõ ràng, xem xét hybrid — ghi rõ chế độ thực thi của từng Phase trong orchestrator
 
-> 상세 비교표와 패턴별 의사결정 트리는 `references/agent-design-patterns.md`의 "실행 모드" 참조.
+> Bảng so sánh chi tiết và cây quyết định theo mẫu, xem mục "Chế độ thực thi" trong `references/agent-design-patterns.md`.
 
-#### 2-2. 아키텍처 패턴 선택
+#### 2-2. Chọn mẫu kiến trúc
 
-1. 작업을 전문 영역으로 분해
-2. 에이전트 팀 구조 결정 (아키텍처 패턴은 `references/agent-design-patterns.md` 참조)
-   - **파이프라인**: 순차 의존 작업
-   - **팬아웃/팬인**: 병렬 독립 작업
-   - **전문가 풀**: 상황별 선택 호출
-   - **생성-검증**: 생성 후 품질 검수
-   - **감독자**: 중앙 에이전트가 상태 관리 및 동적 분배
-   - **계층적 위임**: 상위 에이전트가 하위에 재귀적 위임
+1. Phân rã công việc thành các lĩnh vực chuyên biệt
+2. Quyết định cấu trúc đội agent (xem mẫu kiến trúc tại `references/agent-design-patterns.md`)
+   - **Pipeline**: công việc phụ thuộc tuần tự
+   - **Fan-out/Fan-in**: công việc song song độc lập
+   - **Expert Pool**: gọi chọn lọc theo tình huống
+   - **Producer-Reviewer**: sinh nội dung rồi kiểm tra chất lượng
+   - **Supervisor**: agent trung tâm quản lý trạng thái và phân phối động
+   - **Hierarchical Delegation**: agent cấp trên ủy quyền đệ quy cho cấp dưới
 
-#### 2-3. 에이전트 분리 기준
+#### 2-3. Tiêu chí tách agent
 
-전문성·병렬성·컨텍스트·재사용성 4축으로 판단한다. 상세 기준표는 `references/agent-design-patterns.md`의 "에이전트 분리 기준" 참조. 기존 에이전트와의 중복·재사용 검토는 Phase 3-0에서 다룬다.
+Đánh giá theo 4 trục: tính chuyên môn, tính song song, ngữ cảnh, tính tái sử dụng. Bảng tiêu chí chi tiết xem mục "Tiêu chí tách agent" trong `references/agent-design-patterns.md`. Việc kiểm tra trùng lặp/tái sử dụng với agent hiện có được xử lý ở Phase 3-0.
 
-### Phase 3: 에이전트 정의 생성
+### Phase 3: Sinh định nghĩa agent
 
-#### 3-0. 기존 에이전트 중복 검토
+#### 3-0. Kiểm tra trùng lặp với agent hiện có
 
-신규 에이전트 생성 전, `프로젝트/.claude/agents/`의 기존 에이전트와 중복 여부를 확인한다. 하네스를 반복 구축하다 보면 역할이 겹치는 에이전트가 다른 이름으로 누적되기 쉽다.
+Trước khi tạo agent mới, kiểm tra xem có trùng với agent hiện có trong `project/.claude/agents/` không. Khi xây dựng harness lặp đi lặp lại, các agent có vai trò chồng lấp dễ tích tụ dưới các tên khác nhau.
 
-> 중복 분류 기준과 재사용 설계는 `references/agent-design-patterns.md`의 "에이전트 재사용 설계" 참조.
+> Tiêu chí phân loại trùng lặp và thiết kế tái sử dụng, xem mục "Thiết kế tái sử dụng agent" trong `references/agent-design-patterns.md`.
 
-**모든 에이전트는 반드시 `프로젝트/.claude/agents/{name}.md` 파일로 정의한다.** 에이전트 정의 파일 없이 Agent 도구의 prompt에 역할을 직접 넣는 것은 금지한다. 이유:
-- 에이전트 정의가 파일로 존재해야 다음 세션에서 재사용 가능
-- 팀 통신 프로토콜이 명시되어야 에이전트 간 협업 품질 보장
-- 하네스의 핵심 가치는 에이전트(누가)와 스킬(어떻게)의 분리
+**Mọi agent phải được định nghĩa bằng file `project/.claude/agents/{name}.md`.** Cấm đưa vai trò trực tiếp vào prompt của công cụ Agent mà không có file định nghĩa agent. Lý do:
+- Định nghĩa agent phải tồn tại dưới dạng file để tái sử dụng ở phiên làm việc sau
+- Giao thức giao tiếp đội phải được ghi rõ để đảm bảo chất lượng phối hợp giữa các agent
+- Giá trị cốt lõi của harness là sự tách biệt giữa agent (ai làm) và skill (làm như thế nào)
 
-빌트인 타입(`general-purpose`, `Explore`, `Plan`)을 사용하더라도 에이전트 정의 파일은 생성한다. 빌트인 타입은 Agent 도구의 `subagent_type` 파라미터로 지정하고, 에이전트 정의 파일에는 역할·원칙·프로토콜을 담는다.
+Dù dùng các loại built-in (`general-purpose`, `Explore`, `Plan`), vẫn phải tạo file định nghĩa agent. Loại built-in được chỉ định qua tham số `subagent_type` của công cụ Agent, còn file định nghĩa agent chứa vai trò, nguyên tắc, giao thức.
 
-**모델 설정:** 모든 에이전트는 `model: "opus"`를 사용한다. Agent 도구 호출 시 반드시 `model: "opus"` 파라미터를 명시한다. 하네스의 품질은 에이전트의 추론 능력에 직결되며, opus가 최고 품질을 보장한다.
+**Cấu hình model:** Mọi agent dùng `model: "opus"`. Khi gọi công cụ Agent, phải luôn ghi rõ tham số `model: "opus"`. Chất lượng của harness gắn liền trực tiếp với khả năng suy luận của agent, và opus đảm bảo chất lượng cao nhất.
 
-**팀 재구성:** 에이전트 팀은 세션당 한 팀만 활성화할 수 있지만, Phase 간에 팀을 해체하고 새 팀을 구성할 수 있다. 파이프라인 패턴처럼 Phase별로 다른 전문가 조합이 필요하면, 이전 팀의 산출물을 파일로 저장한 뒤 팀을 정리하고 새 팀을 생성한다.
+**Tái cấu trúc đội:** Mỗi phiên chỉ kích hoạt được một agent team, nhưng có thể giải thể đội và tạo đội mới giữa các Phase. Như mẫu pipeline, khi mỗi Phase cần một tổ hợp chuyên gia khác nhau, hãy lưu sản phẩm của đội trước ra file, dọn dẹp đội, rồi tạo đội mới.
 
-각 에이전트를 `프로젝트/.claude/agents/{name}.md`에 정의한다. 필수 섹션: 핵심 역할, 작업 원칙, 입력/출력 프로토콜, 에러 핸들링, 협업. 에이전트 팀 모드에서는 `## 팀 통신 프로토콜` 섹션을 추가하여 메시지 수신/발신 대상과 작업 요청 범위를 명시한다.
+Định nghĩa từng agent tại `project/.claude/agents/{name}.md`. Section bắt buộc: vai trò cốt lõi, nguyên tắc làm việc, giao thức input/output, xử lý lỗi, phối hợp. Ở chế độ agent team, thêm section `## Giao thức giao tiếp đội` để ghi rõ đối tượng nhận/gửi message và phạm vi yêu cầu công việc.
 
-> 정의 템플릿과 실제 파일 전문은 `references/agent-design-patterns.md`의 "에이전트 정의 구조" + `references/team-examples.md` 참조.
+> Template định nghĩa và file mẫu đầy đủ, xem mục "Cấu trúc định nghĩa agent" trong `references/agent-design-patterns.md` + `references/team-examples.md`.
 
-**QA 에이전트 포함 시 필수 사항:**
-- QA 에이전트는 `general-purpose` 타입을 사용하라 (`Explore`는 읽기 전용이므로 검증 스크립트 실행 불가)
-- QA의 핵심은 "존재 확인"이 아니라 **"경계면 교차 비교"** — API 응답과 프론트 훅을 동시에 읽고 shape을 비교
-- QA는 전체 완성 후 1회가 아니라, **각 모듈 완성 직후 점진적으로 실행** (incremental QA)
-- 상세 가이드: `references/qa-agent-guide.md` 참조
+**Yêu cầu bắt buộc khi có agent QA:**
+- Agent QA dùng loại `general-purpose` (`Explore` chỉ đọc, không thể chạy script kiểm định)
+- Cốt lõi của QA không phải là "xác nhận tồn tại" mà là **"đối chiếu chéo điểm biên"** — đọc đồng thời response API và hook frontend để so sánh shape
+- QA không chạy 1 lần sau khi hoàn thiện toàn bộ, mà chạy **dần dần ngay sau khi từng module hoàn thành** (incremental QA)
+- Hướng dẫn chi tiết: xem `references/qa-agent-guide.md`
 
-### Phase 4: 스킬 생성
+### Phase 4: Sinh skill
 
-각 에이전트가 사용할 스킬을 `프로젝트/.claude/skills/{name}/SKILL.md`에 생성한다. 상세 작성 가이드는 `references/skill-writing-guide.md` 참조.
+Sinh skill mà mỗi agent sẽ dùng tại `project/.claude/skills/{name}/SKILL.md`. Hướng dẫn viết chi tiết xem `references/skill-writing-guide.md`.
 
-#### 4-0. 기존 스킬 중복 검토
+#### 4-0. Kiểm tra trùng lặp với skill hiện có
 
-신규 스킬 생성 전, `프로젝트/.claude/skills/`의 기존 스킬과 중복 여부를 확인한다. 하네스를 반복 구축하다 보면 기능이 겹치는 스킬이 다른 이름으로 누적되기 쉽다.
+Trước khi tạo skill mới, kiểm tra xem có trùng với skill hiện có trong `project/.claude/skills/` không. Khi xây dựng harness lặp đi lặp lại, các skill có chức năng chồng lấp dễ tích tụ dưới các tên khác nhau.
 
-> 중복 분류 기준과 일반화 패턴은 `references/skill-writing-guide.md`의 "스킬 재사용 설계" 참조.
+> Tiêu chí phân loại trùng lặp và mẫu tổng quát hóa, xem mục "Thiết kế tái sử dụng skill" trong `references/skill-writing-guide.md`.
 
-#### 4-1. 스킬 구조
+#### 4-1. Cấu trúc skill
 
 ```
 skill-name/
-├── SKILL.md (필수)
-│   ├── YAML frontmatter (name, description 필수)
-│   └── Markdown 본문
-└── Bundled Resources (선택)
-    ├── scripts/    - 반복/결정적 작업용 실행 코드
-    ├── references/ - 조건부 로딩하는 참조 문서
-    └── assets/     - 출력에 사용되는 파일 (템플릿, 이미지 등)
+├── SKILL.md (bắt buộc)
+│   ├── YAML frontmatter (name, description bắt buộc)
+│   └── Phần thân Markdown
+└── Bundled Resources (tùy chọn)
+    ├── scripts/    - code thực thi cho công việc lặp lại/tất định
+    ├── references/ - tài liệu tham chiếu nạp có điều kiện
+    └── assets/     - file dùng trong đầu ra (template, ảnh, v.v.)
 ```
 
-#### 4-2. Description 작성 — 적극적 트리거 유도
+#### 4-2. Viết Description — chủ động dẫn dắt trigger
 
-description은 스킬의 유일한 트리거 메커니즘이다. Claude는 트리거를 보수적으로 판단하는 경향이 있으므로, description을 **적극적("pushy")**으로 작성한다.
+Description là cơ chế trigger duy nhất của skill. Claude có xu hướng đánh giá trigger một cách bảo thủ, vì vậy hãy viết description theo hướng **chủ động ("pushy")**.
 
-**나쁜 예:** `"PDF 문서를 처리하는 스킬"`
-**좋은 예:** `"PDF 파일 읽기, 텍스트/테이블 추출, 병합, 분할, 회전, 워터마크, 암호화, OCR 등 모든 PDF 작업을 수행. .pdf 파일을 언급하거나 PDF 산출물을 요청하면 반드시 이 스킬을 사용할 것."`
+**Ví dụ tồi:** `"Skill xử lý file PDF"`
+**Ví dụ tốt:** `"Thực hiện mọi công việc PDF: đọc file PDF, trích xuất văn bản/bảng, hợp nhất, tách, xoay, đóng watermark, mã hóa, OCR. Khi nhắc đến file .pdf hoặc yêu cầu sản phẩm PDF, phải dùng skill này."`
 
-핵심: 스킬이 하는 일 + 구체적 트리거 상황을 모두 기술하고, 유사하지만 트리거하면 안 되는 경우와 구분되도록 작성.
+Cốt lõi: mô tả đầy đủ cả việc skill làm + tình huống trigger cụ thể, viết sao để phân biệt rõ với các trường hợp tương tự nhưng không nên trigger.
 
-#### 4-3. 본문 작성 원칙
+#### 4-3. Nguyên tắc viết phần thân
 
-| 원칙 | 설명 |
+| Nguyên tắc | Mô tả |
 |------|------|
-| **Why를 설명하라** | "ALWAYS/NEVER" 같은 강압적 지시 대신, 왜 그렇게 해야 하는지 이유를 전달한다. LLM은 이유를 이해하면 엣지 케이스에서도 올바르게 판단한다. |
-| **Lean하게 유지** | 컨텍스트 윈도우는 공공재다. SKILL.md 본문은 500줄 이내를 목표로, 무게를 벌지 않는 내용은 삭제하거나 references/로 이동한다. |
-| **일반화하라** | 특정 예시에만 맞는 좁은 규칙보다, 원리를 설명하여 다양한 입력에 대응할 수 있게 한다. 오버피팅 금지. |
-| **반복 코드는 번들링** | 테스트 실행에서 에이전트들이 공통으로 작성하는 스크립트가 발견되면 `scripts/`에 미리 번들링한다. |
-| **명령형으로 작성** | "~한다", "~하라" 형태의 명령형/지시형 어조를 사용한다. |
+| **Giải thích Why** | Thay vì chỉ thị áp đặt như "ALWAYS/NEVER", hãy truyền đạt lý do tại sao phải làm như vậy. Khi LLM hiểu lý do, nó sẽ phán đoán đúng cả trong trường hợp biên (edge case). |
+| **Giữ gọn nhẹ (Lean)** | Cửa sổ ngữ cảnh là tài sản chung. Phần thân SKILL.md nên hướng tới dưới 500 dòng, xóa hoặc chuyển sang references/ những nội dung không tạo giá trị. |
+| **Tổng quát hóa** | Thay vì quy tắc hẹp chỉ đúng với ví dụ cụ thể, hãy giải thích nguyên lý để áp dụng được cho nhiều input khác nhau. Cấm overfitting. |
+| **Bundling code lặp lại** | Nếu phát hiện script mà các agent thường viết lại trong quá trình test, hãy bundling sẵn vào `scripts/`. |
+| **Viết theo lối ra lệnh** | Dùng tông ra lệnh/chỉ thị như "thực hiện...", "phải...". |
 
-#### 4-4. Progressive Disclosure (단계적 정보 공개)
+#### 4-4. Progressive Disclosure (công khai thông tin theo từng bước)
 
-스킬은 3단계 로딩 시스템으로 컨텍스트를 관리한다:
+Skill quản lý ngữ cảnh bằng hệ thống nạp 3 cấp độ:
 
-| 단계 | 로딩 시점 | 크기 목표 |
+| Cấp độ | Thời điểm nạp | Mục tiêu kích thước |
 |------|----------|----------|
-| **Metadata** (name + description) | 항상 컨텍스트에 존재 | ~100단어 |
-| **SKILL.md 본문** | 스킬 트리거 시 | <500줄 |
-| **references/** | 필요할 때만 | 무제한 (스크립트는 로딩 없이 실행 가능) |
+| **Metadata** (name + description) | Luôn tồn tại trong ngữ cảnh | ~100 từ |
+| **Phần thân SKILL.md** | Khi skill được trigger | <500 dòng |
+| **references/** | Chỉ khi cần | Không giới hạn (script chạy được mà không cần nạp) |
 
-**크기 관리 규칙:**
-- SKILL.md가 500줄에 근접하면 세부 내용을 references/로 분리하고, 본문에 "언제 이 파일을 읽으라"는 포인터를 남긴다
-- 300줄 이상의 reference 파일에는 상단에 **목차(ToC)**를 포함한다
-- 도메인/프레임워크별 변형이 있으면 references/ 하위에 도메인별로 분리하여, 관련 파일만 로드한다
+**Quy tắc quản lý kích thước:**
+- Khi SKILL.md gần 500 dòng, tách nội dung chi tiết sang references/, và để lại con trỏ "khi nào đọc file này" trong phần thân
+- File reference từ 300 dòng trở lên cần có **mục lục (ToC)** ở đầu
+- Nếu có biến thể theo từng lĩnh vực/framework, tách theo lĩnh vực dưới references/ để chỉ nạp file liên quan
 
 ```
 cloud-deploy/
-├── SKILL.md (워크플로우 + 선택 가이드)
+├── SKILL.md (quy trình + hướng dẫn chọn)
 └── references/
-    ├── aws.md    ← AWS 선택 시만 로드
+    ├── aws.md    ← chỉ nạp khi chọn AWS
     ├── gcp.md
     └── azure.md
 ```
 
-#### 4-5. 스킬-에이전트 연결 원칙
+#### 4-5. Nguyên tắc liên kết skill-agent
 
-- 에이전트 1개 ↔ 스킬 1~N개 (1:1 또는 1:다)
-- 여러 에이전트가 공유하는 스킬도 가능
-- 스킬은 "어떻게 하는가"를 담고, 에이전트는 "누가 하는가"를 담는다
+- 1 agent ↔ 1~N skill (1:1 hoặc 1:nhiều)
+- Có thể có skill được nhiều agent dùng chung
+- Skill chứa "làm như thế nào", agent chứa "ai làm"
 
-> 상세 작성 패턴, 예시, 데이터 스키마 표준은 `references/skill-writing-guide.md` 참조.
+> Mẫu viết chi tiết, ví dụ, chuẩn data schema, xem `references/skill-writing-guide.md`.
 
-### Phase 5: 통합 및 오케스트레이션
+### Phase 5: Tích hợp và điều phối
 
-오케스트레이터는 스킬의 특수한 형태로, 개별 에이전트와 스킬을 하나의 워크플로우로 엮어 팀 전체를 조율한다. Phase 4에서 생성한 개별 스킬이 "각 에이전트가 무엇을 어떻게 하는가"를 정의한다면, 오케스트레이터는 "누가 언제 어떤 순서로 협업하는가"를 정의한다. 구체적 템플릿은 `references/orchestrator-template.md` 참조.
+Orchestrator là một dạng đặc biệt của skill, kết nối các agent và skill riêng lẻ thành một quy trình duy nhất để điều phối toàn đội. Nếu các skill riêng lẻ sinh ra ở Phase 4 định nghĩa "mỗi agent làm gì và làm như thế nào", thì orchestrator định nghĩa "ai phối hợp với ai, khi nào, theo thứ tự nào". Template cụ thể xem `references/orchestrator-template.md`.
 
-**기존 확장 시 오케스트레이터 수정:** 신규 구축이 아닌 기존 확장일 때는 오케스트레이터를 새로 생성하지 않고 기존 오케스트레이터를 수정한다. 에이전트 추가 시 팀 구성·작업 할당·데이터 흐름에 새 에이전트를 반영하고, description에 새 에이전트 관련 트리거 키워드를 추가한다.
+**Sửa orchestrator khi mở rộng harness có sẵn:** Khi mở rộng harness có sẵn (không phải xây mới), sửa orchestrator hiện có thay vì tạo mới. Khi thêm agent, phản ánh agent mới vào cấu trúc đội · phân công công việc · luồng dữ liệu, và thêm từ khóa trigger liên quan đến agent mới vào description.
 
-Phase 2-1에서 선택한 실행 모드에 따라 오케스트레이터 패턴이 달라진다:
+Mẫu orchestrator thay đổi theo chế độ thực thi đã chọn ở Phase 2-1:
 
-#### 5-0. 오케스트레이터 패턴 (모드별)
+#### 5-0. Mẫu orchestrator (theo từng chế độ)
 
-**에이전트 팀 패턴 (기본):**
-오케스트레이터가 `TeamCreate`로 팀을 구성하고, `TaskCreate`로 작업을 할당한다. 팀원들은 `SendMessage`로 직접 통신하며 자체 조율한다. 리더(오케스트레이터)는 진행 상황을 모니터링하고 결과를 종합한다.
+**Mẫu Agent Team (mặc định):**
+Orchestrator tạo đội bằng `TeamCreate`, phân công công việc bằng `TaskCreate`. Các thành viên giao tiếp trực tiếp bằng `SendMessage` và tự điều phối. Leader (orchestrator) giám sát tiến độ và tổng hợp kết quả.
 
 ```
-[오케스트레이터/리더]
+[Orchestrator/Leader]
     ├── TeamCreate(team_name, members)
     ├── TaskCreate(tasks with dependencies)
-    ├── 팀원들이 자체 조율 (SendMessage)
-    ├── 결과 수집 및 종합
-    └── 팀 정리
+    ├── Các thành viên tự điều phối (SendMessage)
+    ├── Thu thập và tổng hợp kết quả
+    └── Dọn dẹp đội
 ```
 
-**서브 에이전트 패턴 (대안):**
-오케스트레이터가 `Agent` 도구로 서브 에이전트를 직접 호출한다. 병렬 실행은 `run_in_background: true`, 결과는 메인에게만 반환된다. 팀 통신이 불필요하고 오버헤드를 줄이고 싶을 때 사용.
+**Mẫu Subagent (phương án thay thế):**
+Orchestrator gọi trực tiếp subagent bằng công cụ `Agent`. Thực thi song song dùng `run_in_background: true`, kết quả chỉ trả về cho main. Dùng khi không cần giao tiếp đội và muốn giảm chi phí.
 
 ```
-[오케스트레이터]
+[Orchestrator]
     ├── Agent(agent-1, run_in_background=true)
     ├── Agent(agent-2, run_in_background=true)
-    ├── 결과 대기 및 수집
-    └── 통합 산출물 생성
+    ├── Chờ và thu thập kết quả
+    └── Sinh sản phẩm tổng hợp
 ```
 
-**하이브리드 패턴:**
-Phase마다 다른 모드를 섞어 구성한다. 자주 쓰이는 조합:
-- **병렬 수집(서브) → 합의 통합(팀)**: Phase 2에서 서브 에이전트로 독립 자료를 병렬 수집 → Phase 3에서 팀을 만들어 토론·합의 기반 통합
-- **팀 생성(팀) → 검증(서브)**: Phase 2에서 팀이 초안 생성 → Phase 3에서 단일 서브 에이전트가 독립 검증
-- **Phase 간 팀 재구성**: 각 Phase마다 `TeamDelete` 후 새 `TeamCreate`, 사이에 서브 에이전트 호출 삽입
+**Mẫu Hybrid:**
+Trộn chế độ khác nhau theo từng Phase. Tổ hợp thường dùng:
+- **Thu thập song song (sub) → hợp nhất theo đồng thuận (team)**: Phase 2 dùng subagent thu thập tài liệu độc lập song song → Phase 3 tạo đội để thảo luận và hợp nhất theo đồng thuận
+- **Tạo đội (team) → kiểm định (sub)**: Phase 2 đội tạo bản nháp → Phase 3 một subagent đơn kiểm định độc lập
+- **Tái cấu trúc đội giữa các Phase**: mỗi Phase `TeamDelete` rồi `TeamCreate` mới, chèn lệnh gọi subagent vào giữa
 
-하이브리드 선택 시 오케스트레이터의 각 Phase 섹션 상단에 해당 Phase의 실행 모드를 명시한다 (예: `**실행 모드:** 에이전트 팀`).
+Khi chọn hybrid, ghi rõ chế độ thực thi của Phase đó ở đầu mỗi section Phase trong orchestrator (ví dụ: `**Chế độ thực thi:** Agent Team`).
 
-#### 5-1. 데이터 전달 프로토콜
+#### 5-1. Giao thức truyền dữ liệu
 
-오케스트레이터 내에 에이전트 간 데이터 전달 방식을 명시한다:
+Ghi rõ cách truyền dữ liệu giữa các agent trong orchestrator:
 
-| 전략 | 방식 | 적용 모드 | 적합한 경우 |
+| Chiến lược | Cách thức | Chế độ áp dụng | Phù hợp khi |
 |------|------|----------|-----------|
-| **메시지 기반** | `SendMessage`로 팀원 간 직접 통신 | 팀 | 실시간 조율, 피드백 교환, 가벼운 상태 전달 |
-| **태스크 기반** | `TaskCreate`/`TaskUpdate`로 작업 상태 공유 | 팀 | 진행상황 추적, 의존 관계 관리, 작업 자체 요청 |
-| **파일 기반** | 약속된 경로에 파일을 쓰고 읽음 | 팀 + 서브 | 대용량 데이터, 구조화된 산출물, 감사 추적 필요 |
-| **반환값 기반** | `Agent` 도구의 반환 메시지 | 서브 | 서브 에이전트 결과를 메인이 직접 수집 |
+| **Dựa trên message** | Giao tiếp trực tiếp giữa thành viên bằng `SendMessage` | Team | Điều phối theo thời gian thực, trao đổi phản hồi, truyền trạng thái nhẹ |
+| **Dựa trên task** | Chia sẻ trạng thái công việc bằng `TaskCreate`/`TaskUpdate` | Team | Theo dõi tiến độ, quản lý quan hệ phụ thuộc, tự yêu cầu công việc |
+| **Dựa trên file** | Ghi và đọc file tại đường dẫn đã thống nhất | Team + Sub | Dữ liệu lớn, sản phẩm có cấu trúc, cần audit trail |
+| **Dựa trên giá trị trả về** | Message trả về của công cụ `Agent` | Sub | Main thu thập trực tiếp kết quả từ subagent |
 
-**권장 조합 (팀 모드):** 태스크 기반(조율) + 파일 기반(산출물) + 메시지 기반(실시간 소통)
-**권장 조합 (서브 모드):** 반환값 기반(결과 수집) + 파일 기반(대용량 산출물)
-**하이브리드:** 각 Phase의 실행 모드에 맞춰 해당 조합 적용
+**Tổ hợp khuyến nghị (chế độ team):** dựa trên task (điều phối) + dựa trên file (sản phẩm) + dựa trên message (giao tiếp thời gian thực)
+**Tổ hợp khuyến nghị (chế độ sub):** dựa trên giá trị trả về (thu thập kết quả) + dựa trên file (sản phẩm lớn)
+**Hybrid:** áp dụng tổ hợp phù hợp theo chế độ thực thi của từng Phase
 
-파일 기반 전달 시 규칙:
-- 작업 디렉토리 하위에 `_workspace/` 폴더를 만들어 중간 산출물 저장
-- 파일명 컨벤션: `{phase}_{agent}_{artifact}.{ext}` (예: `01_analyst_requirements.md`)
-- 최종 산출물만 사용자 지정 경로에 출력, 중간 파일(`_workspace/`)은 보존 (사후 검증·감사 추적용)
+Quy tắc khi truyền dựa trên file:
+- Tạo thư mục `_workspace/` dưới thư mục làm việc để lưu sản phẩm trung gian
+- Quy ước tên file: `{phase}_{agent}_{artifact}.{ext}` (ví dụ: `01_analyst_requirements.md`)
+- Chỉ xuất sản phẩm cuối cùng ra đường dẫn người dùng chỉ định, giữ lại file trung gian (`_workspace/`) (dùng cho kiểm định/audit trail sau này)
 
-#### 5-2. 에러 핸들링
+#### 5-2. Xử lý lỗi
 
-오케스트레이터 내에 에러 처리 방침을 포함한다. 핵심 원칙: 1회 재시도 후 재실패 시 해당 결과 없이 진행(보고서에 누락 명시), 상충 데이터는 삭제하지 않고 출처 병기.
+Đưa chính sách xử lý lỗi vào orchestrator. Nguyên tắc cốt lõi: thử lại 1 lần, nếu vẫn lỗi thì tiếp tục mà không có kết quả đó (ghi rõ thiếu sót trong báo cáo), dữ liệu mâu thuẫn không xóa mà ghi kèm nguồn.
 
-> 에러 유형별 전략표와 구현 상세는 `references/orchestrator-template.md`의 "에러 핸들링" 참조.
+> Bảng chiến lược theo từng loại lỗi và chi tiết triển khai, xem mục "Xử lý lỗi" trong `references/orchestrator-template.md`.
 
-#### 5-3. 팀 크기 가이드라인
+#### 5-3. Hướng dẫn kích thước đội
 
-| 작업 규모 | 권장 팀원 수 | 팀원당 작업 수 |
+| Quy mô công việc | Số thành viên khuyến nghị | Số công việc/thành viên |
 |----------|------------|--------------|
-| 소규모 (5~10개 작업) | 2~3명 | 3~5개 |
-| 중규모 (10~20개 작업) | 3~5명 | 4~6개 |
-| 대규모 (20개+ 작업) | 5~7명 | 4~5개 |
+| Nhỏ (5~10 công việc) | 2~3 người | 3~5 |
+| Trung (10~20 công việc) | 3~5 người | 4~6 |
+| Lớn (20+ công việc) | 5~7 người | 4~5 |
 
-> 팀원이 많을수록 조율 오버헤드가 커진다. 3명의 집중된 팀원이 5명의 산만한 팀원보다 낫다.
+> Càng nhiều thành viên, chi phí điều phối càng lớn. 3 thành viên tập trung tốt hơn 5 thành viên phân tán.
 
-#### 5-4. CLAUDE.md 하네스 포인터 등록
+#### 5-4. Đăng ký con trỏ harness vào CLAUDE.md
 
-하네스 구성 완료 후, 프로젝트의 `CLAUDE.md`에 최소한의 포인터를 등록한다. CLAUDE.md는 새 세션마다 로딩되므로, 하네스 존재와 트리거 규칙만 기록하면 오케스트레이터 스킬이 나머지를 처리한다.
+Sau khi hoàn tất cấu hình harness, đăng ký con trỏ tối thiểu vào `CLAUDE.md` của dự án. Vì CLAUDE.md được nạp ở mọi phiên mới, chỉ cần ghi sự tồn tại của harness và quy tắc trigger, skill orchestrator sẽ xử lý phần còn lại.
 
-**CLAUDE.md 템플릿:**
+**Template CLAUDE.md:**
 
 ````markdown
-## 하네스: {도메인명}
+## Harness: {Tên lĩnh vực}
 
-**목표:** {하네스의 핵심 목표 한 줄}
+**Mục tiêu:** {mục tiêu cốt lõi của harness, một dòng}
 
-**트리거:** {도메인} 관련 작업 요청 시 `{orchestrator-skill-name}` 스킬을 사용하라. 단순 질문은 직접 응답 가능.
+**Trigger:** Khi có yêu cầu liên quan đến {lĩnh vực}, dùng skill `{orchestrator-skill-name}`. Câu hỏi đơn giản có thể trả lời trực tiếp.
 
-**변경 이력:**
-| 날짜 | 변경 내용 | 대상 | 사유 |
+**Lịch sử thay đổi:**
+| Ngày | Nội dung thay đổi | Đối tượng | Lý do |
 |------|----------|------|------|
-| {YYYY-MM-DD} | 초기 구성 | 전체 | - |
+| {YYYY-MM-DD} | Cấu hình ban đầu | Toàn bộ | - |
 ````
 
-**CLAUDE.md에 넣지 않는 것:** 에이전트 목록, 스킬 목록, 디렉토리 구조, 실행 규칙 상세. 이유: 에이전트/스킬 목록은 오케스트레이터 스킬과 `.claude/agents/`, `.claude/skills/`에서 관리하므로 중복이다. 디렉토리 구조는 파일 시스템에서 직접 확인 가능하다. CLAUDE.md는 **포인터(트리거 규칙) + 변경 이력**만 담는다.
+**Những gì KHÔNG đưa vào CLAUDE.md:** danh sách agent, danh sách skill, cấu trúc thư mục, chi tiết quy tắc thực thi. Lý do: danh sách agent/skill được quản lý bởi skill orchestrator và `.claude/agents/`, `.claude/skills/`, nên đưa vào CLAUDE.md là trùng lặp. Cấu trúc thư mục có thể kiểm tra trực tiếp trên hệ thống file. CLAUDE.md chỉ chứa **con trỏ (quy tắc trigger) + lịch sử thay đổi**.
 
-#### 5-5. 후속 작업 지원
+#### 5-5. Hỗ trợ công việc tiếp theo
 
-오케스트레이터는 초기 실행뿐 아니라 후속 작업도 처리해야 한다. 다음 세 가지를 보장하라:
+Orchestrator không chỉ xử lý lần thực thi đầu tiên mà còn phải xử lý các công việc tiếp theo. Đảm bảo 3 điều sau:
 
-**1. 오케스트레이터 description에 후속 키워드 포함:**
-초기 생성 키워드만으로는 후속 요청이 트리거되지 않는다. description에 반드시 포함할 후속 표현:
-- "다시 실행", "재실행", "업데이트", "수정", "보완"
-- "{도메인}의 {부분작업}만 다시"
-- "이전 결과 기반으로", "결과 개선"
+**1. Description của orchestrator phải có từ khóa công việc tiếp theo:**
+Chỉ từ khóa khởi tạo ban đầu sẽ không trigger được yêu cầu tiếp theo. Các cách diễn đạt cần có trong description:
+- "chạy lại", "thực thi lại", "cập nhật", "sửa", "bổ sung"
+- "chỉ chạy lại {công việc con} của {lĩnh vực}"
+- "dựa trên kết quả trước", "cải thiện kết quả"
 
-**2. 오케스트레이터 Phase 1에 컨텍스트 확인 단계 추가:**
-워크플로우 시작 시 기존 산출물 존재 여부를 확인하여 실행 모드를 결정한다:
-- `_workspace/` 존재 + 사용자가 부분 수정 요청 → **부분 재실행** (해당 에이전트만 재호출)
-- `_workspace/` 존재 + 사용자가 새 입력 제공 → **새 실행** (기존 _workspace를 `_workspace_prev/`로 이동)
-- `_workspace/` 미존재 → **초기 실행**
+**2. Thêm bước kiểm tra ngữ cảnh vào Phase 1 của orchestrator:**
+Khi bắt đầu quy trình, kiểm tra sự tồn tại của sản phẩm hiện có để quyết định chế độ thực thi:
+- `_workspace/` tồn tại + người dùng yêu cầu sửa một phần → **Chạy lại một phần** (chỉ gọi lại agent liên quan)
+- `_workspace/` tồn tại + người dùng cung cấp input mới → **Chạy mới** (chuyển `_workspace/` hiện có thành `_workspace_prev/`)
+- `_workspace/` không tồn tại → **Chạy lần đầu**
 
-**3. 에이전트 정의에 재호출 지침 포함:**
-각 에이전트 `.md` 파일에 "이전 산출물이 있을 때의 행동"을 명시한다:
-- 이전 결과 파일이 존재하면 읽고 개선점을 반영
-- 사용자 피드백이 주어지면 해당 부분만 수정
+**3. Đưa hướng dẫn gọi lại vào định nghĩa agent:**
+Ghi rõ trong file `.md` của từng agent "hành vi khi đã có sản phẩm trước":
+- Nếu file kết quả trước tồn tại, đọc và phản ánh điểm cần cải thiện
+- Nếu có phản hồi từ người dùng, chỉ sửa phần liên quan
 
-> 오케스트레이터 템플릿의 "Phase 0: 컨텍스트 확인" 섹션 참조: `references/orchestrator-template.md`
+> Xem section "Phase 0: Kiểm tra ngữ cảnh" trong template orchestrator: `references/orchestrator-template.md`
 
-### Phase 6: 검증 및 테스트
+### Phase 6: Kiểm định và kiểm thử
 
-생성된 하네스를 검증한다. 상세 테스트 방법론은 `references/skill-testing-guide.md` 참조.
+Kiểm định harness đã sinh ra. Phương pháp kiểm thử chi tiết xem `references/skill-testing-guide.md`.
 
-#### 6-1. 구조 검증
+#### 6-1. Kiểm định cấu trúc
 
-- 모든 에이전트 파일이 올바른 위치에 있는지 확인
-- 스킬의 frontmatter(name, description) 검증
-- 에이전트 간 참조 일관성 확인
-- 커맨드가 생성되지 않았는지 확인
+- Xác nhận mọi file agent ở đúng vị trí
+- Kiểm định frontmatter (name, description) của skill
+- Kiểm tra tính nhất quán của tham chiếu giữa các agent
+- Xác nhận không có command nào được sinh ra
 
-#### 6-2. 실행 모드별 검증
+#### 6-2. Kiểm định theo chế độ thực thi
 
-- **에이전트 팀**: 팀원 간 통신 경로, 작업 의존성, 팀 크기 적정성 확인
-- **서브 에이전트**: 각 에이전트의 입출력 연결, `run_in_background` 설정, 반환값 수집 로직 확인
-- **하이브리드**: 각 Phase의 실행 모드가 오케스트레이터에 명시되었는지, Phase 경계에서 데이터 전달이 끊기지 않는지 확인 (팀 → 서브 전환 시 팀의 산출물이 서브의 입력으로 연결되는지)
+- **Agent Team**: kiểm tra đường giao tiếp giữa thành viên, quan hệ phụ thuộc công việc, độ phù hợp kích thước đội
+- **Subagent**: kiểm tra kết nối input/output của từng agent, cấu hình `run_in_background`, logic thu thập giá trị trả về
+- **Hybrid**: kiểm tra chế độ thực thi của từng Phase đã được ghi rõ trong orchestrator chưa, và việc truyền dữ liệu không bị đứt ở biên Phase (khi chuyển từ team → sub, sản phẩm của team có được nối với input của sub không)
 
-#### 6-3. 스킬 실행 테스트
+#### 6-3. Kiểm thử thực thi skill
 
-생성된 각 스킬에 대해 실제 실행 테스트를 수행한다:
+Thực hiện kiểm thử thực thi thực tế cho mỗi skill đã sinh:
 
-1. **테스트 프롬프트 작성** — 각 스킬에 대해 2~3개의 현실적인 테스트 프롬프트를 작성한다. 실제 사용자가 입력할 법한 구체적이고 자연스러운 문장으로 작성한다.
+1. **Viết prompt kiểm thử** — viết 2~3 prompt kiểm thử thực tế cho mỗi skill. Viết bằng câu cụ thể, tự nhiên giống người dùng thực sẽ nhập.
 
-2. **With-skill vs Without-skill 비교 실행** — 가능하면 스킬 있는 실행과 없는 실행을 병렬로 수행하여 스킬의 부가가치를 확인한다. 에이전트를 두 개씩 스폰한다:
-   - **With-skill**: 스킬을 읽고 작업 수행
-   - **Without-skill (baseline)**: 같은 프롬프트를 스킬 없이 수행
+2. **So sánh With-skill vs Without-skill** — nếu có thể, chạy song song lượt có skill và lượt không có skill để xác nhận giá trị gia tăng của skill. Spawn 2 agent cho mỗi trường hợp:
+   - **With-skill**: đọc skill và thực hiện công việc
+   - **Without-skill (baseline)**: thực hiện cùng prompt nhưng không có skill
 
-3. **결과 평가** — 산출물의 품질을 정성적(사용자 리뷰) + 정량적(assertion 기반) 으로 평가한다. 산출물이 객관적으로 검증 가능한 경우(파일 생성, 데이터 추출 등) assertion을 정의하고, 주관적인 경우(문체, 디자인) 사용자 피드백에 의존한다.
+3. **Đánh giá kết quả** — đánh giá chất lượng sản phẩm cả định tính (review người dùng) và định lượng (dựa trên assertion). Nếu sản phẩm có thể kiểm định khách quan (tạo file, trích xuất dữ liệu, v.v.) hãy định nghĩa assertion; nếu chủ quan (văn phong, thiết kế) thì dựa vào phản hồi người dùng.
 
-4. **반복 개선 루프** — 테스트 결과에서 문제가 발견되면:
-   - 피드백을 **일반화**하여 스킬을 수정한다 (특정 예시에만 맞는 좁은 수정 금지)
-   - 수정 후 재테스트한다
-   - 사용자가 만족하거나 의미 있는 개선이 더 이상 없을 때까지 반복한다
+4. **Vòng lặp cải tiến lặp lại** — nếu phát hiện vấn đề trong kết quả kiểm thử:
+   - **Tổng quát hóa** phản hồi rồi sửa skill (cấm sửa hẹp chỉ đúng với một ví dụ cụ thể)
+   - Kiểm thử lại sau khi sửa
+   - Lặp lại đến khi người dùng hài lòng hoặc không còn cải thiện đáng kể nào
 
-5. **반복 패턴 번들링** — 테스트 실행에서 에이전트들이 공통으로 작성하는 코드(예: 모든 테스트에서 동일한 헬퍼 스크립트를 생성)가 발견되면, 해당 코드를 `scripts/`에 미리 번들링한다.
+5. **Bundling pattern lặp lại** — nếu phát hiện code mà các agent thường viết chung trong quá trình kiểm thử (ví dụ: cùng tạo một helper script giống nhau trong mọi test), hãy bundling sẵn code đó vào `scripts/`.
 
-#### 6-4. 트리거 검증
+#### 6-4. Kiểm định trigger
 
-각 스킬의 description이 올바르게 트리거되는지 검증한다:
+Kiểm định description của từng skill có trigger đúng không:
 
-1. **Should-trigger 쿼리** (8~10개) — 스킬을 트리거해야 하는 다양한 표현 (공식적/캐주얼, 명시적/암시적)
-2. **Should-NOT-trigger 쿼리** (8~10개) — 키워드가 유사하지만 이 스킬이 아닌 다른 도구/스킬이 적합한 "near-miss" 쿼리
+1. **Truy vấn should-trigger** (8~10 câu) — các cách diễn đạt khác nhau cần trigger skill (trang trọng/thân mật, rõ ràng/ngụ ý)
+2. **Truy vấn should-NOT-trigger** (8~10 câu) — các truy vấn "near-miss" có từ khóa tương tự nhưng phù hợp với công cụ/skill khác, không phải skill này
 
-**near-miss 작성 핵심:** "피보나치 함수 작성" 같이 명백히 무관한 쿼리는 테스트 가치가 없다. "이 엑셀 파일의 차트를 PNG로 추출해줘" (xlsx 스킬 vs 이미지 변환)처럼 **경계가 모호한 쿼리**가 좋은 테스트 케이스다.
+**Cốt lõi khi viết near-miss:** truy vấn rõ ràng không liên quan như "viết hàm Fibonacci" không có giá trị kiểm thử. Truy vấn có **biên mơ hồ** như "trích xuất biểu đồ trong file Excel này thành PNG" (skill xlsx vs chuyển đổi ảnh) mới là case kiểm thử tốt.
 
-기존 스킬과의 트리거 충돌도 이 단계에서 확인한다.
+Cũng kiểm tra xung đột trigger với skill hiện có ở bước này.
 
-#### 6-5. 드라이런 테스트
+#### 6-5. Kiểm thử dry-run
 
-- 오케스트레이터 스킬의 Phase 순서가 논리적인지 검토
-- 데이터 전달 경로에 빈 구간(dead link)이 없는지 확인
-- 모든 에이전트의 입력이 이전 Phase의 출력과 매칭되는지 확인
-- 에러 시나리오별 폴백 경로가 실행 가능한지 확인
+- Xem lại thứ tự Phase của skill orchestrator có hợp lý không
+- Xác nhận đường truyền dữ liệu không có khoảng trống (dead link)
+- Xác nhận input của mọi agent khớp với output của Phase trước
+- Xác nhận đường dẫn fallback cho từng kịch bản lỗi có thể thực thi được
 
-#### 6-6. 테스트 시나리오 작성
+#### 6-6. Viết kịch bản kiểm thử
 
-- 오케스트레이터 스킬에 `## 테스트 시나리오` 섹션 추가
-- 정상 흐름 1개 + 에러 흐름 1개 이상 기술
+- Thêm section `## Kịch bản kiểm thử` vào skill orchestrator
+- Mô tả 1 luồng bình thường + ít nhất 1 luồng lỗi
 
-### Phase 7: 하네스 진화
+### Phase 7: Tiến hóa harness
 
-하네스는 한 번 만들고 끝나는 정적 산출물이 아니다. 사용자 피드백에 따라 계속 진화하는 시스템이다.
+Harness không phải là sản phẩm tĩnh tạo một lần rồi xong. Đó là một hệ thống liên tục tiến hóa theo phản hồi của người dùng.
 
-#### 7-1. 실행 후 피드백 수집
+#### 7-1. Thu thập phản hồi sau thực thi
 
-매 하네스 실행 완료 후, 사용자에게 피드백을 요청한다:
-- "결과에서 개선할 부분이 있나요?"
-- "에이전트 팀 구성이나 워크플로우에 바꾸고 싶은 점이 있나요?"
+Sau mỗi lần thực thi harness, hỏi người dùng phản hồi:
+- "Có phần nào trong kết quả cần cải thiện không?"
+- "Bạn có muốn thay đổi gì về cấu hình đội agent hoặc quy trình không?"
 
-피드백이 없으면 넘어간다. 강요하지 않되, 반드시 기회를 제공한다.
+Nếu không có phản hồi thì bỏ qua. Không ép buộc, nhưng phải luôn tạo cơ hội.
 
-#### 7-2. 피드백 반영 경로
+#### 7-2. Đường dẫn phản ánh phản hồi
 
-피드백 유형에 따라 수정 대상이 다르다:
+Đối tượng cần sửa khác nhau theo loại phản hồi:
 
-| 피드백 유형 | 수정 대상 | 예시 |
+| Loại phản hồi | Đối tượng sửa | Ví dụ |
 |-----------|----------|------|
-| 결과물 품질 | 해당 에이전트의 스킬 | "분석이 너무 피상적" → 스킬에 깊이 기준 추가 |
-| 에이전트 역할 | 에이전트 정의 `.md` | "보안 검토도 필요" → 새 에이전트 추가 |
-| 워크플로우 순서 | 오케스트레이터 스킬 | "검증을 먼저 해야" → Phase 순서 변경 |
-| 팀 구성 | 오케스트레이터 + 에이전트 | "이 둘은 합쳐도 될 듯" → 에이전트 병합 |
-| 트리거 누락 | 스킬 description | "이 표현으로 하면 작동 안 함" → description 확장 |
+| Chất lượng sản phẩm | Skill của agent liên quan | "Phân tích quá hời hợt" → thêm tiêu chí độ sâu vào skill |
+| Vai trò agent | File định nghĩa agent `.md` | "Cần review an ninh nữa" → thêm agent mới |
+| Thứ tự quy trình | Skill orchestrator | "Cần kiểm định trước" → đổi thứ tự Phase |
+| Cấu trúc đội | Orchestrator + agent | "Hai cái này nên hợp lại" → hợp nhất agent |
+| Thiếu trigger | Description của skill | "Diễn đạt này không hoạt động" → mở rộng description |
 
-#### 7-3. 변경 이력
+#### 7-3. Lịch sử thay đổi
 
-모든 변경은 CLAUDE.md의 **변경 이력** 테이블에 기록한다 (Phase 5-4 템플릿의 "변경 이력" 섹션과 동일 테이블):
+Mọi thay đổi được ghi vào bảng **Lịch sử thay đổi** trong CLAUDE.md (cùng bảng với section "Lịch sử thay đổi" trong template Phase 5-4):
 
 ```markdown
-**변경 이력:**
-| 날짜 | 변경 내용 | 대상 | 사유 |
+**Lịch sử thay đổi:**
+| Ngày | Nội dung thay đổi | Đối tượng | Lý do |
 |------|----------|------|------|
-| 2026-04-05 | 초기 구성 | 전체 | - |
-| 2026-04-07 | QA 에이전트 추가 | agents/qa.md | 산출물 품질 검증 부족 피드백 |
-| 2026-04-10 | 톤 가이드 추가 | skills/content-creator | "너무 딱딱하다" 피드백 |
+| 2026-04-05 | Cấu hình ban đầu | Toàn bộ | - |
+| 2026-04-07 | Thêm agent QA | agents/qa.md | Phản hồi thiếu kiểm định chất lượng sản phẩm |
+| 2026-04-10 | Thêm hướng dẫn tông văn | skills/content-creator | Phản hồi "quá cứng nhắc" |
 ```
 
-이 이력을 통해 하네스가 어떤 방향으로 진화했는지 추적하고, 퇴행(regression)을 방지한다.
+Lịch sử này giúp theo dõi harness đã tiến hóa theo hướng nào và ngăn chặn thoái lui (regression).
 
-#### 7-4. 진화 트리거
+#### 7-4. Trigger tiến hóa
 
-사용자가 명시적으로 "하네스 수정해줘"라고 할 때만이 아니라, 다음 상황에서도 진화를 제안한다:
-- 같은 유형의 피드백이 2회 이상 반복될 때
-- 에이전트가 반복적으로 실패하는 패턴이 발견될 때
-- 사용자가 오케스트레이터를 우회하여 수동으로 작업하는 것이 관찰될 때
+Không chỉ khi người dùng yêu cầu rõ ràng "sửa harness", mà cũng đề xuất tiến hóa trong các trường hợp sau:
+- Khi cùng loại phản hồi lặp lại 2 lần trở lên
+- Khi phát hiện mẫu agent thất bại lặp lại
+- Khi quan sát thấy người dùng bỏ qua orchestrator để làm thủ công
 
-#### 7-5. 운영/유지보수 워크플로우
+#### 7-5. Quy trình vận hành/bảo trì
 
-기존 하네스의 점검·수정·동기화를 체계적으로 수행한다. Phase 0에서 "운영/유지보수" 분기로 진입했을 때 이 워크플로우를 따른다.
+Thực hiện có hệ thống việc kiểm tra · sửa · đồng bộ harness hiện có. Theo quy trình này khi vào nhánh "vận hành/bảo trì" từ Phase 0.
 
-**Step 1: 현황 감사**
-- `.claude/agents/` 파일 목록과 오케스트레이터 스킬의 에이전트 구성 비교 → 불일치 목록 생성
-- `.claude/skills/` 디렉토리 목록과 오케스트레이터 스킬의 스킬 구성 비교 → 불일치 목록 생성
-- 감사 결과를 사용자에게 보고한다
+**Bước 1: Kiểm tra hiện trạng**
+- So sánh danh sách file `.claude/agents/` với cấu hình agent trong skill orchestrator → tạo danh sách sai lệch
+- So sánh danh sách thư mục `.claude/skills/` với cấu hình skill trong skill orchestrator → tạo danh sách sai lệch
+- Báo cáo kết quả kiểm tra cho người dùng
 
-**Step 2: 점진적 추가/수정**
-- 사용자 요청에 따라 에이전트 추가/수정/삭제, 스킬 추가/수정/삭제를 수행한다
-- 변경은 한 번에 하나씩, 각 변경 후 즉시 Step 3(동기화)을 실행한다
+**Bước 2: Thêm/sửa dần dần**
+- Thực hiện thêm/sửa/xóa agent, thêm/sửa/xóa skill theo yêu cầu người dùng
+- Mỗi lần một thay đổi, thực hiện Bước 3 (đồng bộ) ngay sau mỗi thay đổi
 
-**Step 3: CLAUDE.md 변경 이력 갱신**
-- 변경 이력 테이블에 날짜, 변경 내용, 대상, 사유를 기록한다
+**Bước 3: Cập nhật lịch sử thay đổi CLAUDE.md**
+- Ghi ngày, nội dung thay đổi, đối tượng, lý do vào bảng lịch sử thay đổi
 
-**Step 4: 변경 검증**
-- 수정된 에이전트/스킬의 구조 검증 (Phase 6-1 기준)
-- 수정 범위가 트리거에 영향을 주면 트리거 검증 (Phase 6-4 기준)
-- 대규모 변경(아키텍처 변경, 에이전트 3개 이상 추가/삭제) 시 Phase 6-3(실행 테스트), 6-5(드라이런)까지 수행
-- CLAUDE.md와 실제 파일의 일치 여부 최종 확인
+**Bước 4: Xác minh thay đổi**
+- Kiểm định cấu trúc agent/skill đã sửa (theo tiêu chí Phase 6-1)
+- Nếu phạm vi sửa ảnh hưởng tới trigger, kiểm định trigger (theo tiêu chí Phase 6-4)
+- Khi thay đổi lớn (đổi kiến trúc, thêm/xóa từ 3 agent trở lên), thực hiện cả Phase 6-3 (kiểm thử thực thi), 6-5 (dry-run)
+- Xác nhận cuối cùng CLAUDE.md khớp với file thực tế
 
-## 산출물 체크리스트
+## Checklist sản phẩm đầu ra
 
-생성 완료 후 확인:
+Sau khi hoàn thành, kiểm tra:
 
-- [ ] `프로젝트/.claude/agents/` — **에이전트 정의 파일 필수 생성** (빌트인 타입이라도 파일 생성 필수)
-- [ ] `프로젝트/.claude/skills/` — 스킬 파일들 (SKILL.md + references/)
-- [ ] 오케스트레이터 스킬 1개 (데이터 흐름 + 에러 핸들링 + 테스트 시나리오 포함)
-- [ ] 실행 모드 명시 (에이전트 팀 / 서브 에이전트 / 하이브리드 중 선택, 하이브리드면 Phase별 모드 기재)
-- [ ] 모든 Agent 호출에 `model: "opus"` 파라미터 명시
-- [ ] 신규 에이전트 생성 전 기존 에이전트 중복 검토 완료 (Phase 3-0)
-- [ ] 신규 스킬 생성 전 기존 스킬 중복 검토 완료 (Phase 4-0)
-- [ ] `.claude/commands/` — 아무것도 생성하지 않음
-- [ ] 기존 에이전트/스킬과 충돌 없음
-- [ ] 스킬 description이 적극적("pushy")으로 작성됨 — **후속 작업 키워드 포함**
-- [ ] SKILL.md 본문이 500줄 이내, 초과 시 references/ 분리
-- [ ] 테스트 프롬프트 2~3개로 실행 검증 완료
-- [ ] 트리거 검증 (should-trigger + should-NOT-trigger) 완료
-- [ ] **CLAUDE.md에 하네스 포인터 등록** (트리거 규칙 + 변경 이력)
-- [ ] **CLAUDE.md 변경 이력에 에이전트/스킬 추가/삭제/수정 기록**
-- [ ] **오케스트레이터 Phase 1에 컨텍스트 확인 단계** (초기/후속/부분 재실행 판별)
+- [ ] `project/.claude/agents/` — **bắt buộc sinh file định nghĩa agent** (dù dùng loại built-in vẫn phải tạo file)
+- [ ] `project/.claude/skills/` — các file skill (SKILL.md + references/)
+- [ ] 1 skill orchestrator (bao gồm luồng dữ liệu + xử lý lỗi + kịch bản kiểm thử)
+- [ ] Ghi rõ chế độ thực thi (chọn trong Agent Team / Subagent / Hybrid, nếu hybrid ghi rõ chế độ theo từng Phase)
+- [ ] Mọi lệnh gọi Agent đều ghi rõ tham số `model: "opus"`
+- [ ] Đã kiểm tra trùng lặp với agent hiện có trước khi tạo agent mới (Phase 3-0)
+- [ ] Đã kiểm tra trùng lặp với skill hiện có trước khi tạo skill mới (Phase 4-0)
+- [ ] `.claude/commands/` — không sinh ra gì cả
+- [ ] Không xung đột với agent/skill hiện có
+- [ ] Description của skill được viết chủ động ("pushy") — **có kèm từ khóa công việc tiếp theo**
+- [ ] Phần thân SKILL.md dưới 500 dòng, vượt quá thì tách sang references/
+- [ ] Đã kiểm thử thực thi với 2~3 prompt kiểm thử
+- [ ] Đã hoàn thành kiểm định trigger (should-trigger + should-NOT-trigger)
+- [ ] **Đã đăng ký con trỏ harness vào CLAUDE.md** (quy tắc trigger + lịch sử thay đổi)
+- [ ] **Đã ghi thêm/xóa/sửa agent/skill vào lịch sử thay đổi CLAUDE.md**
+- [ ] **Orchestrator Phase 1 có bước kiểm tra ngữ cảnh** (phân biệt chạy lần đầu/tiếp theo/chạy lại một phần)
 
-## 참고
+## Tham khảo
 
-- 하네스 패턴: `references/agent-design-patterns.md`
-- 기존 하네스 예시 (실제 파일 전문 포함): `references/team-examples.md`
-- 오케스트레이터 템플릿: `references/orchestrator-template.md`
-- **스킬 작성 가이드**: `references/skill-writing-guide.md` — 작성 패턴, 예시, 데이터 스키마 표준
-- **스킬 테스트 가이드**: `references/skill-testing-guide.md` — 테스트/평가/반복 개선 방법론
-- **QA 에이전트 가이드**: `references/qa-agent-guide.md` — 빌드 하네스에 QA 에이전트를 포함할 때 참조. 통합 정합성 검증 방법론, 경계면 버그 패턴, QA 에이전트 정의 템플릿 포함. 실제 프로젝트에서 발견된 7개 버그 사례 기반.
+- Mẫu harness: `references/agent-design-patterns.md`
+- Ví dụ harness hiện có (gồm file mẫu đầy đủ): `references/team-examples.md`
+- Template orchestrator: `references/orchestrator-template.md`
+- **Hướng dẫn viết skill**: `references/skill-writing-guide.md` — mẫu viết, ví dụ, chuẩn data schema
+- **Hướng dẫn kiểm thử skill**: `references/skill-testing-guide.md` — phương pháp kiểm thử/đánh giá/cải tiến lặp lại
+- **Hướng dẫn agent QA**: `references/qa-agent-guide.md` — tham khảo khi đưa agent QA vào build harness. Bao gồm phương pháp kiểm định tính nhất quán tích hợp, mẫu bug ở điểm biên, template định nghĩa agent QA. Dựa trên 7 case bug thực tế phát hiện trong dự án thật.

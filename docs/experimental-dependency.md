@@ -1,43 +1,43 @@
-# Experimental Flag Dependency
+# Phụ thuộc vào Experimental Flag
 
-> **Status:** Active · **Owner:** revfactory · **Last updated:** 2026-04-18 · **SLA:** See [Monitoring Commitment](#monitoring-commitment)
+> **Trạng thái:** Đang hoạt động · **Chủ sở hữu:** revfactory · **Cập nhật lần cuối:** 2026-04-18 · **SLA:** Xem [Cam kết giám sát](#cam-kết-giám-sát)
 
-This document explains why `harness` requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, the three plausible futures of that flag, and what this repository will do in each case — with time-boxed commitments so enterprise adopters can plan against it.
+Tài liệu này giải thích vì sao `harness` yêu cầu `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, ba tương lai khả dĩ của flag đó, và những gì repo này sẽ làm trong mỗi trường hợp — kèm cam kết có khung thời gian để các đơn vị áp dụng cấp doanh nghiệp có thể lập kế hoạch theo đó.
 
 ---
 
-## Current State
+## Tình trạng hiện tại
 
-### Why the flag is required
+### Vì sao cần flag này
 
-`harness` is a meta-skill factory built on top of Claude Code's **Agent Teams API**. Three Claude Code primitives are invoked internally whenever a user runs `claude "build a harness for <domain>"`:
+`harness` là một nhà máy meta-skill được xây dựng trên **Agent Teams API** của Claude Code. Ba primitive của Claude Code được gọi nội bộ mỗi khi người dùng chạy `claude "build a harness for <domain>"`:
 
-| Primitive | Purpose | Flag gated? |
+| Primitive | Mục đích | Bị chặn bởi flag? |
 |-----------|---------|-------------|
-| `TeamCreate` | Instantiates a multi-agent team with shared context | **Yes** |
-| `SendMessage` | Routes messages between team members (supervisor ↔ worker) | **Yes** |
-| `TaskCreate` | Spawns long-running subtasks inside a team | **Yes** |
-| `Agent` tool (invoke) | Single-agent dispatch | No (GA) |
+| `TeamCreate` | Khởi tạo đội multi-agent với ngữ cảnh chung | **Có** |
+| `SendMessage` | Định tuyến message giữa thành viên đội (supervisor ↔ worker) | **Có** |
+| `TaskCreate` | Tạo subtask chạy dài trong một đội | **Có** |
+| Công cụ `Agent` (gọi) | Phân phối agent đơn | Không (GA) |
 
-All three flag-gated primitives require:
+Cả ba primitive bị chặn bởi flag đều yêu cầu:
 
 ```bash
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
 
-Without this variable set in the shell that launches `claude`, harness's generated teams fall back to single-agent execution, which silently breaks the Pipeline / Fan-out-in / Supervisor / Hierarchical Delegation patterns.
+Nếu shell khởi chạy `claude` không đặt biến này, các đội do harness sinh ra sẽ rơi về thực thi đơn agent, làm hỏng âm thầm các mẫu Pipeline / Fan-out-in / Supervisor / Hierarchical Delegation.
 
-### Anthropic references (required reading before filing issues)
+### Tài liệu tham khảo từ Anthropic (cần đọc trước khi mở issue)
 
-The design rationale and roadmap for this flag live in three Anthropic Engineering posts. Adopters evaluating harness should read at least the first:
+Lý do thiết kế và roadmap cho flag này nằm trong ba bài viết Anthropic Engineering. Người dùng đánh giá harness nên đọc ít nhất bài đầu:
 
-1. [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — defines the "harness" category Anthropic endorses and the long-running agent contract.
-2. [Harness design for long-running apps](https://www.anthropic.com/engineering/harness-design-long-running-apps) — the patterns `harness` codifies (Pipeline, Producer-Reviewer, Supervisor, etc.).
-3. [Scaling Managed Agents](https://www.anthropic.com/engineering/managed-agents) — the forward path that may supersede the Experimental flag (see Scenario B).
+1. [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — định nghĩa danh mục "harness" mà Anthropic ủng hộ và hợp đồng cho agent chạy dài.
+2. [Harness design for long-running apps](https://www.anthropic.com/engineering/harness-design-long-running-apps) — các mẫu mà `harness` mã hóa (Pipeline, Producer-Reviewer, Supervisor, v.v.).
+3. [Scaling Managed Agents](https://www.anthropic.com/engineering/managed-agents) — hướng đi có thể thay thế Experimental flag (xem Kịch bản B).
 
 ---
 
-## Dependency Graph
+## Đồ thị phụ thuộc
 
 ```
 harness (v1.2.0)
@@ -45,109 +45,109 @@ harness (v1.2.0)
         ├── TeamCreate            ← EXPERIMENTAL_AGENT_TEAMS=1
         ├── SendMessage           ← EXPERIMENTAL_AGENT_TEAMS=1
         ├── TaskCreate            ← EXPERIMENTAL_AGENT_TEAMS=1
-        └── Agent (invoke)        ← GA (flag-independent)
-              └── Anthropic Roadmap
-                    ├── Scenario A: Flag removed (GA promotion)
-                    ├── Scenario B: Managed Agents GA (parallel path)
-                    └── Scenario C: Breaking signature change
+        └── Agent (invoke)        ← GA (không phụ thuộc flag)
+              └── Roadmap của Anthropic
+                    ├── Kịch bản A: Flag bị loại bỏ (lên GA)
+                    ├── Kịch bản B: Managed Agents lên GA (hướng song song)
+                    └── Kịch bản C: Thay đổi signature gây breaking
 ```
 
-**Read this graph top-down:** harness depends on Agent Teams API, which depends on a single Experimental flag, which depends on Anthropic's own roadmap. If any upstream node changes, this repository is on the hook to adapt within the SLA below.
+**Đọc đồ thị này từ trên xuống:** harness phụ thuộc Agent Teams API, cái này phụ thuộc một Experimental flag duy nhất, cái này phụ thuộc roadmap riêng của Anthropic. Nếu node nào ở trên thay đổi, repo này có trách nhiệm thích nghi trong SLA dưới đây.
 
 ---
 
-## 3 Scenarios
+## 3 Kịch bản
 
-Each scenario lists the **detection trigger** (how we will know it happened), the **T+24h / T+48h / T+72h actions** this repository commits to, and the **user-visible artifact** at each checkpoint.
+Mỗi kịch bản liệt kê **trigger phát hiện** (cách chúng ta biết sự việc đã xảy ra), **hành động ở T+24h / T+48h / T+72h** mà repo này cam kết, và **artifact người dùng nhìn thấy** ở mỗi checkpoint.
 
-### Scenario A — Flag removed (Agent Teams promoted to GA)
+### Kịch bản A — Flag bị loại bỏ (Agent Teams lên GA)
 
-**Trigger detection:** Anthropic Claude Code Changelog publishes "Agent Teams is now GA" **or** `claude-code` binary no longer requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (detected by nightly CI in [P-13](#).
+**Phát hiện trigger:** Anthropic Claude Code Changelog công bố "Agent Teams is now GA" **hoặc** binary `claude-code` không còn yêu cầu `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (phát hiện bởi CI hàng đêm tại [P-13](#)).
 
-**Probability (subjective):** High — this is the path the three blog posts above telegraph.
+**Xác suất (chủ quan):** Cao — đây là hướng mà ba bài blog trên ngụ ý.
 
-| Checkpoint | Action | Artifact |
+| Checkpoint | Hành động | Artifact |
 |------------|--------|----------|
-| **T+24h** | Open branch `feat/drop-experimental-flag`. Remove `export` line from every README / docs / Quickstart. Add `claude-code >= X.Y.Z` lower bound in `plugin.json`. | Branch + PR (draft) |
-| **T+48h** | Publish `docs/migrating-from-experimental.md`. Update `docs/experimental-dependency.md` (this file) headline to "no flag required as of vX.Y". Pin GitHub issue: "Action required: drop the export line". | Migration guide + pinned issue |
-| **T+72h** | Ship **v1.3.0** release with: (a) CHANGELOG entry, (b) `gh release create` with migration note, (c) HN follow-up: "We dropped the experimental flag". | `v1.3.0` git tag + GH Release |
+| **T+24h** | Mở branch `feat/drop-experimental-flag`. Xóa dòng `export` khỏi mọi README / docs / Quickstart. Thêm cận dưới `claude-code >= X.Y.Z` vào `plugin.json`. | Branch + PR (draft) |
+| **T+48h** | Công bố `docs/migrating-from-experimental.md`. Cập nhật headline của `docs/experimental-dependency.md` (file này) thành "không cần flag từ vX.Y". Pin GitHub issue: "Action required: drop the export line". | Migration guide + issue pin |
+| **T+72h** | Phát hành **v1.3.0** kèm: (a) mục CHANGELOG, (b) `gh release create` với ghi chú migration, (c) follow-up trên HN: "We dropped the experimental flag". | Tag git `v1.3.0` + GH Release |
 
-**Adopter impact:** Positive. Enterprise approval friction drops — one checkbox ("no experimental flags") becomes satisfiable. No breaking change to harness user code.
+**Tác động tới người dùng:** Tích cực. Trở ngại phê duyệt doanh nghiệp giảm — một checkbox ("không có experimental flag") trở nên thỏa được. Không có breaking change với code người dùng harness.
 
 ---
 
-### Scenario B — Managed Agents reaches GA (parallel path)
+### Kịch bản B — Managed Agents lên GA (hướng song song)
 
-**Trigger detection:** Anthropic publishes "[Managed Agents](https://www.anthropic.com/engineering/managed-agents) is generally available" with a stable `claude-agents` CLI or SDK surface.
+**Phát hiện trigger:** Anthropic công bố "[Managed Agents](https://www.anthropic.com/engineering/managed-agents) is generally available" với CLI/SDK `claude-agents` ổn định.
 
-**Probability (subjective):** Medium-high within 90 days. Managed Agents is a server-side execution model; harness's client-side team orchestration does **not** automatically translate.
+**Xác suất (chủ quan):** Trung bình-cao trong 90 ngày. Managed Agents là mô hình thực thi phía server; điều phối đội phía client của harness **không** tự động chuyển đổi tương thích.
 
-| Checkpoint | Action | Artifact |
+| Checkpoint | Hành động | Artifact |
 |------------|--------|----------|
-| **T+24h** | Open `feat/managed-agents-compat` PR. Add `adapters/managed-agents/` scaffold that maps harness's 6 team patterns to Managed Agents invocation. Identify incompatible patterns (likely: Hierarchical Delegation). | Compat PR (draft) |
-| **T+48h** | Publish blog post: **"Harness + Managed Agents: one layer up, not replaced"** on Dev.to and in the repo. Re-frame harness as the **design-time** layer that outputs Managed Agents configs, not a runtime competitor. | Coexistence framing blog |
-| **T+72h** | Publish `docs/managed-agents-migration.md` with a per-pattern matrix (which of the 6 patterns map 1:1, which need rewrite). Update README sibling-repo section. | Migration guide |
+| **T+24h** | Mở PR `feat/managed-agents-compat`. Thêm scaffold `adapters/managed-agents/` để map 6 mẫu đội của harness sang cách gọi Managed Agents. Xác định mẫu không tương thích (khả năng cao: Hierarchical Delegation). | Compat PR (draft) |
+| **T+48h** | Công bố blog post: **"Harness + Managed Agents: one layer up, not replaced"** trên Dev.to và trong repo. Định vị lại harness là tầng **thời điểm thiết kế** sinh ra config cho Managed Agents, không phải đối thủ ở runtime. | Blog định vị cùng tồn tại |
+| **T+72h** | Công bố `docs/managed-agents-migration.md` kèm ma trận theo từng mẫu (mẫu nào trong 6 mẫu map 1:1, mẫu nào cần viết lại). Cập nhật section repo anh em trong README. | Migration guide |
 
-**Strategic note:** harness re-positions as the **upper layer on top of Managed Agents** — "Managed Agents runs the team, harness designs it." This is the coexistence frame in §4.2 of the GTM plan.
+**Ghi chú chiến lược:** harness định vị lại là **tầng trên của Managed Agents** — "Managed Agents chạy đội, harness thiết kế đội." Đây là khung cùng tồn tại ở §4.2 của kế hoạch GTM.
 
-**Adopter impact:** Neutral to positive. Existing harness users keep working on the Experimental flag path; new users can opt into Managed Agents output.
+**Tác động tới người dùng:** Trung tính đến tích cực. Người dùng harness hiện tại tiếp tục dùng đường Experimental flag; người dùng mới có thể chọn output Managed Agents.
 
 ---
 
-### Scenario C — Breaking change (API signature mutation)
+### Kịch bản C — Breaking change (thay đổi signature API)
 
-**Trigger detection:** Nightly CI (`.github/workflows/nightly-compat.yml`, tracked as roadmap P-13) fails against Claude Code's latest nightly build **or** the Changelog announces a renamed env var / changed `TeamCreate` signature.
+**Phát hiện trigger:** CI hàng đêm (`.github/workflows/nightly-compat.yml`, theo dõi ở roadmap P-13) thất bại với nightly build mới nhất của Claude Code **hoặc** Changelog công bố đổi tên env var / thay đổi signature `TeamCreate`.
 
-**Probability (subjective):** Medium. Experimental APIs are renamed without deprecation windows.
+**Xác suất (chủ quan):** Trung bình. API thử nghiệm thường bị đổi tên không có khung khử dần (deprecation window).
 
-| Checkpoint | Action | Artifact |
+| Checkpoint | Hành động | Artifact |
 |------------|--------|----------|
-| **T+0 to T+24h** | Nightly CI alert fires in Slack/Discord. Author opens `hotfix/compat-<date>` branch, patches affected call sites. Unit tests green on both old + new signature (best effort). | Hotfix branch |
-| **T+24h** | Merge hotfix. Push `v1.2.x` patch tag. Update `docs/compatibility-matrix.md` row for affected Claude Code version. | `v1.2.x` patch release |
-| **T+72h** | If the change is non-trivial (affects harness's public contract), publish a short notice on the repo Discussions tab + X. Otherwise, CHANGELOG entry is sufficient. | Discussions post (conditional) |
+| **T+0 đến T+24h** | Cảnh báo CI hàng đêm nổ ra ở Slack/Discord. Tác giả mở branch `hotfix/compat-<date>`, patch các điểm gọi bị ảnh hưởng. Unit test pass với cả signature cũ + mới (cố gắng tối đa). | Hotfix branch |
+| **T+24h** | Merge hotfix. Push tag patch `v1.2.x`. Cập nhật dòng `docs/compatibility-matrix.md` cho phiên bản Claude Code bị ảnh hưởng. | Patch release `v1.2.x` |
+| **T+72h** | Nếu thay đổi không nhỏ (ảnh hưởng hợp đồng công khai của harness), công bố thông báo ngắn ở tab Discussions của repo + X. Nếu không, mục CHANGELOG là đủ. | Discussions post (có điều kiện) |
 
-**Adopter impact:** Existing pinned users on the prior Claude Code version are unaffected. Users on latest get a same-week patch.
+**Tác động tới người dùng:** Người dùng đang pin phiên bản Claude Code cũ không bị ảnh hưởng. Người dùng dùng phiên bản mới nhất nhận patch trong tuần.
 
 ---
 
-## Monitoring Commitment
+## Cam kết giám sát
 
-We commit to the following **observable SLA**. Missing it is grounds for filing an issue with the `sla-breach` label.
+Chúng tôi cam kết **SLA có thể quan sát** sau. Trễ SLA là cơ sở để mở issue với label `sla-breach`.
 
-| Event | SLA | Measurement |
+| Sự kiện | SLA | Cách đo |
 |-------|-----|-------------|
-| Anthropic publishes Agent Teams / Managed Agents change in official Changelog | This document updated within **72 hours** | Compare Changelog post timestamp to this file's `Last updated` line |
-| Nightly CI detects compat break | Hotfix branch open within **24 hours** | GitHub Actions run timestamp vs. branch creation timestamp |
-| New Claude Code stable release (minor or major) | `docs/compatibility-matrix.md` row added within **7 days** | Compatibility matrix diff |
+| Anthropic công bố thay đổi Agent Teams / Managed Agents trong Changelog chính thức | Tài liệu này được cập nhật trong **72 giờ** | So sánh timestamp bài Changelog với dòng `Last updated` của file này |
+| CI hàng đêm phát hiện compat break | Mở hotfix branch trong **24 giờ** | Timestamp lần chạy GitHub Actions so với timestamp tạo branch |
+| Claude Code stable release mới (minor hoặc major) | Thêm dòng vào `docs/compatibility-matrix.md` trong **7 ngày** | Diff compatibility matrix |
 
-**Sources we actively monitor:**
+**Nguồn chúng tôi chủ động giám sát:**
 
-- Claude Code release notes — watched via the [Anthropic Engineering blog](https://www.anthropic.com/engineering) RSS
-- `anthropics/claude-code` GitHub Releases (nightly tag)
-- Anthropic Discord `#claude-code` channel (community signal)
-
----
-
-## FAQ for Enterprise Adopters
-
-### Q1. We're in a regulated industry (finance, healthcare, public sector) and can't enable `EXPERIMENTAL` flags in production. How do we adopt harness?
-
-**Cause:** Many compliance frameworks (SOC 2 Type II, ISO 27001, K-ISMS) disallow unstable / preview features in production.
-**Action:** Use harness **design-time only**: run it in a sandbox workstation to scaffold `.claude/agents/` and `.claude/skills/` files, then commit the generated artifacts into your production repo. Production Claude Code never needs the flag — only the flag-gated `TeamCreate` runtime does. The generated single-agent skills are GA-path compatible.
-
-### Q2. If Agent Teams goes GA (Scenario A), will my existing harness-generated code break?
-
-**Cause:** GA promotion in Anthropic's Claude Code has historically been non-breaking for generated artifacts; the flag simply stops being required.
-**Action:** No action required for end users. Your `.claude/agents/*.md` and `.claude/skills/*` files are plain Markdown and remain valid. You will be able to `unset CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` on the day of GA. We will publish a migration note within 48 hours (see Scenario A).
-
-### Q3. Do you guarantee an SLA in writing? What happens if you miss it?
-
-**Cause:** Enterprises need a contractual or at-minimum observable commitment before approval.
-**Action:** The SLA table above is the **public commitment** and is enforced by: (a) a GitHub Action that comments on this file if its `Last updated` line is older than 72 hours after a detected Changelog event, (b) an `sla-breach` issue label adopters may apply, (c) a post-mortem obligation in `CONTRIBUTING.md` for any breach. This is not a paid SLA — it is a community commitment. For a paid SLA, contact the maintainer (see repository README).
+- Release notes Claude Code — theo dõi qua RSS của [Anthropic Engineering blog](https://www.anthropic.com/engineering)
+- GitHub Releases của `anthropics/claude-code` (tag nightly)
+- Kênh `#claude-code` Discord của Anthropic (tín hiệu cộng đồng)
 
 ---
 
-**Related documents:**
-- [`docs/quickstart.md`](./quickstart.md) — 5-minute install walkthrough
-- [`docs/show-hn-launch-kit.md`](./show-hn-launch-kit.md) — Public launch package
-- `docs/compatibility-matrix.md` *(pending P-13)* — Claude Code × harness version table
+## FAQ cho người dùng cấp doanh nghiệp
+
+### Câu 1. Chúng tôi ở ngành bị quản lý (tài chính, y tế, công vụ) và không thể bật flag `EXPERIMENTAL` ở production. Làm sao áp dụng harness?
+
+**Nguyên nhân:** Nhiều khung tuân thủ (SOC 2 Type II, ISO 27001, K-ISMS) không cho phép tính năng không ổn định / preview ở production.
+**Hành động:** Dùng harness **chỉ ở thời điểm thiết kế**: chạy ở máy sandbox để scaffold file `.claude/agents/` và `.claude/skills/`, rồi commit các artifact đã sinh vào repo production. Claude Code production không bao giờ cần flag — chỉ runtime `TeamCreate` bị chặn bởi flag mới cần. Các skill đơn agent đã sinh tương thích đường GA.
+
+### Câu 2. Nếu Agent Teams lên GA (Kịch bản A), code do harness sinh hiện tại của tôi có bị hỏng không?
+
+**Nguyên nhân:** Trong lịch sử, lên GA của Claude Code Anthropic không gây breaking với artifact đã sinh; flag chỉ đơn giản là không còn bắt buộc.
+**Hành động:** Người dùng cuối không cần làm gì. File `.claude/agents/*.md` và `.claude/skills/*` của bạn là Markdown thuần và vẫn hợp lệ. Bạn có thể `unset CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` ngay ngày GA. Chúng tôi sẽ công bố ghi chú migration trong 48 giờ (xem Kịch bản A).
+
+### Câu 3. Có cam kết SLA bằng văn bản không? Nếu trễ thì sao?
+
+**Nguyên nhân:** Doanh nghiệp cần một cam kết hợp đồng hoặc tối thiểu có thể quan sát được trước khi phê duyệt.
+**Hành động:** Bảng SLA trên là **cam kết công khai** và được thực thi bằng: (a) một GitHub Action comment vào file này nếu dòng `Last updated` cũ hơn 72 giờ sau một sự kiện Changelog được phát hiện, (b) label issue `sla-breach` mà người dùng có thể gắn, (c) nghĩa vụ post-mortem trong `CONTRIBUTING.md` cho mọi lần trễ. Đây không phải SLA trả phí — đây là cam kết cộng đồng. Để có SLA trả phí, liên hệ maintainer (xem README repo).
+
+---
+
+**Tài liệu liên quan:**
+- [`docs/quickstart.md`](./quickstart.md) — hướng dẫn cài đặt 5 phút
+- [`docs/show-hn-launch-kit.md`](./show-hn-launch-kit.md) — bộ công cụ ra mắt công khai
+- `docs/compatibility-matrix.md` *(đang chờ P-13)* — bảng phiên bản Claude Code × harness

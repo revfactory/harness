@@ -1,236 +1,237 @@
-# 스킬 작성 가이드
+# Hướng dẫn viết Skill
 
-하네스에서 생성하는 스킬의 품질을 높이기 위한 상세 작성 가이드. SKILL.md Phase 4의 보충 레퍼런스.
-
----
-
-## 목차
-
-1. [Description 작성 패턴](#1-description-작성-패턴)
-2. [본문 작성 스타일](#2-본문-작성-스타일)
-3. [출력 형식 정의 패턴](#3-출력-형식-정의-패턴)
-4. [예시 작성 패턴](#4-예시-작성-패턴)
-5. [Progressive Disclosure 패턴](#5-progressive-disclosure-패턴)
-6. [스크립트 번들링 판단 기준](#6-스크립트-번들링-판단-기준)
-7. [데이터 스키마 표준](#7-데이터-스키마-표준)
-8. [스킬에 포함하지 않을 것](#8-스킬에-포함하지-않을-것)
+Hướng dẫn viết chi tiết để nâng cao chất lượng skill được sinh ra từ harness. Là reference bổ trợ cho Phase 4 của SKILL.md.
 
 ---
 
-## 1. Description 작성 패턴
+## Mục lục
 
-Description은 스킬의 유일한 트리거 메커니즘이다. Claude는 `available_skills` 목록에서 name + description만 보고 스킬 사용 여부를 결정한다.
+1. [Mẫu viết Description](#1-mẫu-viết-description)
+2. [Phong cách viết phần thân](#2-phong-cách-viết-phần-thân)
+3. [Mẫu định nghĩa định dạng output](#3-mẫu-định-nghĩa-định-dạng-output)
+4. [Mẫu viết ví dụ](#4-mẫu-viết-ví-dụ)
+5. [Mẫu Progressive Disclosure](#5-mẫu-progressive-disclosure)
+6. [Tiêu chí quyết định bundling script](#6-tiêu-chí-quyết-định-bundling-script)
+7. [Chuẩn data schema](#7-chuẩn-data-schema)
+8. [Những thứ không đưa vào skill](#8-những-thứ-không-đưa-vào-skill)
+9. [Thiết kế tái sử dụng skill](#9-thiết-kế-tái-sử-dụng-skill)
 
-### 트리거 메커니즘 이해
+---
 
-Claude는 자신의 기본 도구로 쉽게 처리할 수 있는 단순 작업에는 스킬을 호출하지 않는 경향이 있다. "이 PDF 읽어줘" 같은 단순 요청은 description이 완벽해도 트리거되지 않을 수 있다. 복잡하고 다단계이며 전문적인 작업일수록 스킬 트리거 확률이 높다.
+## 1. Mẫu viết Description
 
-### 작성 원칙
+Description là cơ chế trigger duy nhất của skill. Claude chỉ nhìn name + description trong danh sách `available_skills` để quyết định có dùng skill hay không.
 
-1. **스킬이 하는 일** + **구체적 트리거 상황**을 모두 기술
-2. 유사하지만 트리거하면 안 되는 경우를 구분하는 경계 조건 명시
-3. 약간 "pushy"하게 — Claude가 트리거를 보수적으로 판단하는 경향을 보상
+### Hiểu cơ chế trigger
 
-### 좋은 예시
+Claude có xu hướng không gọi skill cho công việc đơn giản mà nó có thể tự xử lý bằng công cụ cơ bản. Yêu cầu đơn giản như "đọc PDF này giúp tôi" có thể không trigger dù description hoàn hảo. Công việc càng phức tạp, nhiều bước, chuyên biệt thì xác suất trigger skill càng cao.
+
+### Nguyên tắc viết
+
+1. Mô tả đầy đủ cả **việc skill làm** + **tình huống trigger cụ thể**
+2. Ghi rõ điều kiện biên để phân biệt với các trường hợp tương tự nhưng không nên trigger
+3. Viết hơi "pushy" — để bù lại xu hướng đánh giá trigger bảo thủ của Claude
+
+### Ví dụ tốt
 
 ```yaml
-description: "PDF 파일 읽기, 텍스트/테이블 추출, 병합, 분할, 회전, 워터마크,
-  암호화/복호화, OCR 등 모든 PDF 작업을 수행. .pdf 파일을 언급하거나
-  PDF 산출물을 요청하면 반드시 이 스킬을 사용할 것. 단순히 PDF를
-  '읽어달라'는 요청이 아닌 변환/편집/분석이 필요할 때 특히 유용."
+description: "Thực hiện mọi công việc PDF: đọc file PDF, trích xuất văn bản/bảng,
+  hợp nhất, tách, xoay, đóng/mở watermark, mã hóa/giải mã, OCR. Khi nhắc đến
+  file .pdf hoặc yêu cầu sản phẩm PDF, phải dùng skill này. Đặc biệt hữu ích
+  khi cần chuyển đổi/biên tập/phân tích, không chỉ đơn thuần 'đọc' PDF."
 ```
 
 ```yaml
-description: "엑셀/CSV/TSV 파일의 열 추가, 수식 계산, 서식, 차트,
-  데이터 정제를 포함한 모든 스프레드시트 작업. 사용자가 스프레드시트
-  파일을 언급하면 — 심지어 캐주얼하게('다운로드 폴더의 xlsx')라고만
-  해도 — 이 스킬을 사용할 것."
+description: "Mọi công việc spreadsheet bao gồm thêm cột, tính công thức, định
+  dạng, biểu đồ, làm sạch dữ liệu cho file excel/CSV/TSV. Khi người dùng nhắc
+  đến file spreadsheet — dù chỉ nói thoáng qua ('cái xlsx trong thư mục
+  download') — phải dùng skill này."
 ```
 
-### 나쁜 예시
+### Ví dụ tồi
 
-- `"데이터를 처리하는 스킬"` — 너무 모호, 어떤 파일/작업인지 불분명
-- `"PDF 관련 작업"` — 구체적 동작 나열 없음, 트리거 상황 미기술
+- `"Skill xử lý dữ liệu"` — quá mơ hồ, không rõ file/công việc nào
+- `"Công việc liên quan PDF"` — không liệt kê hành động cụ thể, không mô tả tình huống trigger
 
 ---
 
-## 2. 본문 작성 스타일
+## 2. Phong cách viết phần thân
 
-### Why-First 원칙
+### Nguyên tắc Why-First
 
-LLM은 이유를 이해하면 엣지 케이스에서도 올바르게 판단한다. 강압적 규칙보다 맥락 전달이 효과적이다.
+LLM hiểu lý do thì sẽ phán đoán đúng cả trong trường hợp biên. Truyền đạt ngữ cảnh hiệu quả hơn quy tắc áp đặt.
 
-**나쁜 예:**
+**Ví dụ tồi:**
 ```markdown
 ALWAYS use pdfplumber for table extraction. NEVER use PyPDF2 for tables.
 ```
 
-**좋은 예:**
+**Ví dụ tốt:**
 ```markdown
-테이블 추출에는 pdfplumber를 사용한다. PyPDF2는 텍스트 추출에 특화되어
-있어 테이블의 행/열 구조를 보존하지 못하기 때문이다. pdfplumber는
-셀 경계를 인식하여 구조화된 데이터를 반환한다.
+Dùng pdfplumber để trích xuất bảng. PyPDF2 chuyên về trích xuất văn bản nên
+không giữ được cấu trúc hàng/cột của bảng. pdfplumber nhận diện ranh giới
+cell và trả về dữ liệu có cấu trúc.
 ```
 
-### 일반화 원칙
+### Nguyên tắc tổng quát hóa
 
-피드백이나 테스트 결과에서 문제가 발견되면, 특정 예시에만 맞는 좁은 수정 대신 **원리 수준에서 일반화**한다.
+Khi phát hiện vấn đề từ phản hồi hoặc kết quả kiểm thử, hãy **tổng quát hóa ở mức nguyên lý** thay vì sửa hẹp chỉ đúng với một ví dụ cụ thể.
 
-**오버피팅 수정:**
+**Sửa overfitting:**
 ```markdown
-"Q4 매출" 열이 있으면 해당 열을 숫자로 변환하라.
+Nếu có cột "Doanh thu Q4" thì chuyển cột đó thành số.
 ```
 
-**일반화된 수정:**
+**Sửa tổng quát hóa:**
 ```markdown
-열 이름에 "매출", "금액", "수량" 등 수치를 암시하는 키워드가 있으면
-해당 열을 숫자 타입으로 변환한다. 변환 실패 시 원본 값을 유지한다.
+Nếu tên cột có từ khóa ngụ ý số liệu như "doanh thu", "số tiền", "số lượng",
+hãy chuyển cột đó thành kiểu số. Nếu chuyển đổi thất bại, giữ giá trị gốc.
 ```
 
-### 명령형 어조
+### Tông ra lệnh
 
-"~합니다", "~할 수 있습니다" 대신 "~한다", "~하라" 형태를 사용한다. 스킬은 지시서이다.
+Dùng "thực hiện...", "phải..." thay vì "có thể...", "sẽ...". Skill là một bản chỉ thị.
 
-### 컨텍스트 절약
+### Tiết kiệm ngữ cảnh
 
-컨텍스트 윈도우는 공공재다. 모든 문장이 토큰 비용을 정당화하는지 자문한다:
-- "Claude가 이미 알고 있는 내용인가?" → 삭제
-- "이 설명이 없으면 Claude가 실수하는가?" → 유지
-- "구체적 예시 하나가 긴 설명보다 효과적인가?" → 예시로 대체
+Cửa sổ ngữ cảnh là tài sản chung. Tự hỏi mỗi câu có đáng với chi phí token không:
+- "Claude đã biết điều này chưa?" → xóa
+- "Không có giải thích này Claude có sai không?" → giữ
+- "Một ví dụ cụ thể có hiệu quả hơn giải thích dài không?" → thay bằng ví dụ
 
 ---
 
-## 3. 출력 형식 정의 패턴
+## 3. Mẫu định nghĩa định dạng output
 
-산출물의 형식이 중요한 스킬에서 사용:
+Dùng khi định dạng sản phẩm là quan trọng:
 
 ```markdown
-## 보고서 구조
-다음 템플릿을 정확히 따른다:
+## Cấu trúc báo cáo
+Tuân theo chính xác template sau:
 
-# [제목]
-## 요약
-## 핵심 발견
-## 권장 사항
+# [Tiêu đề]
+## Tóm tắt
+## Phát hiện chính
+## Khuyến nghị
 ```
 
-형식 정의는 간결하게, 실제 예시를 포함하면 더 효과적이다.
+Định nghĩa định dạng nên ngắn gọn, hiệu quả hơn khi có kèm ví dụ thực tế.
 
 ---
 
-## 4. 예시 작성 패턴
+## 4. Mẫu viết ví dụ
 
-예시는 긴 설명보다 효과적이다:
+Ví dụ hiệu quả hơn giải thích dài:
 
 ```markdown
-## 커밋 메시지 형식
+## Định dạng commit message
 
-**예시 1:**
-입력: JWT 토큰 기반 사용자 인증 추가
-출력: feat(auth): JWT 기반 인증 구현
+**Ví dụ 1:**
+Input: thêm xác thực người dùng dựa trên JWT token
+Output: feat(auth): JWT 기반 인증 구현
 
-**예시 2:**
-입력: 로그인 페이지에서 비밀번호 표시 버튼이 동작하지 않는 버그 수정
-출력: fix(login): 비밀번호 표시 토글 버튼 동작 수정
+**Ví dụ 2:**
+Input: sửa lỗi nút hiện mật khẩu không hoạt động ở trang đăng nhập
+Output: fix(login): sửa nút toggle hiện mật khẩu
 ```
 
 ---
 
-## 5. Progressive Disclosure 패턴
+## 5. Mẫu Progressive Disclosure
 
-### 패턴 1: 도메인별 분리
+### Mẫu 1: Tách theo lĩnh vực
 
 ```
 bigquery-skill/
-├── SKILL.md (개요 + 도메인 선택 가이드)
+├── SKILL.md (tổng quan + hướng dẫn chọn lĩnh vực)
 └── references/
-    ├── finance.md (매출, 빌링 메트릭)
-    ├── sales.md (기회, 파이프라인)
-    └── product.md (API 사용량, 기능)
+    ├── finance.md (doanh thu, chỉ số billing)
+    ├── sales.md (cơ hội, pipeline)
+    └── product.md (sử dụng API, tính năng)
 ```
 
-사용자가 매출에 대해 물으면 finance.md만 로드.
+Khi người dùng hỏi về doanh thu, chỉ nạp finance.md.
 
-### 패턴 2: 조건부 상세
+### Mẫu 2: Chi tiết có điều kiện
 
 ```markdown
-# DOCX 처리
+# Xử lý DOCX
 
-## 문서 생성
-docx-js로 새 문서를 생성한다. → [DOCX-JS.md](references/docx-js.md) 참조.
+## Tạo văn bản
+Tạo văn bản mới bằng docx-js. → xem [DOCX-JS.md](references/docx-js.md).
 
-## 문서 편집
-단순 편집은 XML을 직접 수정.
-**추적 변경이 필요하면**: [REDLINING.md](references/redlining.md) 참조
+## Sửa văn bản
+Sửa đơn giản thì sửa trực tiếp XML.
+**Nếu cần theo dõi thay đổi (track changes)**: xem [REDLINING.md](references/redlining.md)
 ```
 
-### 패턴 3: 대형 레퍼런스 파일 구조
+### Mẫu 3: Cấu trúc file reference lớn
 
-300줄 이상의 reference 파일은 상단에 목차를 포함한다:
+File reference từ 300 dòng trở lên cần có mục lục ở đầu:
 
 ```markdown
-# API 레퍼런스
+# API Reference
 
-## 목차
-1. [인증](#인증)
-2. [엔드포인트 목록](#엔드포인트-목록)
-3. [에러 코드](#에러-코드)
-4. [레이트 리밋](#레이트-리밋)
+## Mục lục
+1. [Xác thực](#xác-thực)
+2. [Danh sách endpoint](#danh-sách-endpoint)
+3. [Mã lỗi](#mã-lỗi)
+4. [Rate limit](#rate-limit)
 
 ---
 
-## 인증
+## Xác thực
 ...
 ```
 
 ---
 
-## 6. 스크립트 번들링 판단 기준
+## 6. Tiêu chí quyết định bundling script
 
-테스트 실행에서 에이전트들의 트랜스크립트를 관찰한다. 다음 패턴이 보이면 번들링 대상:
+Quan sát transcript của agent trong quá trình kiểm thử. Nếu thấy các mẫu sau, đó là đối tượng cần bundling:
 
-| 신호 | 조치 |
+| Tín hiệu | Hành động |
 |------|------|
-| 3개 테스트 중 3개에서 동일한 헬퍼 스크립트 생성 | `scripts/`에 번들링 |
-| 매번 같은 pip install/npm install 실행 | 스킬에 의존성 설치 단계 명시 |
-| 동일한 다단계 접근법 반복 | 스킬 본문에 표준 절차로 기술 |
-| 매번 비슷한 에러 후 같은 회피책 적용 | 스킬에 알려진 문제와 해결법 기술 |
+| 3/3 lần test sinh cùng một helper script | Bundling vào `scripts/` |
+| Mỗi lần đều chạy lại pip install/npm install giống nhau | Ghi rõ bước cài dependency vào skill |
+| Lặp lại cùng một cách tiếp cận nhiều bước | Ghi vào phần thân skill thành quy trình chuẩn |
+| Mỗi lần gặp lỗi tương tự rồi áp dụng cùng cách lách | Ghi vào skill vấn đề đã biết và cách giải quyết |
 
-번들링된 스크립트는 반드시 실행 테스트를 거친다.
+Script đã bundling phải luôn qua kiểm thử thực thi.
 
 ---
 
-## 7. 데이터 스키마 표준
+## 7. Chuẩn data schema
 
-스킬 간 데이터 교환의 일관성을 위해 표준 스키마를 사용한다. 하네스에서 생성하는 스킬의 테스트/평가에 사용할 수 있다.
+Dùng schema chuẩn để đảm bảo nhất quán khi trao đổi dữ liệu giữa các skill. Có thể dùng cho kiểm thử/đánh giá skill được sinh từ harness.
 
 ### eval_metadata.json
 
-각 테스트 케이스의 메타데이터:
+Metadata của từng test case:
 
 ```json
 {
   "eval_id": 0,
   "eval_name": "descriptive-name-here",
-  "prompt": "사용자의 작업 프롬프트",
+  "prompt": "Prompt công việc của người dùng",
   "assertions": [
-    "산출물에 X가 포함되어 있다",
-    "Y 형식으로 파일이 생성되었다"
+    "Sản phẩm có chứa X",
+    "File được tạo theo định dạng Y"
   ]
 }
 ```
 
 ### grading.json
 
-assertion 기반 채점 결과:
+Kết quả chấm điểm dựa trên assertion:
 
 ```json
 {
   "expectations": [
     {
-      "text": "산출물에 '서울'이 포함됨",
+      "text": "Sản phẩm có chứa 'Seoul'",
       "passed": true,
-      "evidence": "3번째 단계에서 '서울 지역 데이터 추출' 확인"
+      "evidence": "Xác nhận 'trích xuất dữ liệu khu vực Seoul' ở bước thứ 3"
     }
   ],
   "summary": {
@@ -242,11 +243,11 @@ assertion 기반 채점 결과:
 }
 ```
 
-**필드명 주의:** `text`, `passed`, `evidence`를 정확히 사용한다 (`name`/`met`/`details` 등 변형 금지).
+**Lưu ý tên field:** dùng chính xác `text`, `passed`, `evidence` (cấm biến thể như `name`/`met`/`details`).
 
 ### timing.json
 
-실행 시간/토큰 측정:
+Đo thời gian thực thi/token:
 
 ```json
 {
@@ -256,43 +257,43 @@ assertion 기반 채점 결과:
 }
 ```
 
-서브에이전트 완료 알림에서 `total_tokens`와 `duration_ms`를 즉시 저장한다. 이 데이터는 알림 시점에만 접근 가능하고 이후 복구 불가.
+Lưu ngay `total_tokens` và `duration_ms` từ thông báo hoàn thành của subagent. Dữ liệu này chỉ truy cập được tại thời điểm thông báo, không thể khôi phục sau đó.
 
 ---
 
-## 8. 스킬에 포함하지 않을 것
+## 8. Những thứ không đưa vào skill
 
-- README.md, CHANGELOG.md, INSTALLATION_GUIDE.md 등 부가 문서
-- 스킬 생성 과정의 메타 정보 (테스트 결과, 반복 이력)
-- 사용자 대상 설명서 (스킬은 AI 에이전트를 위한 지시서)
-- 이미 Claude가 알고 있는 일반적 지식
+- Tài liệu phụ trợ như README.md, CHANGELOG.md, INSTALLATION_GUIDE.md
+- Thông tin meta về quá trình tạo skill (kết quả test, lịch sử lặp lại)
+- Hướng dẫn dành cho người dùng (skill là chỉ thị cho AI agent)
+- Tri thức tổng quát mà Claude đã biết sẵn
 
 ---
 
-## 9. 스킬 재사용 설계
+## 9. Thiết kế tái sử dụng skill
 
-신규 스킬 생성 전, 기존 스킬과의 중복을 확인한다. 하네스를 반복 구축하다 보면 기능이 겹치는 스킬이 다른 이름으로 누적되기 쉽다.
+Trước khi tạo skill mới, kiểm tra trùng lặp với skill hiện có. Khi xây dựng harness lặp đi lặp lại, các skill có chức năng chồng lấp dễ tích tụ dưới tên khác nhau.
 
-| 상황 | 조치 |
+| Tình huống | Hành động |
 |------|------|
-| 기존 스킬이 신규 기능을 완전히 포함 | 신규 생성 금지 — 기존 스킬을 에이전트에 연결 |
-| 기존 스킬이 부분 포함이고 일반화 가능 | 기존 스킬을 일반화하여 확장 |
-| 도메인 특화가 의도된 부분 포함 | 신규 생성 진행 — 별개 스킬로 유지 |
-| 기능 범위가 완전히 다름 | 신규 생성 진행 |
+| Skill hiện có đã hoàn toàn bao quát chức năng mới | Cấm tạo mới — liên kết skill hiện có với agent |
+| Skill hiện có bao quát một phần và có thể tổng quát hóa | Tổng quát hóa skill hiện có để mở rộng |
+| Phần bao quát chỉ là trùng hợp do đặc thù lĩnh vực | Tiến hành tạo mới — giữ là skill riêng biệt |
+| Phạm vi chức năng hoàn toàn khác | Tiến hành tạo mới |
 
-**원칙:** 하나의 스킬이 하나의 역할에 집중할수록 재사용성이 높고 중복이 줄어든다. 역할이 두 가지 이상이면 분리할 수 있는지 먼저 검토한다.
+**Nguyên tắc:** một skill tập trung vào một vai trò duy nhất sẽ có khả năng tái sử dụng cao hơn và giảm trùng lặp. Nếu có 2 vai trò trở lên, hãy xem xét tách trước.
 
-### 어디까지 일반화할지
+### Tổng quát hóa đến đâu
 
-일반화는 무한히 가능하므로 **의도된 책임 범위**에서 멈춘다. 의도된 도메인 특화는 유지하고, 우연한 종속만 제거한다.
+Tổng quát hóa có thể vô hạn, nên dừng ở **phạm vi trách nhiệm dự kiến**. Giữ lại đặc thù lĩnh vực có chủ đích, chỉ loại bỏ phụ thuộc ngẫu nhiên.
 
-예: "fintech 리스크 평가 PDF" 스킬
+Ví dụ: skill "PDF đánh giá rủi ro fintech"
 
-| 단계 | 결과 |
+| Bước | Kết quả |
 |------|------|
-| fintech 종속 제거 | "평가 결과 PDF" — 책임 범위가 평가 리포트면 여기서 멈춤 |
-| 평가 종속 제거 | "PDF 포매팅" — 이미 존재한다면 별개 스킬 생성하지 말고 재사용 |
+| Loại bỏ phụ thuộc fintech | "PDF kết quả đánh giá" — nếu phạm vi trách nhiệm là báo cáo đánh giá thì dừng ở đây |
+| Loại bỏ phụ thuộc đánh giá | "Định dạng PDF" — nếu đã tồn tại, đừng tạo skill riêng mà tái sử dụng |
 
-책임 범위가 "fintech 리스크 평가"로 의도된 특화라면 일반화하지 않고 별개 스킬로 유지한다.
+Nếu phạm vi trách nhiệm là đặc thù có chủ đích "đánh giá rủi ro fintech", thì không tổng quát hóa mà giữ là skill riêng biệt.
 
-해당 스킬에 의존하는 에이전트의 동작이 변경될 수 있다. 확장 전 의존성을 확인하고, description에 확장된 사용 범위를 반영한다.
+Hành vi của agent phụ thuộc vào skill đó có thể thay đổi. Kiểm tra phụ thuộc trước khi mở rộng, và phản ánh phạm vi sử dụng mở rộng vào description.

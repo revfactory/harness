@@ -1,292 +1,292 @@
-# 오케스트레이터 스킬 템플릿
+# Template skill Orchestrator
 
-오케스트레이터는 팀 전체를 조율하는 상위 스킬이다. 실행 모드별로 3가지 템플릿을 제공한다:
+Orchestrator là một skill cấp cao chuyên điều phối toàn đội. Cung cấp 3 template theo từng chế độ thực thi:
 
-- **템플릿 A: 에이전트 팀 모드 (기본)** — 2명 이상 협업 시 최우선 선택
-- **템플릿 B: 서브 에이전트 모드 (대안)** — 팀 통신이 불필요한 경우
-- **템플릿 C: 하이브리드 모드** — Phase마다 모드를 섞어 구성
+- **Template A: chế độ Agent Team (mặc định)** — lựa chọn ưu tiên hàng đầu khi 2 người trở lên phối hợp
+- **Template B: chế độ Subagent (phương án thay thế)** — khi không cần giao tiếp đội
+- **Template C: chế độ Hybrid** — trộn chế độ theo từng Phase
 
 ---
 
-## 템플릿 A: 에이전트 팀 모드 (기본 · 최우선 선택)
+## Template A: Chế độ Agent Team (mặc định · ưu tiên hàng đầu)
 
-2명 이상의 에이전트가 협업할 때 **가장 먼저 검토하는 기본 모드**. `TeamCreate`로 팀을 구성하고, 공유 작업 목록과 `SendMessage`로 조율한다.
+**Chế độ mặc định được xem xét đầu tiên** khi 2 agent trở lên cần phối hợp. Tạo đội bằng `TeamCreate`, điều phối bằng danh sách công việc chung và `SendMessage`.
 
 ```markdown
 ---
 name: {domain}-orchestrator
-description: "{도메인} 에이전트 팀을 조율하는 오케스트레이터. {초기 실행 키워드}. 후속 작업: {도메인} 결과 수정, 부분 재실행, 업데이트, 보완, 다시 실행, 이전 결과 개선 요청 시에도 반드시 이 스킬을 사용."
+description: "Orchestrator điều phối đội agent {domain}. {từ khóa khởi chạy lần đầu}. Công việc tiếp theo: sửa kết quả {domain}, chạy lại một phần, cập nhật, bổ sung, chạy lại, yêu cầu cải thiện kết quả trước — đều phải dùng skill này."
 ---
 
 # {Domain} Orchestrator
 
-{도메인}의 에이전트 팀을 조율하여 {최종 산출물}을 생성하는 통합 스킬.
+Skill tích hợp điều phối đội agent {domain} để tạo ra {sản phẩm cuối cùng}.
 
-## 실행 모드: 에이전트 팀
+## Chế độ thực thi: Agent Team
 
-## 에이전트 구성
+## Cấu hình agent
 
-| 팀원 | 에이전트 타입 | 역할 | 스킬 | 출력 |
+| Thành viên | Loại agent | Vai trò | Skill | Output |
 |------|-------------|------|------|------|
-| {teammate-1} | {커스텀 또는 빌트인} | {역할} | {skill} | {output-file} |
-| {teammate-2} | {커스텀 또는 빌트인} | {역할} | {skill} | {output-file} |
+| {teammate-1} | {tùy biến hoặc built-in} | {vai trò} | {skill} | {output-file} |
+| {teammate-2} | {tùy biến hoặc built-in} | {vai trò} | {skill} | {output-file} |
 | ... | | | | |
 
-## 워크플로우
+## Quy trình
 
-### Phase 0: 컨텍스트 확인 (후속 작업 지원)
+### Phase 0: Kiểm tra ngữ cảnh (hỗ trợ công việc tiếp theo)
 
-기존 산출물 존재 여부를 확인하여 실행 모드를 결정한다:
+Kiểm tra sự tồn tại của sản phẩm hiện có để quyết định chế độ thực thi:
 
-1. `_workspace/` 디렉토리 존재 여부 확인
-2. 실행 모드 결정:
-   - **`_workspace/` 미존재** → 초기 실행. Phase 1로 진행
-   - **`_workspace/` 존재 + 사용자가 부분 수정 요청** → 부분 재실행. 해당 에이전트만 재호출하고, 기존 산출물 중 수정 대상만 덮어쓴다
-   - **`_workspace/` 존재 + 새 입력 제공** → 새 실행. 기존 `_workspace/`를 `_workspace_{YYYYMMDD_HHMMSS}/`로 이동한 뒤 Phase 1 진행
-3. 부분 재실행 시: 이전 산출물 경로를 에이전트 프롬프트에 포함하여, 에이전트가 기존 결과를 읽고 피드백을 반영하도록 지시
+1. Kiểm tra thư mục `_workspace/` có tồn tại không
+2. Quyết định chế độ thực thi:
+   - **`_workspace/` không tồn tại** → chạy lần đầu. Tiến hành Phase 1
+   - **`_workspace/` tồn tại + người dùng yêu cầu sửa một phần** → chạy lại một phần. Chỉ gọi lại agent liên quan, chỉ ghi đè phần sản phẩm cần sửa
+   - **`_workspace/` tồn tại + cung cấp input mới** → chạy mới. Chuyển `_workspace/` hiện có sang `_workspace_{YYYYMMDD_HHMMSS}/` rồi tiến hành Phase 1
+3. Khi chạy lại một phần: đưa đường dẫn sản phẩm trước vào prompt của agent, chỉ thị agent đọc kết quả cũ và phản ánh phản hồi
 
-### Phase 1: 준비
-1. 사용자 입력 분석 — {무엇을 파악하는지}
-2. 작업 디렉토리에 `_workspace/` 생성
-   - **초기 실행**: 새 `_workspace/` 생성
-   - **새 실행**: 기존 `_workspace/`를 `_workspace_{YYYYMMDD_HHMMSS}/`로 이동한 직후 새 `_workspace/` 재생성
-3. 입력 데이터를 `_workspace/00_input/`에 저장
+### Phase 1: Chuẩn bị
+1. Phân tích input của người dùng — {xác định cái gì}
+2. Tạo `_workspace/` trong thư mục làm việc
+   - **Chạy lần đầu**: tạo `_workspace/` mới
+   - **Chạy mới**: chuyển `_workspace/` hiện có sang `_workspace_{YYYYMMDD_HHMMSS}/` rồi tạo lại `_workspace/` mới
+3. Lưu dữ liệu input vào `_workspace/00_input/`
 
-### Phase 2: 팀 구성
+### Phase 2: Tạo đội
 
-1. 팀 생성:
+1. Tạo đội:
    ```
    TeamCreate(
      team_name: "{domain}-team",
      members: [
-       { name: "{teammate-1}", agent_type: "{type}", model: "opus", prompt: "{역할 설명 및 작업 지시}" },
-       { name: "{teammate-2}", agent_type: "{type}", model: "opus", prompt: "{역할 설명 및 작업 지시}" },
+       { name: "{teammate-1}", agent_type: "{type}", model: "opus", prompt: "{mô tả vai trò và chỉ thị công việc}" },
+       { name: "{teammate-2}", agent_type: "{type}", model: "opus", prompt: "{mô tả vai trò và chỉ thị công việc}" },
        ...
      ]
    )
    ```
 
-2. 작업 등록:
+2. Đăng ký công việc:
    ```
    TaskCreate(tasks: [
-     { title: "{작업1}", description: "{상세}", assignee: "{teammate-1}" },
-     { title: "{작업2}", description: "{상세}", assignee: "{teammate-2}" },
-     { title: "{작업3}", description: "{상세}", depends_on: ["{작업1}"] },
+     { title: "{công việc 1}", description: "{chi tiết}", assignee: "{teammate-1}" },
+     { title: "{công việc 2}", description: "{chi tiết}", assignee: "{teammate-2}" },
+     { title: "{công việc 3}", description: "{chi tiết}", depends_on: ["{công việc 1}"] },
      ...
    ])
    ```
 
-   > 팀원당 5~6개 작업이 적정. 의존성이 있는 작업은 `depends_on`으로 명시.
+   > 5~6 công việc mỗi thành viên là hợp lý. Công việc có phụ thuộc dùng `depends_on`.
 
-### Phase 3: {주요 작업 — 예: 조사/생성/분석}
+### Phase 3: {Công việc chính — ví dụ: điều tra/sinh nội dung/phân tích}
 
-**실행 방식:** 팀원들이 자체 조율
+**Cách thực thi:** thành viên tự điều phối
 
-팀원들은 공유 작업 목록에서 작업을 요청(claim)하고 독립적으로 수행한다.
-리더는 진행 상황을 모니터링하며 필요 시 개입한다.
+Thành viên tự yêu cầu (claim) công việc từ danh sách công việc chung và thực hiện độc lập.
+Leader giám sát tiến độ và can thiệp khi cần.
 
-**팀원 간 통신 규칙:**
-- {teammate-1}은 {teammate-2}에게 {어떤 정보}를 SendMessage로 전달
-- {teammate-2}는 작업 완료 시 결과를 파일로 저장하고 리더에게 알림
-- 팀원이 다른 팀원의 결과가 필요하면 SendMessage로 요청
+**Quy tắc giao tiếp giữa thành viên:**
+- {teammate-1} truyền {thông tin gì} cho {teammate-2} qua SendMessage
+- {teammate-2} lưu kết quả ra file và báo leader khi hoàn thành
+- Nếu thành viên cần kết quả của thành viên khác, yêu cầu qua SendMessage
 
-**산출물 저장:**
+**Lưu sản phẩm:**
 
-| 팀원 | 출력 경로 |
+| Thành viên | Đường dẫn output |
 |------|----------|
 | {teammate-1} | `_workspace/{phase}_{teammate-1}_{artifact}.md` |
 | {teammate-2} | `_workspace/{phase}_{teammate-2}_{artifact}.md` |
 
-**리더 모니터링:**
-- 팀원이 유휴 상태가 되면 자동 알림 수신
-- 특정 팀원이 막혔을 때 SendMessage로 지시 또는 작업 재할당
-- 전체 진행률은 TaskGet으로 확인
+**Giám sát của leader:**
+- Tự động nhận thông báo khi thành viên rảnh
+- Khi một thành viên bị kẹt, chỉ thị hoặc phân công lại qua SendMessage
+- Kiểm tra tiến độ tổng thể bằng TaskGet
 
-### Phase 4: {후속 작업 — 예: 검증/통합}
-1. 모든 팀원의 작업 완료 대기 (TaskGet으로 상태 확인)
-2. 각 팀원의 산출물을 Read로 수집
-3. {통합/검증 로직}
-4. 최종 산출물 생성: `{output-path}/{filename}`
+### Phase 4: {Công việc tiếp theo — ví dụ: kiểm định/hợp nhất}
+1. Chờ tất cả thành viên hoàn thành (kiểm tra trạng thái bằng TaskGet)
+2. Thu thập sản phẩm của từng thành viên bằng Read
+3. {logic hợp nhất/kiểm định}
+4. Sinh sản phẩm cuối cùng: `{output-path}/{filename}`
 
-### Phase 5: 정리
-1. 팀원들에게 종료 요청 (SendMessage)
-2. 팀 정리 (TeamDelete)
-3. `_workspace/` 디렉토리 보존 (중간 산출물은 삭제하지 않음 — 사후 검증·감사 추적용)
-4. 사용자에게 결과 요약 보고
+### Phase 5: Dọn dẹp
+1. Yêu cầu thành viên kết thúc (SendMessage)
+2. Dọn dẹp đội (TeamDelete)
+3. Giữ lại thư mục `_workspace/` (không xóa sản phẩm trung gian — dùng cho kiểm định/audit trail sau)
+4. Báo cáo tóm tắt kết quả cho người dùng
 
-> **팀 재구성이 필요한 경우:** Phase별로 다른 전문가 조합이 필요하면, 현재 팀을 TeamDelete로 정리한 뒤 새 TeamCreate로 다음 Phase의 팀을 구성한다. 이전 팀의 산출물은 `_workspace/`에 보존되므로 새 팀이 Read로 접근 가능.
+> **Khi cần tái cấu trúc đội:** nếu mỗi Phase cần tổ hợp chuyên gia khác nhau, dọn dẹp đội hiện tại bằng TeamDelete rồi tạo đội mới cho Phase tiếp theo bằng TeamCreate. Sản phẩm của đội trước được giữ trong `_workspace/` nên đội mới có thể truy cập bằng Read.
 
-## 데이터 흐름
+## Luồng dữ liệu
 
 ```
-[리더] → TeamCreate → [teammate-1] ←SendMessage→ [teammate-2]
+[Leader] → TeamCreate → [teammate-1] ←SendMessage→ [teammate-2]
                           │                           │
                           ↓                           ↓
                     artifact-1.md              artifact-2.md
                           │                           │
                           └───────── Read ────────────┘
                                      ↓
-                              [리더: 통합]
+                              [Leader: hợp nhất]
                                      ↓
-                              최종 산출물
+                              Sản phẩm cuối cùng
 ```
 
-## 에러 핸들링
+## Xử lý lỗi
 
-| 상황 | 전략 |
+| Tình huống | Chiến lược |
 |------|------|
-| 팀원 1명 실패/중지 | 리더가 감지 → SendMessage로 상태 확인 → 재시작 또는 대체 팀원 생성 |
-| 팀원 과반 실패 | 사용자에게 알리고 진행 여부 확인 |
-| 타임아웃 | 현재까지 수집된 부분 결과 사용, 미완료 팀원 종료 |
-| 팀원 간 데이터 충돌 | 출처 명시 후 병기, 삭제하지 않음 |
-| 작업 상태 지연 | 리더가 TaskGet으로 확인 후 수동으로 TaskUpdate |
+| 1 thành viên thất bại/dừng | Leader phát hiện → kiểm tra trạng thái qua SendMessage → khởi động lại hoặc tạo thành viên thay thế |
+| Quá nửa thành viên thất bại | Báo người dùng và xác nhận có tiếp tục không |
+| Timeout | Dùng kết quả từng phần đã thu thập, kết thúc thành viên chưa xong |
+| Xung đột dữ liệu giữa thành viên | Ghi rõ nguồn rồi giữ cả hai, không xóa |
+| Trạng thái công việc bị trễ | Leader kiểm tra bằng TaskGet rồi cập nhật thủ công bằng TaskUpdate |
 
-## 테스트 시나리오
+## Kịch bản kiểm thử
 
-### 정상 흐름
-1. 사용자가 {입력}을 제공
-2. Phase 1에서 {분석 결과} 도출
-3. Phase 2에서 팀 구성 ({N}명 팀원 + {M}개 작업)
-4. Phase 3에서 팀원들이 자체 조율하며 작업 수행
-5. Phase 4에서 산출물 통합하여 최종 결과 생성
-6. Phase 5에서 팀 정리
-7. 예상 결과: `{output-path}/{filename}` 생성
+### Luồng bình thường
+1. Người dùng cung cấp {input}
+2. Phase 1 cho ra {kết quả phân tích}
+3. Phase 2 tạo đội ({N} thành viên + {M} công việc)
+4. Phase 3 các thành viên tự điều phối thực hiện công việc
+5. Phase 4 hợp nhất sản phẩm để tạo kết quả cuối
+6. Phase 5 dọn dẹp đội
+7. Kết quả mong đợi: tạo ra `{output-path}/{filename}`
 
-### 에러 흐름
-1. Phase 3에서 {teammate-2}가 에러로 중지
-2. 리더가 유휴 알림 수신
-3. SendMessage로 상태 확인 → 재시작 시도
-4. 재시작 실패 시 {teammate-2} 작업을 {teammate-1}에게 재할당
-5. 나머지 결과로 Phase 4 진행
-6. 최종 보고서에 "{teammate-2} 영역 일부 미수집" 명시
+### Luồng lỗi
+1. Phase 3, {teammate-2} dừng do lỗi
+2. Leader nhận thông báo rảnh
+3. Kiểm tra trạng thái qua SendMessage → thử khởi động lại
+4. Nếu khởi động lại thất bại, phân công lại công việc của {teammate-2} cho {teammate-1}
+5. Tiến hành Phase 4 với kết quả còn lại
+6. Ghi rõ "thiếu một phần dữ liệu từ {teammate-2}" trong báo cáo cuối
 ```
 
 ---
 
-## 템플릿 B: 서브 에이전트 모드 (대안)
+## Template B: Chế độ Subagent (phương án thay thế)
 
-팀 통신 오버헤드가 불필요한 경우. `Agent` 도구로 직접 호출하고 반환값으로 결과를 수집한다.
+Khi chi phí giao tiếp đội là không cần thiết. Gọi trực tiếp bằng công cụ `Agent` và thu thập kết quả qua giá trị trả về.
 
 ```markdown
 ---
 name: {domain}-orchestrator
-description: "{도메인} 에이전트를 조율하는 오케스트레이터. {초기 실행 키워드}. 후속 작업 키워드 포함."
+description: "Orchestrator điều phối agent {domain}. {từ khóa khởi chạy lần đầu}. Có kèm từ khóa công việc tiếp theo."
 ---
 
-## 실행 모드: 서브 에이전트
+## Chế độ thực thi: Subagent
 
-## 에이전트 구성
+## Cấu hình agent
 
-| 에이전트 | subagent_type | 역할 | 스킬 | 출력 |
+| Agent | subagent_type | Vai trò | Skill | Output |
 |---------|--------------|------|------|------|
-| {agent-1} | {빌트인 또는 커스텀} | {역할} | {skill} | {output-file} |
+| {agent-1} | {built-in hoặc tùy biến} | {vai trò} | {skill} | {output-file} |
 | {agent-2} | ... | ... | ... | ... |
 
-## 워크플로우
+## Quy trình
 
-### Phase 0: 컨텍스트 확인
-(Template A와 동일 — `_workspace/` 존재 여부 분기)
+### Phase 0: Kiểm tra ngữ cảnh
+(Giống Template A — phân nhánh theo sự tồn tại của `_workspace/`)
 
-### Phase 1: 준비
-1. 입력 분석
-2. `_workspace/` 생성 (초기 실행 시, 또는 새 실행에서 기존 `_workspace/`를 보관 디렉토리로 이동한 직후)
+### Phase 1: Chuẩn bị
+1. Phân tích input
+2. Tạo `_workspace/` (khi chạy lần đầu, hoặc ngay sau khi chuyển `_workspace/` hiện có sang thư mục lưu trữ khi chạy mới)
 
-### Phase 2: 병렬 실행
-단일 메시지에서 N개 Agent 도구를 동시 호출:
+### Phase 2: Thực thi song song
+Gọi đồng thời N công cụ Agent trong một message:
 
-| 에이전트 | 입력 | 출력 | model | run_in_background |
+| Agent | Input | Output | model | run_in_background |
 |---------|------|------|-------|-------------------|
-| {agent-1} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
-| {agent-2} | {소스} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
+| {agent-1} | {nguồn} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
+| {agent-2} | {nguồn} | `_workspace/{phase}_{agent}_{artifact}.md` | opus | true |
 
-### Phase 3: 통합
-1. 각 에이전트의 반환값 수집
-2. 파일 기반 산출물은 Read로 수집
-3. 통합 로직 적용 → 최종 산출물
+### Phase 3: Hợp nhất
+1. Thu thập giá trị trả về của từng agent
+2. Thu thập sản phẩm dạng file bằng Read
+3. Áp dụng logic hợp nhất → sản phẩm cuối cùng
 
-### Phase 4: 정리
-1. `_workspace/` 보존
-2. 결과 요약 보고
+### Phase 4: Dọn dẹp
+1. Giữ lại `_workspace/`
+2. Báo cáo tóm tắt kết quả
 
-## 에러 핸들링
-- 에이전트 1개 실패: 1회 재시도. 재실패 시 누락 명시하고 진행
-- 과반 실패: 사용자에게 알리고 진행 여부 확인
-- 타임아웃: 현재까지 수집된 부분 결과 사용
+## Xử lý lỗi
+- 1 agent thất bại: thử lại 1 lần. Nếu vẫn thất bại, ghi rõ thiếu sót và tiếp tục
+- Quá nửa thất bại: báo người dùng và xác nhận có tiếp tục không
+- Timeout: dùng kết quả từng phần đã thu thập
 ```
 
 ---
 
-## 템플릿 C: 하이브리드 모드
+## Template C: Chế độ Hybrid
 
-Phase마다 다른 실행 모드를 사용한다. 각 Phase 상단에 `**실행 모드:** {팀 | 서브}`를 명시한다.
+Dùng chế độ thực thi khác nhau theo từng Phase. Ghi rõ `**Chế độ thực thi:** {Team | Sub}` ở đầu mỗi Phase.
 
 ```markdown
 ---
 name: {domain}-orchestrator
-description: "{도메인} 오케스트레이터 (하이브리드). {키워드}. 후속 작업 키워드 포함."
+description: "Orchestrator {domain} (hybrid). {từ khóa}. Có kèm từ khóa công việc tiếp theo."
 ---
 
-## 실행 모드: 하이브리드
+## Chế độ thực thi: Hybrid
 
-| Phase | 모드 | 이유 |
+| Phase | Chế độ | Lý do |
 |-------|------|------|
-| Phase 2 (병렬 수집) | 서브 에이전트 | 독립 자료 수집, 팀 통신 불필요 |
-| Phase 3 (합의 통합) | 에이전트 팀 | 상충 데이터 토론·합의 필요 |
-| Phase 4 (독립 검증) | 서브 에이전트 | QA 에이전트 1명이 객관 검증 |
+| Phase 2 (thu thập song song) | Subagent | thu thập tài liệu độc lập, không cần giao tiếp đội |
+| Phase 3 (hợp nhất theo đồng thuận) | Agent Team | cần thảo luận·đồng thuận với dữ liệu mâu thuẫn |
+| Phase 4 (kiểm định độc lập) | Subagent | 1 agent QA kiểm định khách quan |
 
-## 워크플로우
+## Quy trình
 
-### Phase 2: 병렬 자료 수집
-**실행 모드:** 서브 에이전트
+### Phase 2: Thu thập dữ liệu song song
+**Chế độ thực thi:** Subagent
 
-단일 메시지에서 Agent 도구로 N개 에이전트 병렬 호출 (`run_in_background: true`).
-각 결과는 `_workspace/02_{agent}_raw.md`에 저장.
+Gọi song song N agent bằng công cụ Agent trong một message (`run_in_background: true`).
+Mỗi kết quả lưu vào `_workspace/02_{agent}_raw.md`.
 
-### Phase 3: 합의 기반 통합
-**실행 모드:** 에이전트 팀
+### Phase 3: Hợp nhất theo đồng thuận
+**Chế độ thực thi:** Agent Team
 
-1. `TeamCreate`로 통합 팀 구성 (editor + fact-checker + synthesizer)
-2. `TaskCreate`로 작업 분배 — 모두 Phase 2의 `_workspace/02_*` 파일을 Read
-3. 팀원들이 `SendMessage`로 상충 데이터를 논의, 파일 기반으로 합의안 도출
-4. 최종 통합본 `_workspace/03_integrated.md` 생성
-5. `TeamDelete`로 팀 정리
+1. Tạo đội hợp nhất bằng `TeamCreate` (editor + fact-checker + synthesizer)
+2. Phân công công việc bằng `TaskCreate` — tất cả Read file `_workspace/02_*` từ Phase 2
+3. Thành viên thảo luận dữ liệu mâu thuẫn qua `SendMessage`, đưa ra phương án đồng thuận dựa trên file
+4. Sinh bản hợp nhất cuối cùng `_workspace/03_integrated.md`
+5. Dọn dẹp đội bằng `TeamDelete`
 
-### Phase 4: 독립 검증
-**실행 모드:** 서브 에이전트
+### Phase 4: Kiểm định độc lập
+**Chế độ thực thi:** Subagent
 
-단일 QA 서브 에이전트가 `_workspace/03_integrated.md`를 입력으로 받아 검증 보고서 생성.
+1 subagent QA đơn nhận `_workspace/03_integrated.md` làm input và sinh báo cáo kiểm định.
 ```
 
-**하이브리드 전환 규칙:**
-- 팀 → 서브: 팀을 반드시 `TeamDelete`로 정리한 후 Agent 도구 호출
-- 서브 → 팀: 서브 에이전트의 파일 산출물을 팀원들에게 Read 경로로 전달
-- 팀 → 팀: 이전 팀을 정리한 후 새 `TeamCreate` (세션당 1팀만 활성 가능)
+**Quy tắc chuyển đổi hybrid:**
+- Team → Sub: phải dọn dẹp đội bằng `TeamDelete` trước khi gọi công cụ Agent
+- Sub → Team: truyền sản phẩm file của subagent cho thành viên đội qua đường dẫn Read
+- Team → Team: dọn dẹp đội trước rồi `TeamCreate` mới (mỗi phiên chỉ kích hoạt được 1 đội)
 
 ---
 
-## 작성 원칙
+## Nguyên tắc viết
 
-1. **실행 모드를 먼저 명시** — 오케스트레이터 상단에 "에이전트 팀" / "서브 에이전트" / "하이브리드" 중 하나 명시. 하이브리드면 Phase별 모드 표 필수
-2. **팀 모드는 TeamCreate/SendMessage/TaskCreate 사용법을 구체적으로** — 팀 구성, 작업 등록, 통신 규칙
-3. **서브 모드는 Agent 도구 파라미터를 완전히 명시** — name, subagent_type, prompt, run_in_background, model
-4. **파일 경로는 절대적으로** — 상대 경로 금지, `_workspace/` 기준 명확한 경로
-5. **Phase 간 의존성 명시** — 어떤 Phase가 어떤 Phase의 결과에 의존하는지. 하이브리드는 모드 전환 지점을 특히 강조
-6. **에러 핸들링은 현실적으로** — "모든 것이 성공한다"고 가정하지 않음
-7. **테스트 시나리오 필수** — 정상 1 + 에러 1 이상
+1. **Ghi rõ chế độ thực thi trước tiên** — ghi rõ một trong "Agent Team" / "Subagent" / "Hybrid" ở đầu orchestrator. Nếu hybrid, bắt buộc có bảng chế độ theo từng Phase
+2. **Chế độ team cần ghi cụ thể cách dùng TeamCreate/SendMessage/TaskCreate** — cấu hình đội, đăng ký công việc, quy tắc giao tiếp
+3. **Chế độ sub cần ghi đầy đủ tham số công cụ Agent** — name, subagent_type, prompt, run_in_background, model
+4. **Đường dẫn file phải tuyệt đối** — cấm đường dẫn tương đối, đường dẫn rõ ràng dựa trên `_workspace/`
+5. **Ghi rõ phụ thuộc giữa các Phase** — Phase nào phụ thuộc vào kết quả Phase nào. Hybrid cần nhấn mạnh đặc biệt điểm chuyển đổi chế độ
+6. **Xử lý lỗi cần thực tế** — không giả định "mọi thứ đều thành công"
+7. **Bắt buộc có kịch bản kiểm thử** — ít nhất 1 luồng bình thường + 1 luồng lỗi
 
-## description 작성 시 후속 작업 키워드
+## Từ khóa công việc tiếp theo khi viết description
 
-오케스트레이터 description은 초기 실행 키워드만으로는 부족하다. 다음 후속 작업 표현을 반드시 포함하라:
+Description của orchestrator chỉ có từ khóa khởi chạy lần đầu là chưa đủ. Phải có các cách diễn đạt công việc tiếp theo sau:
 
-- 재실행/다시 실행/업데이트/수정/보완
-- "{도메인}의 {부분}만 다시"
-- "이전 결과 기반으로", "결과 개선"
-- 도메인 관련 일상적 요청 (예: 런치 전략 하네스라면 "런치", "홍보", "트렌딩" 등)
+- chạy lại/thực thi lại/cập nhật/sửa/bổ sung
+- "chỉ chạy lại {phần} của {domain}"
+- "dựa trên kết quả trước", "cải thiện kết quả"
+- yêu cầu thông thường liên quan tới domain (ví dụ: với harness chiến lược launch thì "launch", "quảng bá", "trending", v.v.)
 
-후속 키워드가 없으면 첫 실행 후 하네스가 사실상 죽은 코드가 된다.
+Nếu thiếu từ khóa tiếp theo, sau lần chạy đầu tiên harness thực chất trở thành dead code.
 
-## 실제 오케스트레이터 참고
+## Tham khảo orchestrator thực tế
 
-팬아웃/팬인 패턴의 오케스트레이터 기본 구조:
-준비 → Phase 0(컨텍스트 확인) → TeamCreate + TaskCreate → N개 팀원 병렬 실행 → Read + 통합 → 정리.
-`references/team-examples.md`의 리서치 팀 예시를 참조.
+Cấu trúc cơ bản của orchestrator theo mẫu fan-out/fan-in:
+chuẩn bị → Phase 0 (kiểm tra ngữ cảnh) → TeamCreate + TaskCreate → N thành viên thực thi song song → Read + hợp nhất → dọn dẹp.
+Xem ví dụ đội nghiên cứu tại `references/team-examples.md`.

@@ -2,327 +2,327 @@
 
 ---
 
-## 예시 1: 리서치 팀 (에이전트 팀 모드)
+## Ví dụ 1: Đội nghiên cứu (chế độ Agent Team)
 
-### 팀 아키텍처: 팬아웃/팬인
-### 실행 모드: 에이전트 팀
+### Kiến trúc đội: Fan-out/Fan-in
+### Chế độ thực thi: Agent Team
 
 ```
-[리더/오케스트레이터]
+[Leader/Orchestrator]
     ├── TeamCreate(research-team)
-    ├── TaskCreate(4개 조사 작업)
-    ├── 팀원들이 자체 조율 (SendMessage)
-    ├── 결과 수집 (Read)
-    └── 종합 보고서 생성
+    ├── TaskCreate(4 công việc điều tra)
+    ├── Thành viên tự điều phối (SendMessage)
+    ├── Thu thập kết quả (Read)
+    └── Sinh báo cáo tổng hợp
 ```
 
-### 에이전트 구성
+### Cấu hình agent
 
-| 팀원 | 에이전트 타입 | 역할 | 출력 |
+| Thành viên | Loại agent | Vai trò | Output |
 |------|-------------|------|------|
-| official-researcher | general-purpose | 공식 문서/블로그 | research_official.md |
-| media-researcher | general-purpose | 미디어/투자 | research_media.md |
-| community-researcher | general-purpose | 커뮤니티/SNS | research_community.md |
-| background-researcher | general-purpose | 배경/경쟁/학술 | research_background.md |
-| (리더 = 오케스트레이터) | — | 통합 보고서 | 종합보고서.md |
+| official-researcher | general-purpose | Tài liệu chính thức/blog | research_official.md |
+| media-researcher | general-purpose | Truyền thông/đầu tư | research_media.md |
+| community-researcher | general-purpose | Cộng đồng/SNS | research_community.md |
+| background-researcher | general-purpose | Bối cảnh/cạnh tranh/học thuật | research_background.md |
+| (Leader = Orchestrator) | — | Báo cáo tổng hợp | bao-cao-tong-hop.md |
 
-> 리서치 에이전트는 `general-purpose` 빌트인 타입을 사용하되, 반드시 `.claude/agents/{name}.md` 파일로 정의한다. 파일에는 역할·조사 범위·팀 통신 프로토콜을 명시하여 재사용성과 협업 품질을 보장한다.
+> Agent nghiên cứu dùng loại built-in `general-purpose`, nhưng bắt buộc phải định nghĩa bằng file `.claude/agents/{name}.md`. File này ghi rõ vai trò·phạm vi điều tra·giao thức giao tiếp đội để đảm bảo tính tái sử dụng và chất lượng phối hợp.
 
-### 오케스트레이터 워크플로우 (에이전트 팀)
+### Quy trình Orchestrator (Agent Team)
 
 ```
-Phase 1: 준비
-  - 사용자 입력 분석 (주제, 조사 모드 파악)
-  - _workspace/ 생성
+Phase 1: Chuẩn bị
+  - Phân tích input của người dùng (xác định chủ đề, chế độ điều tra)
+  - Tạo _workspace/
 
-Phase 2: 팀 구성
+Phase 2: Tạo đội
   - TeamCreate(team_name: "research-team", members: [
-      { name: "official", prompt: "공식 채널 조사..." },
-      { name: "media", prompt: "미디어/투자 동향 조사..." },
-      { name: "community", prompt: "커뮤니티 반응 조사..." },
-      { name: "background", prompt: "배경/경쟁 환경 조사..." }
+      { name: "official", prompt: "Điều tra kênh chính thức..." },
+      { name: "media", prompt: "Điều tra xu hướng truyền thông/đầu tư..." },
+      { name: "community", prompt: "Điều tra phản ứng cộng đồng..." },
+      { name: "background", prompt: "Điều tra bối cảnh/môi trường cạnh tranh..." }
     ])
   - TaskCreate(tasks: [
-      { title: "공식 채널 조사", assignee: "official" },
-      { title: "미디어 동향 조사", assignee: "media" },
-      { title: "커뮤니티 반응 조사", assignee: "community" },
-      { title: "배경 환경 조사", assignee: "background" }
+      { title: "Điều tra kênh chính thức", assignee: "official" },
+      { title: "Điều tra xu hướng truyền thông", assignee: "media" },
+      { title: "Điều tra phản ứng cộng đồng", assignee: "community" },
+      { title: "Điều tra môi trường bối cảnh", assignee: "background" }
     ])
 
-Phase 3: 조사 수행
-  - 4명의 팀원이 독립적으로 조사
-  - 흥미로운 발견이 있으면 팀원 간 SendMessage로 공유
-    (예: media가 발견한 투자 뉴스를 background에게 전달)
-  - 상충 정보 발견 시 팀원 간 직접 토론
-  - 각 팀원은 완료 시 파일 저장 + 리더에게 알림
+Phase 3: Thực hiện điều tra
+  - 4 thành viên điều tra độc lập
+  - Khi có phát hiện thú vị, chia sẻ qua SendMessage giữa thành viên
+    (ví dụ: media truyền tin tức đầu tư phát hiện được cho background)
+  - Khi phát hiện thông tin mâu thuẫn, thảo luận trực tiếp giữa thành viên
+  - Mỗi thành viên lưu file + báo leader khi hoàn thành
 
-Phase 4: 통합
-  - 리더가 4개 산출물 Read
-  - 종합 보고서 생성
-  - 상충 정보는 출처 병기
+Phase 4: Hợp nhất
+  - Leader Read 4 sản phẩm
+  - Sinh báo cáo tổng hợp
+  - Thông tin mâu thuẫn ghi kèm nguồn
 
-Phase 5: 정리
-  - 팀원들 종료 요청
-  - 팀 정리
-  - _workspace/ 보존 (사후 검증·감사 추적용)
+Phase 5: Dọn dẹp
+  - Yêu cầu thành viên kết thúc
+  - Dọn dẹp đội
+  - Giữ lại _workspace/ (dùng cho kiểm định/audit trail sau)
 ```
 
-### 팀 통신 패턴
+### Mẫu giao tiếp đội
 
 ```
-official ──SendMessage──→ background  (관련 공식 발표 공유)
-media ────SendMessage──→ background  (투자/인수 정보 공유)
-community ─SendMessage──→ media      (커뮤니티 반응 중 미디어 관련 정보)
-모든 팀원 ──TaskUpdate──→ 공유 작업 목록  (진행률 업데이트)
-리더 ←───── 유휴 알림 ──── 완료된 팀원   (자동)
+official ──SendMessage──→ background  (chia sẻ thông báo chính thức liên quan)
+media ────SendMessage──→ background  (chia sẻ thông tin đầu tư/sáp nhập)
+community ─SendMessage──→ media      (thông tin liên quan media trong phản ứng cộng đồng)
+Tất cả thành viên ──TaskUpdate──→ danh sách công việc chung  (cập nhật tiến độ)
+Leader ←───── thông báo rảnh ──── thành viên hoàn thành   (tự động)
 ```
 
 ---
 
-## 예시 2: SF 소설 집필 팀 (에이전트 팀 모드)
+## Ví dụ 2: Đội viết tiểu thuyết SF (chế độ Agent Team)
 
-### 팀 아키텍처: 파이프라인 + 팬아웃
-### 실행 모드: 에이전트 팀
+### Kiến trúc đội: Pipeline + Fan-out
+### Chế độ thực thi: Agent Team
 
 ```
-Phase 1 (병렬 — 에이전트 팀): worldbuilder + character-designer + plot-architect
-  → 서로 SendMessage로 일관성 조율
-Phase 2 (순차): prose-stylist (집필)
-Phase 3 (병렬 — 에이전트 팀): science-consultant + continuity-manager (리뷰)
-  → 서로 SendMessage로 발견 공유
-Phase 4 (순차): prose-stylist (리뷰 반영 수정)
+Phase 1 (song song — Agent Team): worldbuilder + character-designer + plot-architect
+  → Điều phối tính nhất quán qua SendMessage
+Phase 2 (tuần tự): prose-stylist (viết)
+Phase 3 (song song — Agent Team): science-consultant + continuity-manager (review)
+  → Chia sẻ phát hiện qua SendMessage
+Phase 4 (tuần tự): prose-stylist (sửa theo review)
 ```
 
-### 에이전트 구성
+### Cấu hình agent
 
-| 팀원 | 에이전트 타입 | 역할 | 스킬 |
+| Thành viên | Loại agent | Vai trò | Skill |
 |------|-------------|------|------|
-| worldbuilder | 커스텀 | 세계관 구축 | world-setting |
-| character-designer | 커스텀 | 캐릭터 설계 | character-profile |
-| plot-architect | 커스텀 | 플롯 구조 | outline |
-| prose-stylist | 커스텀 | 문체 편집 + 집필 | write-scene, review-chapter |
-| science-consultant | 커스텀 | 과학 검증 | science-check |
-| continuity-manager | 커스텀 | 일관성 검증 | consistency-check |
+| worldbuilder | tùy biến | Xây dựng thế giới quan | world-setting |
+| character-designer | tùy biến | Thiết kế nhân vật | character-profile |
+| plot-architect | tùy biến | Cấu trúc cốt truyện | outline |
+| prose-stylist | tùy biến | Biên tập văn phong + viết | write-scene, review-chapter |
+| science-consultant | tùy biến | Kiểm định khoa học | science-check |
+| continuity-manager | tùy biến | Kiểm định tính nhất quán | consistency-check |
 
-### 에이전트 파일 전문 예시: `worldbuilder.md`
+### File agent mẫu đầy đủ: `worldbuilder.md`
 
 ```markdown
 ---
 name: worldbuilder
-description: "SF 소설의 세계관을 구축하는 전문가. 물리 법칙, 사회 구조, 기술 수준, 역사를 설계한다."
+description: "Chuyên gia xây dựng thế giới quan cho tiểu thuyết SF. Thiết kế quy luật vật lý, cấu trúc xã hội, mức độ công nghệ, lịch sử."
 ---
 
-# Worldbuilder — SF 세계관 설계 전문가
+# Worldbuilder — Chuyên gia thiết kế thế giới quan SF
 
-당신은 SF 소설의 세계관 설계 전문가입니다. 과학적 사실에 기반하되 상상력을 확장하여, 이야기가 펼쳐질 세계의 물리적·사회적·기술적 토대를 구축합니다.
+Bạn là chuyên gia thiết kế thế giới quan cho tiểu thuyết SF. Dựa trên cơ sở khoa học nhưng mở rộng bằng trí tưởng tượng, bạn xây dựng nền tảng vật lý·xã hội·công nghệ của thế giới mà câu chuyện sẽ diễn ra.
 
-## 핵심 역할
-1. 세계의 물리 법칙과 기술 수준 정의
-2. 사회 구조, 정치 체계, 경제 시스템 설계
-3. 역사적 맥락과 현재 갈등 구조 수립
-4. 장소별 환경과 분위기 묘사
+## Vai trò cốt lõi
+1. Định nghĩa quy luật vật lý và mức độ công nghệ của thế giới
+2. Thiết kế cấu trúc xã hội, hệ thống chính trị, hệ thống kinh tế
+3. Xây dựng bối cảnh lịch sử và cấu trúc xung đột hiện tại
+4. Mô tả môi trường và không khí theo từng địa điểm
 
-## 작업 원칙
-- 내적 일관성 최우선 — 설정 간 모순이 없어야 한다
-- "만약 이 기술이 있다면?" 연쇄 질문으로 세계의 파급 효과를 추론
-- 이야기에 봉사하는 세계관 — 플롯을 방해하는 과도한 설정은 지양
+## Nguyên tắc làm việc
+- Tính nhất quán nội tại là ưu tiên hàng đầu — không được có mâu thuẫn giữa các thiết lập
+- Suy luận hiệu ứng lan tỏa của thế giới bằng câu hỏi nối tiếp "nếu có công nghệ này thì sao?"
+- Thế giới quan phục vụ câu chuyện — tránh thiết lập quá mức gây cản trở cốt truyện
 
-## 입력/출력 프로토콜
-- 입력: 사용자의 세계관 컨셉, 장르 요구사항
-- 출력: `_workspace/01_worldbuilder_setting.md`
-- 형식: 마크다운. 섹션별 (물리/사회/기술/역사/장소)
+## Giao thức input/output
+- Input: ý tưởng thế giới quan của người dùng, yêu cầu thể loại
+- Output: `_workspace/01_worldbuilder_setting.md`
+- Định dạng: markdown. Chia theo section (vật lý/xã hội/công nghệ/lịch sử/địa điểm)
 
-## 팀 통신 프로토콜
-- character-designer에게: 사회 구조, 계급 시스템, 직업군 정보 SendMessage
-- plot-architect에게: 세계의 주요 갈등 구조, 위기 요소 SendMessage
-- science-consultant로부터: 과학적 오류 피드백 수신 → 설정 수정
-- 세계관 변경 시 관련 팀원 전체에 브로드캐스트
+## Giao thức giao tiếp đội
+- Gửi tới character-designer: thông tin cấu trúc xã hội, hệ thống giai cấp, nhóm nghề nghiệp qua SendMessage
+- Gửi tới plot-architect: cấu trúc xung đột chính của thế giới, yếu tố khủng hoảng qua SendMessage
+- Nhận từ science-consultant: nhận phản hồi lỗi khoa học → sửa thiết lập
+- Khi thay đổi thế giới quan, broadcast cho toàn bộ thành viên liên quan
 
-## 에러 핸들링
-- 컨셉이 모호하면 3가지 방향을 제안하고 선택 요청
-- 과학적 오류 발견 시 대안을 함께 제시
+## Xử lý lỗi
+- Nếu ý tưởng mơ hồ, đề xuất 3 hướng và yêu cầu chọn
+- Khi phát hiện lỗi khoa học, đề xuất kèm phương án thay thế
 
-## 협업
-- character-designer에게 사회 구조 정보 제공
-- plot-architect에게 갈등 구조 정보 제공
-- science-consultant의 피드백을 반영하여 설정 수정
+## Phối hợp
+- Cung cấp thông tin cấu trúc xã hội cho character-designer
+- Cung cấp thông tin cấu trúc xung đột cho plot-architect
+- Sửa thiết lập theo phản hồi của science-consultant
 ```
 
-### 팀 워크플로우 상세
+### Quy trình đội chi tiết
 
 ```
 Phase 1: TeamCreate(team_name: "novel-team", members: [worldbuilder, character-designer, plot-architect])
-         TaskCreate([세계관 구축, 캐릭터 설계, 플롯 구조])
-         → 팀원들이 자체 조율하며 병렬 작업
-         → worldbuilder가 사회 구조 완성 시 character-designer에게 SendMessage
-         → character-designer가 주인공 설정 시 plot-architect에게 SendMessage
+         TaskCreate([xây dựng thế giới quan, thiết kế nhân vật, cấu trúc cốt truyện])
+         → Thành viên tự điều phối làm việc song song
+         → worldbuilder hoàn thành cấu trúc xã hội → SendMessage cho character-designer
+         → character-designer xong thiết lập nhân vật chính → SendMessage cho plot-architect
 
-Phase 2: Phase 1 팀 정리 → prose-stylist를 서브 에이전트로 호출 (단독 집필이므로 팀 불필요)
-         prose-stylist가 _workspace/의 3개 산출물을 Read하여 집필
-         → 결과를 _workspace/02_prose_draft.md에 저장
+Phase 2: Dọn dẹp đội Phase 1 → gọi prose-stylist như subagent (viết đơn lẻ nên không cần đội)
+         prose-stylist Read 3 sản phẩm trong _workspace/ để viết
+         → Lưu kết quả vào _workspace/02_prose_draft.md
 
-Phase 3: 새 팀 생성 — TeamCreate(team_name: "review-team", members: [science-consultant, continuity-manager])
-         (세션당 한 팀만 활성이지만, Phase 1 팀을 정리했으므로 새 팀 생성 가능)
-         → 두 리뷰어가 draft를 검토, 서로 발견을 공유
-         → science-consultant가 물리 오류 발견 시 continuity-manager에게도 알림
-         → 리뷰 완료 후 팀 정리
+Phase 3: Tạo đội mới — TeamCreate(team_name: "review-team", members: [science-consultant, continuity-manager])
+         (mỗi phiên chỉ kích hoạt 1 đội, nhưng vì đã dọn đội Phase 1 nên tạo đội mới được)
+         → Hai reviewer kiểm tra draft, chia sẻ phát hiện lẫn nhau
+         → science-consultant phát hiện lỗi vật lý thì cũng báo continuity-manager
+         → Sau khi review xong, dọn dẹp đội
 
-Phase 4: prose-stylist를 서브 에이전트로 호출, 리뷰 결과 반영하여 최종 수정
+Phase 4: Gọi prose-stylist như subagent, sửa cuối cùng theo kết quả review
 ```
 
 ---
 
-## 예시 3: 웹툰 제작 팀 (서브 에이전트 모드)
+## Ví dụ 3: Đội sản xuất webtoon (chế độ Subagent)
 
-### 팀 아키텍처: 생성-검증
-### 실행 모드: 서브 에이전트
+### Kiến trúc đội: Producer-Reviewer
+### Chế độ thực thi: Subagent
 
-> 생성-검증 패턴에서 에이전트가 2개뿐이고, 통신보다는 결과 전달이 핵심이므로 서브 에이전트가 적합.
+> Mẫu producer-reviewer chỉ có 2 agent, và truyền kết quả là trọng tâm chứ không phải giao tiếp, nên subagent phù hợp.
 
 ```
-Phase 1: Agent(webtoon-artist) → 패널 생성
-Phase 2: Agent(webtoon-reviewer) → 검수
-Phase 3: Agent(webtoon-artist) → 문제 패널 재생성 (최대 2회)
+Phase 1: Agent(webtoon-artist) → sinh panel
+Phase 2: Agent(webtoon-reviewer) → kiểm tra
+Phase 3: Agent(webtoon-artist) → sinh lại panel có vấn đề (tối đa 2 lần)
 ```
 
-### 에이전트 구성
+### Cấu hình agent
 
-| 에이전트 | subagent_type | 역할 | 스킬 |
+| Agent | subagent_type | Vai trò | Skill |
 |---------|--------------|------|------|
-| webtoon-artist | 커스텀 | 패널 이미지 생성 | generate-webtoon |
-| webtoon-reviewer | 커스텀 | 품질 검수 | review-webtoon, fix-webtoon-panel |
+| webtoon-artist | tùy biến | Sinh ảnh panel | generate-webtoon |
+| webtoon-reviewer | tùy biến | Kiểm tra chất lượng | review-webtoon, fix-webtoon-panel |
 
-### 에이전트 파일 전문 예시: `webtoon-reviewer.md`
+### File agent mẫu đầy đủ: `webtoon-reviewer.md`
 
 ```markdown
 ---
 name: webtoon-reviewer
-description: "웹툰 패널의 품질을 검수하는 전문가. 구도, 캐릭터 일관성, 텍스트 가독성, 연출을 평가한다."
+description: "Chuyên gia kiểm tra chất lượng panel webtoon. Đánh giá bố cục, tính nhất quán nhân vật, độ rõ của văn bản, dàn dựng."
 ---
 
-# Webtoon Reviewer — 웹툰 품질 검수 전문가
+# Webtoon Reviewer — Chuyên gia kiểm tra chất lượng webtoon
 
-당신은 웹툰 패널의 품질을 검수하는 전문가입니다. 시각적 완성도, 스토리 전달력, 캐릭터 일관성을 기준으로 패널을 평가합니다.
+Bạn là chuyên gia kiểm tra chất lượng panel webtoon. Đánh giá panel dựa trên độ hoàn thiện hình ảnh, khả năng truyền tải câu chuyện, tính nhất quán nhân vật.
 
-## 핵심 역할
-1. 각 패널의 구도와 시각적 완성도 평가
-2. 캐릭터 외형의 패널 간 일관성 검증
-3. 말풍선 텍스트의 가독성과 배치 평가
-4. 전체 에피소드의 연출 흐름과 페이싱 검토
+## Vai trò cốt lõi
+1. Đánh giá bố cục và độ hoàn thiện hình ảnh của mỗi panel
+2. Kiểm định tính nhất quán hình dáng nhân vật giữa các panel
+3. Đánh giá độ rõ và vị trí của văn bản trong bong bóng lời thoại
+4. Xem xét luồng dàn dựng và nhịp độ của toàn tập
 
-## 작업 원칙
-- PASS/FIX/REDO 3단계로 명확히 판정
-- FIX는 부분 수정으로 해결 가능한 경우, REDO는 전면 재생성 필요
-- 주관적 취향이 아닌 객관적 기준(일관성, 가독성, 구도)으로 판단
+## Nguyên tắc làm việc
+- Phân loại rõ ràng theo 3 mức PASS/FIX/REDO
+- FIX là khi có thể giải quyết bằng sửa một phần, REDO là cần tạo lại toàn bộ
+- Đánh giá theo tiêu chí khách quan (tính nhất quán, độ rõ, bố cục), không theo sở thích chủ quan
 
-## 입력/출력 프로토콜
-- 입력: `_workspace/panels/` 디렉토리의 패널 이미지들
-- 출력: `_workspace/review_report.md`
-- 형식:
+## Giao thức input/output
+- Input: các ảnh panel trong thư mục `_workspace/panels/`
+- Output: `_workspace/review_report.md`
+- Định dạng:
   ```
   ## Panel {N}
-  - 판정: PASS | FIX | REDO
-  - 사유: [구체적 이유]
-  - 수정 지시: [FIX/REDO인 경우 구체적 수정 방향]
+  - Phân loại: PASS | FIX | REDO
+  - Lý do: [lý do cụ thể]
+  - Chỉ thị sửa: [hướng sửa cụ thể nếu là FIX/REDO]
   ```
 
-## 에러 핸들링
-- 이미지 로드 실패 시 해당 패널을 REDO로 판정
-- 2회 재생성 후에도 REDO인 패널은 경고와 함께 PASS 처리
+## Xử lý lỗi
+- Nếu nạp ảnh thất bại, phân loại panel đó là REDO
+- Panel vẫn là REDO sau 2 lần tạo lại thì xử lý PASS kèm cảnh báo
 
-## 협업
-- webtoon-artist에게 수정 지시서 전달 (결과 파일 기반)
-- 재생성된 패널을 다시 검수 (최대 2회 루프)
+## Phối hợp
+- Gửi chỉ thị sửa cho webtoon-artist (dựa trên file kết quả)
+- Kiểm tra lại panel đã tạo lại (tối đa 2 lần lặp)
 ```
 
-### 에러 핸들링
+### Xử lý lỗi
 
 ```
-재시도 정책:
-- REDO 판정 패널 → artist에게 재생성 요청 (구체적 수정 지시 포함)
-- 최대 2회 루프 후 강제 PASS
-- 전체 패널의 50% 이상이 REDO면 사용자에게 프롬프트 수정 제안
+Chính sách thử lại:
+- Panel bị phân loại REDO → yêu cầu artist tạo lại (kèm chỉ thị sửa cụ thể)
+- Sau tối đa 2 lần lặp, ép xử lý PASS
+- Nếu trên 50% toàn bộ panel là REDO, đề xuất người dùng sửa prompt
 ```
 
 ---
 
-## 예시 4: 코드 리뷰 팀 (에이전트 팀 모드)
+## Ví dụ 4: Đội review code (chế độ Agent Team)
 
-### 팀 아키텍처: 팬아웃/팬인 + 토론
-### 실행 모드: 에이전트 팀
+### Kiến trúc đội: Fan-out/Fan-in + Thảo luận
+### Chế độ thực thi: Agent Team
 
-> 코드 리뷰는 에이전트 팀이 빛나는 대표적 사례. 서로 다른 관점의 리뷰어들이 발견을 공유하고 도전하면서 더 깊은 리뷰가 가능.
-
-```
-[리더] → TeamCreate(review-team)
-    ├── security-reviewer: 보안 취약점 점검
-    ├── performance-reviewer: 성능 영향 분석
-    └── test-reviewer: 테스트 커버리지 검증
-    → 리뷰어들이 서로 발견 공유 (SendMessage)
-    → 리더가 결과 종합
-```
-
-### 팀 통신 패턴
+> Review code là ví dụ điển hình cho thấy agent team phát huy hiệu quả. Các reviewer ở các góc nhìn khác nhau chia sẻ phát hiện và phản biện lẫn nhau, cho phép review sâu hơn.
 
 ```
-security ──SendMessage──→ performance  ("이 SQL 쿼리 주입 가능, 성능 측면에서도 확인 필요")
-performance ──SendMessage──→ test      ("N+1 쿼리 발견, 관련 테스트 있는지 확인 부탁")
-test ────SendMessage──→ security      ("인증 모듈 테스트 없음, 보안 관점에서 우선순위 의견?")
+[Leader] → TeamCreate(review-team)
+    ├── security-reviewer: kiểm tra lỗ hổng an ninh
+    ├── performance-reviewer: phân tích tác động hiệu năng
+    └── test-reviewer: kiểm định độ phủ test
+    → Các reviewer chia sẻ phát hiện lẫn nhau (SendMessage)
+    → Leader hợp nhất kết quả
 ```
 
-핵심: 리뷰어들이 **리더를 거치지 않고** 직접 소통하여 교차 영역 이슈를 빠르게 포착.
+### Mẫu giao tiếp đội
+
+```
+security ──SendMessage──→ performance  ("Câu SQL này có thể bị injection, cần kiểm tra cả góc độ hiệu năng")
+performance ──SendMessage──→ test      ("Phát hiện query N+1, kiểm tra giúp có test liên quan không")
+test ────SendMessage──→ security      ("Module xác thực không có test, ý kiến về thứ tự ưu tiên từ góc độ an ninh?")
+```
+
+Cốt lõi: các reviewer giao tiếp trực tiếp **không qua leader**, giúp phát hiện nhanh các vấn đề liên ngành.
 
 ---
 
-## 예시 5: 감독자 패턴 — 코드 마이그레이션 팀 (에이전트 팀 모드)
+## Ví dụ 5: Mẫu Supervisor — Đội migration code (chế độ Agent Team)
 
-### 팀 아키텍처: 감독자
-### 실행 모드: 에이전트 팀
+### Kiến trúc đội: Supervisor
+### Chế độ thực thi: Agent Team
 
 ```
-[supervisor/리더] → 파일 목록 분석 → 배치 할당
+[supervisor/Leader] → Phân tích danh sách file → Phân công batch
     ├→ [migrator-1] (batch A)
     ├→ [migrator-2] (batch B)
     └→ [migrator-3] (batch C)
-    ← TaskUpdate 수신 → 추가 배치 할당 또는 재할당
+    ← Nhận TaskUpdate → phân công batch thêm hoặc phân công lại
 ```
 
-### 에이전트 구성
+### Cấu hình agent
 
-| 팀원 | 역할 |
+| Thành viên | Vai trò |
 |------|------|
-| (리더 = migration-supervisor) | 파일 분석, 배치 분배, 진행 관리 |
-| migrator-1~3 | 할당된 파일 배치를 마이그레이션 |
+| (Leader = migration-supervisor) | Phân tích file, phân chia batch, quản lý tiến độ |
+| migrator-1~3 | Thực hiện migration batch file được phân công |
 
-### 감독자의 동적 분배 로직 (에이전트 팀 활용)
+### Logic phân phối động của Supervisor (tận dụng Agent Team)
 
 ```
-1. 전체 대상 파일 목록 수집
-2. 복잡도 추정 (파일 크기, import 수, 의존성)
-3. TaskCreate로 파일 배치를 작업으로 등록 (의존성 포함)
-4. 팀원들이 자체적으로 작업 요청 (claim)
-5. 팀원이 TaskUpdate로 완료 보고 시:
-   - 성공 → 다음 작업 자동 요청
-   - 실패 → 리더가 SendMessage로 원인 확인 → 재할당 또는 다른 팀원에게 배정
-6. 모든 작업 완료 → 리더가 통합 테스트 실행
+1. Thu thập toàn bộ danh sách file đối tượng
+2. Ước tính độ phức tạp (kích thước file, số import, phụ thuộc)
+3. Đăng ký batch file là công việc bằng TaskCreate (kèm phụ thuộc)
+4. Thành viên tự yêu cầu công việc (claim)
+5. Khi thành viên báo hoàn thành bằng TaskUpdate:
+   - Thành công → tự động yêu cầu công việc tiếp theo
+   - Thất bại → leader kiểm tra nguyên nhân qua SendMessage → phân công lại hoặc gán cho thành viên khác
+6. Hoàn thành toàn bộ công việc → leader chạy test tích hợp
 ```
 
-팬아웃과의 차이: 작업이 사전 고정이 아니라 **런타임에 동적으로 할당**된다. 공유 작업 목록의 자체 요청(claim) 기능이 감독자 패턴과 자연스럽게 매칭.
+Khác với fan-out: công việc không cố định trước mà được **phân công động tại runtime**. Tính năng tự yêu cầu (claim) của danh sách công việc chung khớp tự nhiên với mẫu supervisor.
 
 ---
 
-## 산출물 패턴 요약
+## Tổng hợp mẫu sản phẩm đầu ra
 
-### 에이전트 정의 파일
-위치: `프로젝트/.claude/agents/{agent-name}.md`
-필수 섹션: 핵심 역할, 작업 원칙, 입력/출력 프로토콜, 에러 핸들링, 협업
-팀 모드 추가 섹션: **팀 통신 프로토콜** (메시지 수신/발신, 작업 요청 범위)
+### File định nghĩa agent
+Vị trí: `project/.claude/agents/{agent-name}.md`
+Section bắt buộc: vai trò cốt lõi, nguyên tắc làm việc, giao thức input/output, xử lý lỗi, phối hợp
+Section bổ sung cho chế độ team: **Giao thức giao tiếp đội** (nhận/gửi message, phạm vi yêu cầu công việc)
 
-### 스킬 파일 구조
-위치: `프로젝트/.claude/skills/{skill-name}/SKILL.md` (프로젝트 레벨)
-또는: `~/.claude/skills/{skill-name}/SKILL.md` (글로벌 레벨)
+### Cấu trúc file skill
+Vị trí: `project/.claude/skills/{skill-name}/SKILL.md` (cấp dự án)
+Hoặc: `~/.claude/skills/{skill-name}/SKILL.md` (cấp toàn cục)
 
-### 통합 스킬 (오케스트레이터)
-팀 전체를 조율하는 상위 스킬. 시나리오별 에이전트 구성과 워크플로우를 정의.
-템플릿: `references/orchestrator-template.md` 참조.
-**실행 모드를 반드시 명시** — 에이전트 팀(기본) 또는 서브 에이전트.
+### Skill tích hợp (Orchestrator)
+Skill cấp cao điều phối toàn đội. Định nghĩa cấu hình agent và quy trình theo từng kịch bản.
+Template: xem `references/orchestrator-template.md`.
+**Bắt buộc ghi rõ chế độ thực thi** — Agent Team (mặc định) hoặc Subagent.
