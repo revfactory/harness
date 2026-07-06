@@ -35,7 +35,7 @@ Harness lives at the **L3 Meta-Factory** layer of the Claude Code ecosystem — 
 |-------|--------------|---------------------------|
 | **L3 — Meta-Factory / Team-Architecture Factory** (us) | Domain sentence → agent team + skills, via 6 pre-defined team patterns | — |
 | L3 — Meta-Factory / Runtime-Configuration Factory | Deterministic, repeatable runtime configurations | [coleam00/Archon](https://github.com/coleam00/Archon) |
-| L3 — Meta-Factory / Codex Runtime Port | Same concept, Codex runtime | [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
+| L3 — Meta-Factory / Codex Runtime Port | Same concept, Codex runtime | Local [`harness-codex`](docs/codex-quickstart.md), [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
 | L2 — Cross-Harness Workflow | Standardize skills/rules/hooks across multiple harnesses | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) |
 
 > Archon generates deterministic runtime configurations. Harness generates team architectures (pipeline, fan-out/fan-in, expert pool, producer-reviewer, supervisor, hierarchical delegation) plus the skills agents use. Different sub-layers of the same L3. Pick Archon for runtime determinism, Harness for team architecture, or combine them.
@@ -89,6 +89,12 @@ Phase 6: Validation & Testing
 /plugin install harness@harness-marketplace
 ```
 
+### Codex Local Plugin
+
+This repository also ships a Codex-ready plugin at `plugins/harness-codex/`, exposed through
+`.agents/plugins/marketplace.json`. See [docs/codex-quickstart.md](docs/codex-quickstart.md)
+for local installation and usage.
+
 ### Direct Installation as Global Skill
 
 ```shell
@@ -102,6 +108,16 @@ cp -r skills/harness ~/.claude/skills/harness
 harness/
 ├── .claude-plugin/
 │   └── plugin.json                 # Plugin manifest
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json         # Repo-local Codex marketplace
+├── plugins/
+│   └── harness-codex/
+│       ├── .codex-plugin/
+│       │   └── plugin.json          # Codex plugin manifest
+│       └── skills/
+│           └── harness/
+│               └── SKILL.md         # Codex-native Harness skill
 ├── skills/
 │   └── harness/
 │       ├── SKILL.md                # Main skill definition (6-Phase workflow)
@@ -233,7 +249,7 @@ Harness is not alone in the Claude Code / agent-framework ecosystem. The followi
 | Repo | Their position | Relationship to Harness |
 |------|----------------|-------------------------|
 | [coleam00/Archon](https://github.com/coleam00/Archon) | "harness builder" — deterministic, repeatable runtime configurations | **Same L3, neighbor sub-layer.** Archon is a Runtime-Configuration Factory, Harness is a Team-Architecture Factory. Pick Archon for runtime determinism, Harness for team architecture, or combine them. |
-| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | Codex port of the same concept | **Same L3, different runtime.** Use Harness on Claude Code, meta-harness on Codex. |
+| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | Independent Codex implementation of the same concept | **Same L3, different runtime lineage.** Use this repo's `harness-codex` plugin for the local Codex port, or compare with meta-harness as a sibling implementation. |
 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) | "Agent harness performance & workflow layer" (sits on top of existing harnesses) | **Different layer.** ECC is a standardization layer across harnesses; Harness is a factory that generates harnesses. Serial combination possible. |
 | [wshobson/agents](https://github.com/wshobson/agents) | Subagent / skill catalog (182 agents, 149 skills) | **Factory ↔ parts supply.** wshobson is a catalog to shop from; Harness designs the team. Absorb wshobson entries as parts inside a Harness-generated team. |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | State-graph orchestration, LLM-agnostic | **Different track.** LangGraph is for long-running, state-recoverable orchestration; Harness is for fast Claude-Code-native team design. |
@@ -290,10 +306,11 @@ Key finding: effectiveness scales with task complexity — the harder the task, 
 <details>
 <summary><b>Q3. Isn't "Claude Code only" too narrow? What about Gemini/Codex?</b></summary>
 
-**A.** Currently the official runtime is Claude Code only. A Codex port of the same concept — [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) — is already public, so Codex teams can start there. Harness chose "Claude-Code-native, deep" over "multi-runtime, shallow"; cross-runtime collaboration with sibling repos (meta-harness, harness-init, OpenRig) is on the roadmap.
+**A.** The primary runtime remains Claude Code, but this repository now includes a local Codex plugin at `plugins/harness-codex/`. Codex users can install it through the repo-local marketplace in `.agents/plugins/marketplace.json`; see [docs/codex-quickstart.md](docs/codex-quickstart.md). The external [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) project remains a sibling implementation worth comparing.
 
 **Evidence:**
-- Codex port: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
+- Local Codex quickstart: [docs/codex-quickstart.md](docs/codex-quickstart.md)
+- Sibling Codex implementation: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
 - Cross-runtime scaffolder: [github.com/Gizele1/harness-init](https://github.com/Gizele1/harness-init)
 </details>
 

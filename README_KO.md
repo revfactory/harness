@@ -35,7 +35,7 @@ Harness는 Claude Code 생태계의 **L3 Meta-Factory** 층 — 다른 하네스
 |------|---------|---------------|
 | **L3 — Meta-Factory / Team-Architecture Factory** (우리) | 도메인 설명 → 에이전트 팀 + 스킬, 6가지 사전 정의된 팀 패턴 | — |
 | L3 — Meta-Factory / Runtime-Configuration Factory | 결정적(deterministic)·반복 가능한 런타임 설정 생성 | [coleam00/Archon](https://github.com/coleam00/Archon) |
-| L3 — Meta-Factory / Codex Runtime Port | 같은 컨셉, Codex 런타임 | [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
+| L3 — Meta-Factory / Codex Runtime Port | 같은 컨셉, Codex 런타임 | 로컬 [`harness-codex`](docs/codex-quickstart.md), [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
 | L2 — Cross-Harness Workflow | 여러 하네스 위에서 스킬·규칙·훅을 표준화 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) |
 
 > Archon은 결정적 런타임 설정을 뽑아냅니다. Harness는 팀 아키텍처(파이프라인·팬아웃/팬인·전문가 풀·생성-검증·감독자·계층적 위임)와 에이전트가 쓸 스킬을 뽑아냅니다. 같은 L3의 서로 다른 서브 층입니다. 런타임 결정성은 Archon, 팀 아키텍처는 Harness, 또는 둘을 조합해서 쓰세요.
@@ -89,8 +89,14 @@ Phase 6: 검증 및 테스트
 
 #### 플러그인 설치
 ```shell
-/plugin install harness-marketplace
+/plugin install harness@harness-marketplace
 ```
+
+### Codex 로컬 플러그인
+
+이 저장소는 `plugins/harness-codex/`에 Codex용 플러그인도 함께 제공합니다.
+repo-local 마켓플레이스는 `.agents/plugins/marketplace.json`에 있으며, 설치와 사용법은
+[docs/codex-quickstart.md](docs/codex-quickstart.md)를 참고하세요.
 
 ### 글로벌 스킬로 직접 설치
 
@@ -105,6 +111,16 @@ cp -r skills/harness ~/.claude/skills/harness
 harness/
 ├── .claude-plugin/
 │   └── plugin.json                 # 플러그인 매니페스트
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json         # repo-local Codex 마켓플레이스
+├── plugins/
+│   └── harness-codex/
+│       ├── .codex-plugin/
+│       │   └── plugin.json          # Codex 플러그인 매니페스트
+│       └── skills/
+│           └── harness/
+│               └── SKILL.md         # Codex 네이티브 Harness 스킬
 ├── skills/
 │   └── harness/
 │       ├── SKILL.md                # 메인 스킬 정의 (6 Phase 워크플로우)
@@ -229,7 +245,7 @@ Harness는 Claude Code / 에이전트 프레임워크 생태계에서 혼자가 
 | 저장소 | 저장소의 포지션 | Harness와의 관계 |
 |--------|-----------------|------------------|
 | [coleam00/Archon](https://github.com/coleam00/Archon) | "harness builder" — 결정적·반복 가능한 런타임 설정 | **같은 L3, 이웃 서브 층.** Archon은 Runtime-Configuration Factory, Harness는 Team-Architecture Factory. 런타임 결정성은 Archon, 팀 아키텍처는 Harness, 또는 조합. |
-| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | 같은 컨셉의 Codex 포트 | **같은 L3, 다른 런타임.** Claude Code에서는 Harness, Codex에서는 meta-harness. |
+| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | 같은 컨셉의 독립 Codex 구현 | **같은 L3, 다른 런타임 계보.** 이 저장소의 로컬 Codex 포트는 `harness-codex` 플러그인을 사용하고, meta-harness는 비교 가능한 형제 구현으로 참고. |
 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) | "Agent harness performance & workflow layer" — 기존 하네스 위에 앉는 표준화 층 | **다른 층위.** ECC는 여러 하네스 위 표준화 층, Harness는 하네스를 생성하는 팩토리. 직렬 조합 가능. |
 | [wshobson/agents](https://github.com/wshobson/agents) | 서브 에이전트 / 스킬 카탈로그 (182 agents, 149 skills) | **팩토리 ↔ 부품 공급.** wshobson은 "쇼핑할 카탈로그", Harness는 "팀 설계". Harness가 만든 팀에 wshobson 항목을 부품으로 흡수. |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | 상태 그래프 오케스트레이션, LLM-agnostic | **다른 트랙.** 장기 실행·상태 복구가 핵심이면 LangGraph, Claude Code 네이티브의 빠른 팀 설계가 핵심이면 Harness. |
@@ -286,10 +302,11 @@ Harness는 Claude Code / 에이전트 프레임워크 생태계에서 혼자가 
 <details>
 <summary><b>Q3. "Claude Code 전용"이 너무 좁은 것 아닌가요? Gemini·Codex는?</b></summary>
 
-**A.** 현재 공식 런타임은 Claude Code 단일입니다. 같은 컨셉의 Codex 포트 [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)가 이미 공개되어 있어, 기존 Codex 팀은 그쪽에서 바로 시작할 수 있습니다. Harness는 "Claude Code 네이티브·깊게"를 택한 상태이며, 크로스 런타임 수요는 공존 저장소(meta-harness, harness-init, OpenRig)와의 연계 계획을 로드맵에 반영할 예정입니다.
+**A.** 주 런타임은 여전히 Claude Code이지만, 이 저장소에는 `plugins/harness-codex/` 로컬 Codex 플러그인이 포함되어 있습니다. Codex 사용자는 `.agents/plugins/marketplace.json`의 repo-local 마켓플레이스를 통해 설치할 수 있으며, 자세한 절차는 [docs/codex-quickstart.md](docs/codex-quickstart.md)를 참고하세요. [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)는 비교 가능한 형제 구현으로 남아 있습니다.
 
 **Evidence:**
-- Codex 포트: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
+- 로컬 Codex 빠른 시작: [docs/codex-quickstart.md](docs/codex-quickstart.md)
+- 형제 Codex 구현: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
 - 크로스 런타임 스캐폴더: [github.com/Gizele1/harness-init](https://github.com/Gizele1/harness-init)
 </details>
 

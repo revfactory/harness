@@ -29,7 +29,7 @@ Different kinds of contributions go through different entry points. Pick the one
 ### Bug report
 
 - Open an issue using the **Bug report** form (`.github/ISSUE_TEMPLATE/bug_report.yml`).
-- Required: Claude Code version, `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` flag state, reproduction steps, expected vs actual, OS.
+- Required: runtime, reproduction steps, expected vs actual, OS. Include the Claude Code version and `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` flag state for Claude reports, or the Codex app/version and `harness-codex` install path for Codex reports.
 - Small reproductions (< 30 lines) are ideal. If your repro needs a full project, link a public fork.
 
 ### Feature request
@@ -62,7 +62,8 @@ Different kinds of contributions go through different entry points. Pick the one
 
 ### Prerequisites
 
-- Claude Code `v2.x` (Agent Teams API required)
+- Claude Code `v2.x` for the Claude plugin (Agent Teams API required)
+- Codex for the local `harness-codex` plugin path
 - Node.js `>= 18` (for local tooling used in CI)
 - Git
 
@@ -74,7 +75,7 @@ Harness currently requires Claude Code's experimental Agent Teams feature. Set t
 export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
 ```
 
-We track this dependency in `docs/experimental-dependency.md` (if Anthropic promotes the flag to stable, we update the README within 72h per the SLA above).
+This flag applies to the Claude Code plugin only. The Codex port does not use Claude Code Agent Teams primitives. We track the Claude dependency in `docs/experimental-dependency.md` (if Anthropic promotes the flag to stable, we update the README within 72h per the SLA above).
 
 ### Local plugin link
 
@@ -90,13 +91,17 @@ claude plugin list | grep harness
 
 Unlink with `claude plugin unlink harness` when you're done.
 
+### Local Codex plugin
+
+To test the Codex port, open this repository in Codex and install `harness-codex` from the `Harness Local` marketplace. The Codex plugin lives under `plugins/harness-codex/` and is exposed through `.agents/plugins/marketplace.json`; see `docs/codex-quickstart.md`.
+
 ### Running the meta-skill
 
 ```bash
 claude "build a harness for a fintech risk-assessment team"
 ```
 
-Scaffolded agents and skills land under `.claude/agents/` and `.claude/skills/` in the target project.
+The Claude plugin scaffolds agents and skills under `.claude/agents/` and `.claude/skills/` in the target project. The Codex plugin generates `.agents/skills/`, `AGENTS.md`, and `_workspace/` artifacts instead.
 
 ### Tests & lints
 

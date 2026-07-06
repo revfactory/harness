@@ -35,7 +35,7 @@ Harness は Claude Code エコシステムの **L3 Meta-Factory** 層 — 他の
 |----|----------|--------------|
 | **L3 — Meta-Factory / Team-Architecture Factory** (当プロジェクト) | ドメイン記述 → エージェントチーム + スキル、事前定義された 6 種のチームパターン経由 | — |
 | L3 — Meta-Factory / Runtime-Configuration Factory | 決定的で再現可能なランタイム構成 | [coleam00/Archon](https://github.com/coleam00/Archon) |
-| L3 — Meta-Factory / Codex Runtime Port | 同一コンセプトの Codex ランタイム版 | [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
+| L3 — Meta-Factory / Codex Runtime Port | 同一コンセプトの Codex ランタイム版 | ローカル [`harness-codex`](docs/codex-quickstart.md), [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) |
 | L2 — Cross-Harness Workflow | 複数ハーネスにまたがるスキル・ルール・フックの標準化 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) |
 
 > Archon は決定的なランタイム構成を生成します。Harness はチームアーキテクチャ（パイプライン・ファンアウト/ファンイン・エキスパートプール・プロデューサー-レビューア・スーパーバイザー・階層的委任）と、エージェントが使うスキルを生成します。同じ L3 の異なるサブ層です。ランタイムの決定性が欲しければ Archon、チームアーキテクチャが欲しければ Harness、あるいは両者を組み合わせて利用できます。
@@ -89,8 +89,14 @@ Phase 6: 検証とテスト
 
 #### プラグインのインストール
 ```shell
-/plugin install harness-marketplace
+/plugin install harness@harness-marketplace
 ```
+
+### Codex ローカルプラグイン
+
+このリポジトリには `plugins/harness-codex/` に Codex 用プラグインも含まれています。
+repo-local マーケットプレイスは `.agents/plugins/marketplace.json` にあり、インストールと利用方法は
+[docs/codex-quickstart.md](docs/codex-quickstart.md) を参照してください。
 
 ### グローバルスキルとして直接インストール
 
@@ -105,6 +111,16 @@ cp -r skills/harness ~/.claude/skills/harness
 harness/
 ├── .claude-plugin/
 │   └── plugin.json                 # プラグインマニフェスト
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json         # repo-local Codex マーケットプレイス
+├── plugins/
+│   └── harness-codex/
+│       ├── .codex-plugin/
+│       │   └── plugin.json          # Codex プラグインマニフェスト
+│       └── skills/
+│           └── harness/
+│               └── SKILL.md         # Codex ネイティブ Harness スキル
 ├── skills/
 │   └── harness/
 │       ├── SKILL.md                # メインスキル定義（6フェーズワークフロー）
@@ -236,7 +252,7 @@ Harness は Claude Code / エージェントフレームワークのエコシス
 | リポジトリ | 相手のポジション | Harness との関係 |
 |------------|------------------|------------------|
 | [coleam00/Archon](https://github.com/coleam00/Archon) | "harness builder" — 決定的で再現可能なランタイム構成 | **同じ L3、隣のサブ層。** Archon は Runtime-Configuration Factory、Harness は Team-Architecture Factory。ランタイム決定性は Archon、チームアーキテクチャは Harness、または両者の組み合わせ。 |
-| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | 同一コンセプトの Codex 移植 | **同じ L3、異なるランタイム。** Claude Code では Harness、Codex では meta-harness。 |
+| [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) | 同一コンセプトの独立した Codex 実装 | **同じ L3、異なるランタイム系譜。** このリポジトリのローカル Codex 移植は `harness-codex` プラグインを使い、meta-harness は比較可能な兄弟実装として参照。 |
 | [affaan-m/ECC](https://github.com/affaan-m/everything-claude-code) | "Agent harness performance & workflow layer" — 既存ハーネスの上に乗る標準化層 | **異なる層。** ECC は複数ハーネスの上の標準化層、Harness はハーネスを生成するファクトリー。直列的に組み合わせ可能。 |
 | [wshobson/agents](https://github.com/wshobson/agents) | サブエージェント / スキルカタログ (182 agents, 149 skills) | **ファクトリー ↔ 部品供給。** wshobson は「ショッピングするカタログ」、Harness は「チーム設計」。Harness が生成したチーム内に wshobson のエントリを部品として取り込み可能。 |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | ステートグラフ・オーケストレーション、LLM-agnostic | **異なるトラック。** 長時間実行・状態復元が要なら LangGraph、Claude Code ネイティブでの素早いチーム設計が要なら Harness。 |
@@ -293,10 +309,11 @@ Harness は Claude Code / エージェントフレームワークのエコシス
 <details>
 <summary><b>Q3. 「Claude Code 専用」は狭すぎませんか？ Gemini・Codex は？</b></summary>
 
-**A.** 現時点で公式のランタイムは Claude Code のみです。同一コンセプトの Codex 移植 [SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) がすでに公開されており、既存の Codex チームはそちらから開始できます。Harness は「Claude Code ネイティブ・深く」を選択しており、クロスランタイムの需要は共存リポジトリ（meta-harness、harness-init、OpenRig）との連携計画としてロードマップに反映される予定です。
+**A.** 主なランタイムは引き続き Claude Code ですが、このリポジトリには `plugins/harness-codex/` のローカル Codex プラグインが含まれています。Codex ユーザーは `.agents/plugins/marketplace.json` の repo-local マーケットプレイスからインストールできます。詳しくは [docs/codex-quickstart.md](docs/codex-quickstart.md) を参照してください。[SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness) は比較可能な兄弟実装として残ります。
 
 **Evidence:**
-- Codex 移植: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
+- ローカル Codex クイックスタート: [docs/codex-quickstart.md](docs/codex-quickstart.md)
+- 兄弟 Codex 実装: [github.com/SaehwanPark/meta-harness](https://github.com/SaehwanPark/meta-harness)
 - クロスランタイム・スキャフォルダー: [github.com/Gizele1/harness-init](https://github.com/Gizele1/harness-init)
 </details>
 
