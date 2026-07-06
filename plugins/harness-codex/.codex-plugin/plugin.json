@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "Codex-ready Harness port that designs project-specific skill and guidance harnesses without Claude Code Agent Teams primitives.",
   "author": {
-    "name": "robin",
+    "name": "revfactory",
     "url": "https://github.com/revfactory"
   },
   "homepage": "https://github.com/revfactory/harness",
@@ -23,7 +23,7 @@
     "displayName": "Harness for Codex",
     "shortDescription": "Design Codex-native project harnesses with skills, guidance, and role workflows.",
     "longDescription": "A Codex-ready port of Harness that turns a project or domain description into durable Agent Skills, AGENTS.md guidance, and file-based orchestration artifacts without relying on Claude Code Agent Teams primitives.",
-    "developerName": "robin",
+    "developerName": "revfactory",
     "category": "Productivity",
     "capabilities": [
       "Write",
