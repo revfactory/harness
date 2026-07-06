@@ -1,0 +1,42 @@
+{
+  "name": "harness-codex",
+  "version": "1.2.0+codex.20260706093754",
+  "description": "Codex-ready Harness port that designs, ports, audits, and validates project-specific skill and guidance harnesses without Claude Code Agent Teams primitives.",
+  "author": {
+    "name": "revfactory",
+    "url": "https://github.com/revfactory"
+  },
+  "homepage": "https://github.com/revfactory/harness",
+  "repository": "https://github.com/revfactory/harness",
+  "license": "Apache-2.0",
+  "keywords": [
+    "harness",
+    "codex",
+    "codex-plugin",
+    "agent-skills",
+    "team-architecture-factory",
+    "orchestration",
+    "multi-agent",
+    "claude-to-codex",
+    "workflow-design"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Harness for Codex",
+    "shortDescription": "Design, port, audit, and validate Codex-native project harnesses.",
+    "longDescription": "A Codex-ready port of revfactory/harness that turns a project or domain description into durable Agent Skills, AGENTS.md guidance, orchestrator workflows, and _workspace handoff artifacts. It preserves the original six team-architecture patterns, skill generation workflow, orchestration templates, QA guidance, and trigger/testing methodology while translating Claude Code team primitives into Codex-native execution.",
+    "developerName": "revfactory",
+    "category": "Productivity",
+    "capabilities": [
+      "Write",
+      "Plan"
+    ],
+    "websiteURL": "https://github.com/revfactory/harness",
+    "defaultPrompt": [
+      "Build a Codex harness for this project.",
+      "Port this Claude harness to Codex.",
+      "Audit and improve this Codex harness."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

@@ -5,11 +5,14 @@
 ## [Unreleased]
 
 ### Added
+- README 3종과 기여 템플릿에 로컬 Codex 플러그인(`harness-codex`) 안내 추가
 - 신규 에이전트/스킬 생성 전 중복 검토 단계 (Phase 3-0, Phase 4-0)
 - `references/agent-design-patterns.md` "에이전트 재사용 설계" 섹션
 - `references/skill-writing-guide.md` §9 "스킬 재사용 설계"
 
 ### Changed
+- 버그 리포트/PR 템플릿이 Claude Code와 Codex 포트 변경을 모두 구분하도록 수정
+- Codex Harness 스킬 frontmatter의 `description`을 YAML 유효 형식으로 수정
 - Phase 선택 매트릭스에 3-0/4-0 명시
 - Phase 2-3에 재사용 검토 단계 포인터 추가
 - 산출물 체크리스트에 재사용 검토 항목 2개 추가

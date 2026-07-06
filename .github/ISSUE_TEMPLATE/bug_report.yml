@@ -14,26 +14,40 @@ body:
 
         **Triage SLA:** we aim to label new issues within 48h and respond substantively within 72h on business days (see [CONTRIBUTING.md](../../CONTRIBUTING.md)).
 
-  - type: input
-    id: claude-code-version
+  - type: dropdown
+    id: runtime
     attributes:
-      label: Claude Code version
-      description: Output of `claude --version` (e.g. `2.3.1`)
-      placeholder: "2.x.y"
+      label: Runtime
+      description: Where did you hit this bug?
+      options:
+        - "Claude Code"
+        - "Codex"
+        - "Both"
+        - "Other / not sure"
     validations:
       required: true
+
+  - type: input
+    id: runtime-version
+    attributes:
+      label: Runtime version
+      description: Output of `claude --version`, Codex app version, or other relevant runtime version.
+      placeholder: "Claude Code 2.x.y / Codex version / unknown"
+    validations:
+      required: false
 
   - type: dropdown
     id: experimental-flag
     attributes:
       label: Experimental Agent Teams flag state
-      description: Is `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in the shell where you hit this bug?
+      description: For Claude Code reports, is `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in the shell where you hit this bug?
       options:
         - "Yes, flag is set to 1"
         - "No, flag is unset"
-        - "I don't know / N/A"
+        - "N/A — Codex"
+        - "I don't know"
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: reproduction
@@ -41,9 +55,15 @@ body:
       label: Reproduction steps
       description: Minimal steps to reproduce. Commands, config, and inputs please.
       placeholder: |
-        1. `claude plugin marketplace add harness@harness`
-        2. `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+        Claude Code:
+        1. `/plugin marketplace add revfactory/harness`
+        2. `/plugin install harness@harness-marketplace`
         3. `claude "build a harness for ..."`
+
+        Codex:
+        1. Open this repository in Codex
+        2. Install `harness-codex` from the `Harness Local` marketplace
+        3. `$harness Build a Codex harness for ...`
         4. observe ...
     validations:
       required: true

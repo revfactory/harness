@@ -21,7 +21,8 @@ See CONTRIBUTING.md for branch naming, commit conventions, and SLAs.
 
 - [ ] Skill / meta-skill logic
 - [ ] Agent template(s)
-- [ ] Plugin manifest (`.claude-plugin/plugin.json`, `marketplace.json`)
+- [ ] Claude plugin manifest (`.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`)
+- [ ] Codex plugin manifest (`plugins/harness-codex/.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`)
 - [ ] Documentation (`README.md`, `README_KO.md`, `README_JA.md`, `docs/`)
 - [ ] `CHANGELOG.md`
 - [ ] CI / GitHub Actions
