@@ -42,11 +42,11 @@ Harness lives at the **L3 Meta-Factory** layer of the Claude Code ecosystem — 
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=revfactory%2Fharness&type=date&legend=top-left">
+<a href="https://star-history.dera.page/#revfactory/harness&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=revfactory/harness&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=revfactory/harness&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=revfactory/harness&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=revfactory/harness&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=revfactory/harness&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=revfactory/harness&type=date&legend=top-left" />
  </picture>
 </a>
 
