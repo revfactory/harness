@@ -1,117 +1,65 @@
-# Quickstart — 5 Minutes to Your First Harness
+# Quickstart — 5분 만에 첫 하네스
 
-> **Time budget: 5 minutes (strict).** If you are not at Step 5 within 5 minutes, stop and file an issue — that is a bug in this document, not a bug in you.
+**끝났을 때 갖게 되는 것:** 한 문장 프롬프트로 생성된, 도메인 특화 에이전트 3~5개와 스킬이 담긴 `.claude/agents/` + `.claude/skills/` 디렉토리, 그리고 샘플 태스크 1회 실행 결과.
 
-<!-- TODO: Loom embed — 60s screen recording showing Steps 1→5 end-to-end. Replace this comment with the `<iframe>` once recorded. -->
+**사전 요구사항:**
+- Claude Code 최신 버전 (`claude --version`)
+- `github.com` 네트워크 접근
 
-**What you will have at the end:** a working `.claude/agents/` directory with 3–5 domain-specialized agents, generated from a single-sentence prompt, ready to run on a sample task.
-
-**Prerequisites (check before starting):**
-- Claude Code **v2.x or later** (`claude --version` should return `2.x` or higher)
-- A shell that persists `export` across commands (bash, zsh, or fish)
-- Network access to `github.com` and `api.anthropic.com`
+> v1과 달리 **환경 변수나 실험 플래그가 필요 없다.** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`를 봤다면 그건 v1 문서다.
 
 ---
 
-## Step 1 — Add the marketplace (60 seconds)
+## Step 1 — 마켓플레이스 추가 (30초)
 
-```bash
-claude plugin marketplace add revfactory/harness
+```
+/plugin marketplace add revfactory/harness
 ```
 
-**What this does:** Registers the `harness` marketplace so Claude Code can discover plugins published by `revfactory`.
+## Step 2 — 플러그인 설치 (30초)
 
-**Expected output:** `Added marketplace: revfactory/harness`
-
----
-
-## Step 2 — Install the plugin and enable the Experimental flag (40 seconds)
-
-```bash
-claude plugin install harness@harness
-export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+```
+/plugin install harness@harness
 ```
 
-*(To persist the flag across shell sessions, append the `export` line to `~/.zshrc` or `~/.bashrc`.)*
+**실패 FAQ — 설치가 안 보임:** `/plugin list`로 확인. 없으면 Step 1부터 재실행, 있는데 비활성이면 `/plugin enable harness@harness`.
 
-**What this does:** Installs the `harness` plugin from the `harness` marketplace, then enables Agent Teams — the Claude Code API harness uses to orchestrate multi-agent workflows. See [`docs/experimental-dependency.md`](./experimental-dependency.md) for why the flag is required.
+## Step 3 — 한 문장으로 하네스 생성 (2분)
 
-**Failure FAQ #1 — `AGENT_TEAMS not found` / teams don't instantiate**
-**Cause:** Claude Code version is older than v2.x (Agent Teams was introduced in v2.0).
-**Fix:** Run `claude --version`. If below 2.0, upgrade via `npm i -g @anthropic-ai/claude-code` (or your distribution's installer), then repeat Step 2.
-
----
-
-## Step 3 — Generate a harness from one sentence (2 minutes)
-
-```bash
-claude "build a harness for a fintech risk-assessment team"
+```
+claude "핀테크 리스크 평가 팀 하네스 구성해줘"
 ```
 
-**What this does:** Invokes the `/harness:harness` meta-skill, which analyzes your domain sentence and scaffolds a team of specialized agents + their skills into `.claude/agents/` and `.claude/skills/` in the current directory.
-
-**Try these alternate prompts** — any of them work:
-- `claude "하네스 구성해줘 — 핀테크 리스크 평가 팀"` (Korean also works)
+다른 예시 (전부 동작한다):
 - `claude "build a harness for an e-commerce fraud-detection workflow"`
-- `claude "design an agent team for technical due diligence on open-source repos"`
+- `claude "오픈소스 저장소 기술 실사(due diligence)용 에이전트 팀 설계해줘"`
 
-**Expected output:** A streaming plan, then confirmation that 3–5 agent `.md` files and their skills were written.
+**기대 출력:** 현황 감사(Phase 0) 보고 → 실행 모드/아키텍처 제안 → 에이전트 3~5개 파일 + 스킬 + 오케스트레이터 생성 확인.
 
-**Failure FAQ #2 — The Korean prompt returns nothing / the English one succeeds but Korean doesn't**
-**Cause:** Locale or tokenizer misrouting; harness's orchestrator matches on Korean trigger words ("하네스 구성"), which are built into the skill definition.
-**Fix:** If Korean fails, re-run with the English prompt above — the underlying skill is identical. If both fail, jump to Failure FAQ #3.
-
----
-
-## Step 4 — Verify the generated files (30 seconds)
+## Step 4 — 생성 파일 확인 (30초)
 
 ```bash
-ls -la .claude/agents/
-ls -la .claude/skills/
+ls -la .claude/agents/ .claude/skills/
 ```
 
-**What this does:** Confirms the meta-skill wrote files to the expected locations.
+**실패 FAQ — 아무것도 생성 안 됨:** 플러그인 활성 여부 확인(Step 2 FAQ). 활성인데도 스킬이 트리거되지 않으면 "하네스 구성해줘"처럼 트리거 키워드를 명시.
 
-**Expected output:** 3–5 files per directory, with names reflecting your domain (e.g., `risk-analyst.md`, `compliance-reviewer.md`, `portfolio-monitor.md` for the fintech example).
+## Step 5 — 샘플 태스크 실행 (90초)
 
-**Failure FAQ #3 — "Nothing was generated" / directories are empty**
-**Cause:** The plugin is not actually installed or is not active in the current project.
-**Fix:** Run `claude plugin list`. If `harness@harness` is absent, repeat Step 2. If present but inactive, run `claude plugin enable harness@harness`, then repeat Step 3.
+실제 티켓 스타일 프롬프트를 새 팀에 넘겨본다:
 
----
-
-## Step 5 — Run a sample task against the new team (90 seconds)
-
-Copy a realistic Jira-ticket-style prompt and hand it to your fresh team:
-
-```bash
-claude "Ticket FIN-427: A new corporate customer (mid-cap manufacturer, \$80M revenue, South Korea) has applied for a \$5M working-capital line. Produce a risk assessment covering (1) credit-history red flags, (2) sector concentration vs. our existing book, (3) regulatory exposure (KFTC, FSC). Output: a 1-page memo with a go/no-go recommendation."
+```
+claude "Ticket FIN-427: 신규 법인 고객(중견 제조사, 매출 $80M, 한국)이 $5M 운전자금
+한도를 신청했다. (1) 신용 이력 적신호, (2) 기존 포트폴리오 대비 섹터 집중도,
+(3) 규제 노출(공정위, 금융위)을 다룬 리스크 평가를 수행하고, go/no-go 권고가 담긴
+1페이지 메모를 산출하라."
 ```
 
-**What this does:** Claude Code detects the new agents in `.claude/agents/`, routes the task through the team patterns harness generated (typically Producer-Reviewer or Expert-Pool for risk work), and returns a structured memo.
+오케스트레이터 스킬이 트리거되어 생성된 팀 패턴(리스크 업무라면 보통 생성-검증 또는 전문가 풀)으로 라우팅된다.
 
-**Failure FAQ #4 — "The team doesn't execute / only one agent responds"**
-**Cause:** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` was set in the shell that ran Step 3 but not in the shell running Step 5 (happens when opening a new terminal).
-**Fix:** Re-export in the current shell: `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, then re-run Step 5. To make permanent, add the line to your shell rc file.
+**비용 주의:** 멀티에이전트 실행은 태스크당 수만~수십만 토큰을 소비할 수 있다. 생성된 오케스트레이터는 기본 규모를 절제하도록 설계되며, "철저히/전수" 요청 시에만 확장된다. 토큰 목표를 직접 주고 싶으면 프롬프트에 "+500k" 같은 버짓 지시를 포함하라 — 워크플로우 모드 하네스는 이에 연동해 규모를 조절한다.
 
-**Failure FAQ #5 — "Too many API calls / cost anxiety"**
-**Cause:** Multi-agent teams can fan out to 5+ parallel Claude calls per task. A single complex ticket can consume 50K–200K tokens.
-**Fix:** Limit to a single task per run (don't chain `&&` multiple harness invocations), and use the `--max-turns` flag if your Claude Code version supports it. For production, gate harness invocations behind a cost-aware wrapper — see `docs/cost-controls.md` *(forthcoming)*.
+## 다음 단계
 
----
-
-## You're done
-
-At this point you should have:
-
-- [x] A `.claude/agents/` directory with domain-specialized agents
-- [x] A `.claude/skills/` directory with their supporting skills
-- [x] One successful sample-task execution
-- [x] A working `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment
-
-**Next reads:**
-- [`docs/experimental-dependency.md`](./experimental-dependency.md) — Why the flag, and what we'll do when it changes
-- [`revfactory/harness-100`](https://github.com/revfactory/harness-100) — Catalog of 100+ pre-built domain harnesses, if you'd rather clone than generate
-- [`revfactory/claude-code-harness`](https://github.com/revfactory/claude-code-harness) — The A/B test harness we used to measure +60% quality on 15 tasks
-
-**If you hit something this guide didn't cover:** open an issue with the `quickstart-gap` label and include: (a) which step failed, (b) `claude --version`, (c) the exact error message. The SLA for quickstart-gap issues is **48 hours** to first response (see `CONTRIBUTING.md`).
+- 결과가 아쉬우면: `"하네스 회고해줘"` → `/harness:evolve`가 피드백을 일반화해 반영
+- v1 하네스가 있는 프로젝트면: `"하네스 점검해줘"` → 마이그레이션 자동 제안 ([migration-v1-to-v2.md](migration-v1-to-v2.md))

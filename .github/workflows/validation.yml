@@ -1,0 +1,63 @@
+name: Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - release/**
+      - steward/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate docs and plugin metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON files
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          paths = sorted(Path('.').rglob('*.json'))
+          for path in paths:
+              if any(part in {'.git', 'node_modules'} for part in path.parts):
+                  continue
+              with path.open('r', encoding='utf-8') as handle:
+                  json.load(handle)
+              print(f'valid json: {path}')
+          PY
+
+      - name: Scan for merge conflict markers
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          marker_parts = (('<' * 7) + ' ', '=' * 7, ('>' * 7) + ' ')
+          markers = tuple(marker_parts)
+          suffixes = {'.md', '.json', '.yml', '.yaml'}
+          offenders = []
+
+          for path in sorted(Path('.').rglob('*')):
+              if not path.is_file():
+                  continue
+              if any(part in {'.git', 'node_modules'} for part in path.parts):
+                  continue
+              if path.suffix.lower() not in suffixes:
+                  continue
+              text = path.read_text(encoding='utf-8', errors='ignore')
+              for line_no, line in enumerate(text.splitlines(), start=1):
+                  if any(line.startswith(marker) for marker in markers):
+                      offenders.append(f'{path}:{line_no}:{line}')
+
+          if offenders:
+              raise SystemExit('Merge conflict markers found:\n' + '\n'.join(offenders))
+          print('no merge conflict markers found')
+          PY

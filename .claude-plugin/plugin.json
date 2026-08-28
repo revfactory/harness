@@ -1,7 +1,7 @@
 {
   "name": "harness",
-  "description": "The team-architecture factory for Claude Code — a meta-skill that turns a domain description into an agent team and the skills they use, with six pre-defined team-architecture patterns (Pipeline, Fan-out/Fan-in, Expert Pool, Producer-Reviewer, Supervisor, Hierarchical Delegation). Claude Code용 팀 아키텍처 팩토리: 도메인 한 문장을 에이전트 팀과 스킬 세트로 변환하는 메타 스킬.",
-  "version": "1.2.0",
+  "description": "The team-architecture factory for Claude Code v2 — a meta-skill that turns a domain description into an agent team and the skills they use. Three native execution modes (Workflow orchestration, persistent named-agent collaboration, sub-agent delegation), six team-architecture patterns, and workflow-native quality patterns (adversarial verification, judge panels, loop-until-dry). Claude Code용 팀 아키텍처 팩토리 v2: 도메인 한 문장을 에이전트 팀과 스킬 세트로 변환하는 메타 스킬.",
+  "version": "2.1.0",
   "author": {
     "name": "robin",
     "url": "https://github.com/revfactory"
@@ -17,6 +17,7 @@
     "skill-architect",
     "meta-skill",
     "orchestration",
+    "workflow",
     "claude-code",
     "claude-code-plugin",
     "agent-scaffolding",
@@ -26,6 +27,8 @@
     "expert-pool",
     "producer-reviewer",
     "supervisor",
-    "hierarchical-delegation"
+    "hierarchical-delegation",
+    "adversarial-verification",
+    "judge-panel"
   ]
 }
