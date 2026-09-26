@@ -17,6 +17,14 @@
   <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20KO%20%7C%20JA-lightgrey" alt="i18n"></a>
 </p>
 
+<p align="center">
+  <a href="https://revfactory.github.io/harness-animation/">
+    <img src="harness_reel.gif" alt="Harness in 15 seconds: one request becomes an agent team" width="800">
+  </a>
+  <br>
+  <sub>15-second motion reel (Korean) · <a href="https://revfactory.github.io/harness-animation/">Watch the full 2-minute interactive walkthrough →</a></sub>
+</p>
+
 # Harness — The Team-Architecture Factory for Claude Code
 
 **English** | [한국어](README_KO.md) | [日本語](README_JA.md)
