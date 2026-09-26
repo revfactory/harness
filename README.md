@@ -30,7 +30,7 @@ v2 is a ground-up rebuild for the current Claude Code multi-agent runtime:
   3. **Sub-agent delegation** — lightweight one-shot parallel dispatch
 - **Workflow-native quality patterns.** Adversarial verification, judge panels, loop-until-dry, multi-modal sweeps, completeness critics — codified so generated harnesses filter out plausible-but-wrong output.
 - **No experimental flags.** The `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` dependency is gone entirely.
-- **Sane model policy.** v1 pinned every agent to `model: "opus"`. v2 selects a tier per agent — opus / sonnet — based on the task's complexity, duration, autonomy, and latency needs, and forbids unjustified blanket pins.
+- **Sane model policy.** v1 pinned every agent to `model: "opus"`. v2 selects a tier per agent — fable / opus / sonnet — based on the task's complexity, duration, autonomy, and latency needs, and forbids unjustified blanket pins.
 - **`/harness:evolve` actually ships.** The evolution mechanism v1 only documented is now a real skill: it captures the delta between your initial and current harness, generalizes feedback, and feeds it back into agents/skills/orchestrators.
 - **v1 migration built in.** The factory detects v1 artifacts (`TeamCreate`, `TeamDelete`, experimental flags) and offers a mechanical migration path.
 

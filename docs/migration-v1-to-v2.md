@@ -21,7 +21,7 @@ v1 오케스트레이터를 그대로 실행하면 존재하지 않는 도구 �
 | "세션당 한 팀만 활성" 제약 및 팀 재구성 절차 | 삭제 (제약 소멸) |
 | `SendMessage({to: "all"})` 브로드캐스트 | 필요한 상대에게 개별 SendMessage |
 | `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` | 삭제 |
-| 모든 에이전트 `model: "opus"` | 일괄 지정 해제 → 업무 특성(복잡도·기간·자율성·속도)별 opus/sonnet 재선택 (`references/model-selection-guide.md`) |
+| 모든 에이전트 `model: "opus"` | 일괄 지정 해제 → 업무 특성(복잡도·기간·자율성·속도)별 fable/opus/sonnet 재선택 (`references/model-selection-guide.md`) |
 | 팀 기반 대규모 팬아웃/생성-검증 루프 | `Workflow` 스크립트 (`pipeline()` + `schema` + 적대적 검증) |
 | Phase 0 컨텍스트 확인 (`_workspace/` 분기) | 유지 + 워크플로우 모드는 `resumeFromRunId` 추가 |
 | `_workspace/` 파일 컨벤션, CLAUDE.md 포인터/변경 이력 | 그대로 유지 |
@@ -33,7 +33,7 @@ v1 오케스트레이터를 그대로 실행하면 존재하지 않는 도구 �
    - Yes → 워크플로우 모드로 전환 (harness 스킬의 `references/workflow-recipes.md` 레시피 활용)
    - No, 반복 협상 필요 → 퍼시스턴트 모드 문법으로 재작성 (`Agent(name:)` + SendMessage + Tasks)
    - No, 결과만 필요 → 서브에이전트 단발 호출로 단순화
-3. **에이전트 정의 정리**: 일괄 `model: "opus"`를 업무 특성 기반 티어(opus/sonnet)로 재선택, `## 팀 통신 프로토콜` 섹션을 모드에 맞게 갱신 (워크플로우 전용 에이전트는 "구조화 출력" 섹션으로 교체), `## 재호출 지침` 추가
+3. **에이전트 정의 정리**: 일괄 `model: "opus"`를 업무 특성 기반 티어(fable/opus/sonnet)로 재선택, `## 팀 통신 프로토콜` 섹션을 모드에 맞게 갱신 (워크플로우 전용 에이전트는 "구조화 출력" 섹션으로 교체), `## 재호출 지침` 추가
 4. **문서 정리**: README/CLAUDE.md에서 실험 플래그 안내 제거
 5. **검증**: harness 스킬 Phase 6 기준으로 구조 검증 + 드라이런. v1 유물 grep이 0건인지 최종 확인
 6. **기록**: CLAUDE.md 변경 이력에 "v2 마이그레이션" 행 추가
