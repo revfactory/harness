@@ -6,6 +6,14 @@
   <img src="https://img.shields.io/badge/패턴-6+품질패턴-orange.svg" alt="Patterns">
 </p>
 
+<p align="center">
+  <a href="https://revfactory.github.io/harness-animation/">
+    <img src="harness_reel_ko.gif" alt="하네스 15초 소개: 요청 한 줄이 에이전트 팀이 되는 과정" width="800">
+  </a>
+  <br>
+  <sub>15초 모션 릴 · <a href="https://revfactory.github.io/harness-animation/">2분짜리 인터랙티브 애니메이션 보기 →</a></sub>
+</p>
+
 # Harness v2 — Claude Code를 위한 팀 아키텍처 팩토리
 
 [English](README.md) | **한국어**
@@ -53,7 +61,7 @@ Phase 7: 운영/유지보수 — 진화는 /harness:evolve
 
 ```shell
 /plugin marketplace add revfactory/harness
-/plugin install harness@harness
+/plugin install harness@harness-marketplace
 ```
 
 ### 글로벌 스킬로 직접 설치

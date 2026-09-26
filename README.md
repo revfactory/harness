@@ -6,6 +6,14 @@
   <img src="https://img.shields.io/badge/Patterns-6+Quality-orange.svg" alt="Patterns">
 </p>
 
+<p align="center">
+  <a href="https://revfactory.github.io/harness-animation/">
+    <img src="harness_reel_en.gif" alt="Harness in 15 seconds: one request becomes an agent team" width="800">
+  </a>
+  <br>
+  <sub>15-second motion reel · <a href="https://revfactory.github.io/harness-animation/">Watch the full 2-minute interactive walkthrough (Korean) →</a></sub>
+</p>
+
 # Harness v2 — The Team-Architecture Factory for Claude Code
 
 **English** | [한국어](README_KO.md)
@@ -53,7 +61,7 @@ Phase 7: Maintenance — evolution via /harness:evolve
 
 ```shell
 /plugin marketplace add revfactory/harness
-/plugin install harness@harness
+/plugin install harness@harness-marketplace
 ```
 
 ### As global skills
