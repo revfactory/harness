@@ -2,6 +2,12 @@
 
 이 프로젝트는 [Semantic Versioning](https://semver.org/)을 따릅니다.
 
+## [Unreleased]
+
+### Fixed
+
+- **기여자 템플릿 정합성** — 버그 제보 양식을 v2 플러그인 설치 명령과 맞추고 제거된 실험 플래그 및 `README_JA.md` 참조를 정리.
+
 ## [2.1.0] - 2026-09-26
 
 ### Changed
