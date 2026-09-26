@@ -19,10 +19,10 @@
 
 <p align="center">
   <a href="https://revfactory.github.io/harness-animation/">
-    <img src="harness_reel.gif" alt="Harness in 15 seconds: one request becomes an agent team" width="800">
+    <img src="harness_reel_en.gif" alt="Harness in 15 seconds: one request becomes an agent team" width="800">
   </a>
   <br>
-  <sub>15-second motion reel (Korean) · <a href="https://revfactory.github.io/harness-animation/">Watch the full 2-minute interactive walkthrough →</a></sub>
+  <sub>15-second motion reel · <a href="https://revfactory.github.io/harness-animation/">Watch the full 2-minute interactive walkthrough (Korean) →</a></sub>
 </p>
 
 # Harness — The Team-Architecture Factory for Claude Code

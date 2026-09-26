@@ -17,6 +17,14 @@
   <a href="#"><img src="https://img.shields.io/badge/README-EN%20%7C%20KO%20%7C%20JA-lightgrey" alt="i18n"></a>
 </p>
 
+<p align="center">
+  <a href="https://revfactory.github.io/harness-animation/">
+    <img src="harness_reel_ko.gif" alt="하네스 15초 소개: 요청 한 줄이 에이전트 팀이 되는 과정" width="800">
+  </a>
+  <br>
+  <sub>15초 모션 릴 · <a href="https://revfactory.github.io/harness-animation/">2분짜리 인터랙티브 애니메이션 보기 →</a></sub>
+</p>
+
 # Harness — Claude Code를 위한 팀 아키텍처 팩토리
 
 [English](README.md) | **한국어** | [日本語](README_JA.md)
