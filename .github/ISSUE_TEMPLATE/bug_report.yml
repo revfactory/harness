@@ -23,26 +23,14 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: experimental-flag
-    attributes:
-      label: Experimental Agent Teams flag state
-      description: Is `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set in the shell where you hit this bug?
-      options:
-        - "Yes, flag is set to 1"
-        - "No, flag is unset"
-        - "I don't know / N/A"
-    validations:
-      required: true
-
   - type: textarea
     id: reproduction
     attributes:
       label: Reproduction steps
       description: Minimal steps to reproduce. Commands, config, and inputs please.
       placeholder: |
-        1. `claude plugin marketplace add harness@harness`
-        2. `export CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+        1. `claude plugin marketplace add revfactory/harness`
+        2. `claude plugin install harness@harness-marketplace`
         3. `claude "build a harness for ..."`
         4. observe ...
     validations:
