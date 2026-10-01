@@ -2,6 +2,12 @@
 
 이 프로젝트는 [Semantic Versioning](https://semver.org/)을 따릅니다.
 
+## [Unreleased]
+
+### Fixed
+
+- **Loop-until-dry 탐색 예시** — 같은 회차의 중복 항목을 한 번만 검증하고, 실패한 탐색을 새 항목이 없는 성공 회차로 세지 않음.
+
 ## [2.1.0] - 2026-09-26
 
 ### Changed
