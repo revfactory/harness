@@ -152,12 +152,22 @@ const seen = new Set(), confirmed = []
 if (!finders.length) return { confirmed, error: '탐색 기준이 없습니다.' }
 let dry = 0
 while (dry < dryLimit) {
-  const found = (await parallel(finders.map(f => () =>
-    agent(f.prompt, { phase: '탐색', schema: FINDINGS })))).filter(Boolean).flatMap(r => r.findings)
-  const fresh = found.filter(b => !seen.has(findingKey(b)))   // 중복 여부는 seen을 기준으로 판단한다. confirmed를 기준으로 삼으면 안 된다.
+  const runs = await parallel(finders.map(f => () =>
+    agent(f.prompt, { phase: '탐색', schema: FINDINGS })))
+  const completed = runs.filter(Boolean)
+  if (completed.length !== finders.length) {
+    log(`탐색 ${finders.length}건 중 ${finders.length - completed.length}건이 실패했습니다.`)
+    return { confirmed, error: '탐색이 일부 실패해 종료 조건을 확인하지 못했습니다.' }
+  }
+  const found = completed.flatMap(r => r.findings)
+  const fresh = found.filter(b => {
+    const key = findingKey(b)
+    if (seen.has(key)) return false
+    seen.add(key)   // 같은 회차의 중복도 즉시 기록해 한 번만 검증한다.
+    return true
+  })
   if (!fresh.length) { dry++; continue }
   dry = 0
-  fresh.forEach(b => seen.add(findingKey(b)))
   const judged = await parallel(fresh.map(b => () =>
     agent(`다음 검토 결과를 검증하라. 근거가 충분하면 confirmed, 명백히 반박되면 refuted, 판단하기 어려우면 uncertain으로 판정하라: ${JSON.stringify(b)}`,
       { phase: '검증', schema: VERDICT })
